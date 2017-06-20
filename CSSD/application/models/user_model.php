@@ -11,12 +11,31 @@
  *
  * @author budhidarmap
  */
-class user_model extends CI_Model{
+class user_model extends CI_Model {
+
     private $nama_instansi;
     private $no_telp;
     private $status;
-    
-    public function insert_user(){
-        
+
+    public function tambah_user($nama_instansi, $no_tlp, $status) {
+        $new_user_insert_data = array(
+            'nama_instansi' => $this->input->post('nama_instansi'),
+            'no_tlp' => $this->input->post('no_tlp'),
+            'status' => $this->input->post('status'),
+        );
+    }
+    public function edit_user($nama_instansi, $no_tlp, $status) {
+        $new_user_insert_data = array(
+            'nama_instansi' => $this->input->post('nama_instansi'),
+            'no_tlp' => $this->input->post('no_tlp'),
+            'status' => $this->input->post('status'),
+        );
+    }
+    public function hapus_user($nama_instansi, $no_tlp, $status) {
+        $new_user_insert_data = array(
+            'nama_instansi' => $this->input->post('nama_instansi'),
+            'no_tlp' => $this->input->post('no_tlp'),
+            'status' => $this->input->post('status'),
+        );
     }
 }
