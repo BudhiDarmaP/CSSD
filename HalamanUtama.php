@@ -3,10 +3,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
-        <link href="Css/All.css" rel="stylesheet" type="text/css" />
+        <link href="bootstrap-3.3.6/css/All.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="Css/Login.css" rel="stylesheet" type="text/css" />
-        <link href="./Gambar/logoBUS.png" rel="icon" type="image/png"/>
+        <link href="bootstrap-3.3.6/css/Login.css" rel="stylesheet" type="text/css" />
+        <link href="./images/Logo.png" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
         <title>Login Operator</title>
     </head>
@@ -28,7 +28,7 @@
 
         /* First image (Logo. Full height) */
         .bgimg-1 {
-            background-image: url('Gambar/RSUD.jpg');
+            background-image: url('images/RSUD.jpg');
             min-height: 100%;
             
         }
@@ -91,9 +91,6 @@
 
         <!-- Navbar (sit on top) -->
         <div class="w3-top">
-            <div class="w3-bar w3-white" id="myNavbar">
-                <a href="HalamanUtama.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-in"></i> HOME</a>
-            </div>
 
             <!-- Navbar on small screens -->
             <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
@@ -105,15 +102,14 @@
 
             <div class="w3-display-middle w3-animate-opacity">
                 <!--                <div class="w3-display-middle w3-padding w3-col m3">-->
-                <div class="w3-container w3-green">
-                    <img src="Gambar/LOGOrsud.png" class="w3-center w3-margin-bottom">
+                <div class="w3-container w3-green w3-center">
+                    <img src="images/LogoCSSD.png" class="w3-center w3-margin-bottom">
                 </div>
                 <div class="w3-container w3-white w3-padding-16">
                     <form action="./LoginControl">
-                        <input type="text" name="nama_user" placeholder="Username" required="required" style="width:100%;height:40px"/>
-                        <input type="password" name="password" placeholder="Password" required="required" style="width:100%;height:40px"/>
-                        <button>Login</button>
-
+                        <input type="text" name="nama_user" placeholder="Username" required="required" style="width:100%;height:60px"/>
+                        <input type="password" name="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
+                        <button><h3>Login</h3></button>
                     </form>
                 </div>
             </div>
@@ -122,7 +118,7 @@
 
 
         <footer class="w3-padding-32 w3-green w3-center w3-margin-top">
-            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
+            <p>Powered by : <a title="" target="_blank" class="w3-hover-text-black">SIMRS RSUD Karangasem</a></p>
         </footer>
         <script>
             function myFunction() {
@@ -133,9 +129,6 @@
                     navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
                 }
             }
-            //            window.onscroll = function() {
-            //                myFunction()
-            //            };
             function toggleFunction() {
                 var x = document.getElementById("navDemo");
                 if (x.className.indexOf("w3-show") == -1) {
@@ -166,8 +159,6 @@
                     modal2.style.display = "none";
                 }
             }
-
-
         </script>
     </body>
 </html>
