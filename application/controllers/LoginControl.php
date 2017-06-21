@@ -13,7 +13,7 @@ class LoginControl extends CI_Controller {
     }
 
     function cobaLogin() {
-        $this->load->model('user_model');
+        $this->load->model('users');
         $username = $_GET["username"];
         $password = $_GET["password"];
         $query = $this->user_model->login($username, $password);
