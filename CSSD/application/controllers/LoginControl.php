@@ -44,7 +44,5 @@ class LoginControl extends CI_Controller {
         $this->session->unset_userdata($array_items);
         $this->load->view('welcome_message');
     }
-
 }
-
 ?>

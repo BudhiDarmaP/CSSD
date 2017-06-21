@@ -33,7 +33,7 @@
 
         /* Second image (Portfolio) */
         .bgimg-2 {
-            background-image: url('images/RSUD.jpg');
+            background-image: url('../../images/RSUD.jpg');
             min-height: 400px;
         }
 
@@ -67,7 +67,7 @@
                 <a href="#" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-pencil"></i>PEMINJAMAN</a>
                 <a href="#" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i>LAPORAN</a>
                 <a href="#" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i>UBAH PASSWORD</a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
 
 
