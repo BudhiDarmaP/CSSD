@@ -84,4 +84,17 @@ class users extends CI_Model {
         $q = $this->db->query("DELETE FROM `user` WHERE nama_user = '$user_name' AND status_user = 3");
         return $q->result;
     }
+    public function login($username, $password) {
+        if (strpos($username, 'AD') !== FALSE) {
+
+            $sql = "SELECT * FROM user WHERE id_user = '$username'";
+            $result = $this->db->query($sql);
+            
+            if ($result->num_rows() == 1) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
+    }
 }

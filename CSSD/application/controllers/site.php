@@ -6,11 +6,16 @@
  * and open the template in the editor.
  */
 
-/**
- * Description of instrument
- *
- * @author budhidarmap
- */
-class instrument_model{
-    //put your code here
+class Site extends CI_Controller {
+
+    function __construct() {
+        parent::__construct();
+    }
+    
+    function halamanUtama(){
+        $this->load->view('home');
+    }
+    
+    
+
 }

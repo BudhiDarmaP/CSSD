@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,11 +33,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .bgimg-1 {
             background-image: url('images/RSUD.jpg');
             min-height: 100%;
-
+            
         }
 
         /* Second image (Portfolio) */
-
+        
         .w3-wide {letter-spacing: 10px;}
         .w3-hover-opacity {cursor: pointer;}
 
@@ -96,8 +96,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="w3-top">
 
             <!-- Navbar on small screens -->
-            <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
-                <a href="HalamanUtama.php" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-sign-in"></i> HOME</a>
+            <div id="myNavbar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+                <a href="index.php/LoginControl/destroy_session" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-sign-in"></i> HOME</a>
             </div>
         </div>
 
@@ -109,10 +109,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <img src="images/LogoCSSD.png" class="w3-center w3-margin-bottom">
                 </div>
                 <div class="w3-container w3-white w3-padding-16">
-                    <form action="./LoginControl">
-                        <input type="text" name="nama_user" placeholder="Username" required="required" style="width:100%;height:60px"/>
-                        <input type="password" name="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
+                    <form action="index.php/LoginControl/cobaLogin">
+                        <input type="text" name="username" id="username" placeholder="Username" required="required" style="width:100%;height:60px"/>
+                        <input type="password" name="password" id="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
                         <button><h3>Login</h3></button>
+                        <a href="index.php/LoginControl/destroy_session"><h3>Logout</h3></a>
                     </form>
                 </div>
             </div>
@@ -121,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
         <footer class="w3-padding-32 w3-green w3-center w3-margin-top">
-            <p>Powered by : <a title="" target="_blank" class="w3-hover-text-black">SIMRS RSUD Karangasem</a></p>
+            <p>Powered by : <a title="" target="_blank" class="w3-hover-text-black">SIM RSUD Karangasem</a></p>
         </footer>
         <script>
             function myFunction() {
@@ -146,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var modal = document.getElementById('id01');
 
             // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
+            window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
@@ -157,7 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             // When the user clicks anywhere outside of the modal, close it
 
             modal2.style.display = "block";
-            window.onclick = function (event) {
+            window.onclick = function(event) {
                 if (event.target == modal2) {
                     modal2.style.display = "none";
                 }
