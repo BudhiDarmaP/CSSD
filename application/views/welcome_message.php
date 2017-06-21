@@ -1,89 +1,168 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+        <link href="bootstrap-3.3.6/css/All.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="bootstrap-3.3.6/css/Login.css" rel="stylesheet" type="text/css" />
+        <link href="./images/Logo.png" rel="icon" type="image/png"/>
+        <script src="JavaScript.js"></script>
+        <title>Login Operator</title>
+    </head>
+    <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+        body, html {
+            height: 100%;
+            color: #777;
+            line-height: 1.8;
+        }
 
-	<style type="text/css">
+        /* Create a Parallax Effect */
+        .bgimg-1, .bgimg-2, .bgimg-3 {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 
-	::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
+        /* First image (Logo. Full height) */
+        .bgimg-1 {
+            background-image: url('images/RSUD.jpg');
+            min-height: 100%;
+            
+        }
 
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
+        /* Second image (Portfolio) */
+        
+        .w3-wide {letter-spacing: 10px;}
+        .w3-hover-opacity {cursor: pointer;}
 
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-	}
+        /* Turn off parallax scrolling for tablets and phones */
+        @media only screen and (max-device-width: 1024px) {
+            .bgimg-1, .bgimg-2, .bgimg-3 {
+                background-attachment: scroll;
+            }
+        }
 
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
+        .buttonAtur {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: green;
+            border: none;
+            color: #fff;
+            text-align: center;
+            font-size: 22px;
+            padding: 5px;
+            width: 140px;
+            /*height: 50px;*/
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
 
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
+        .buttonAtur span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
 
-	#body {
-		margin: 0 15px 0 15px;
-	}
+        .buttonAtur span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
 
-	p.footer {
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
+        .buttonAtur:hover span {
+            padding-right: 25px;
+        }
 
-	#container {
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
-</head>
-<body>
+        .buttonAtur:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
 
-<div id="container">
-	<h1>Welcome to CodeIgniter!</h1>
+    </style>
+    <body>
 
-	<div id="body">
-		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
+        <!-- Navbar (sit on top) -->
+        <div class="w3-top">
 
-		<p>If you would like to edit this page you'll find it located at:</p>
-		<code>application/views/welcome_message.php</code>
+            <!-- Navbar on small screens -->
+            <div id="myNavbar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+                <a href="index.php/LoginControl/destroy_session" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-sign-in"></i> HOME</a>
+            </div>
+        </div>
 
-		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/Welcome.php</code>
+        <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
 
-		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
-	</div>
+            <div class="w3-display-middle w3-animate-opacity">
+                <!--                <div class="w3-display-middle w3-padding w3-col m3">-->
+                <div class="w3-container w3-green w3-center">
+                    <img src="images/LogoCSSD.png" class="w3-center w3-margin-bottom">
+                </div>
+                <div class="w3-container w3-white w3-padding-16">
+                    <form action="index.php/LoginControl/cobaLogin">
+                        <input type="text" name="username" id="username" placeholder="Username" required="required" style="width:100%;height:60px"/>
+                        <input type="password" name="password" id="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
+                        <button><h3>Login</h3></button>
+                        <a href="index.php/LoginControl/destroy_session"><h3>Logout</h3></a>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
-</div>
 
-</body>
+
+        <footer class="w3-padding-32 w3-green w3-center w3-margin-top">
+            <p>Powered by : <a title="" target="_blank" class="w3-hover-text-black">SIM RSUD Karangasem</a></p>
+        </footer>
+        <script>
+            function myFunction() {
+                var navbar = document.getElementById("myNavbar");
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                } else {
+                    navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+                }
+            }
+            function toggleFunction() {
+                var x = document.getElementById("navDemo");
+                if (x.className.indexOf("w3-show") == -1) {
+                    x.className += " w3-show";
+                } else {
+                    x.className = x.className.replace(" w3-show", "");
+                }
+            }
+        </script>
+        <script>
+            // Get the modal
+            var modal = document.getElementById('id01');
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            var modal2 = document.getElementById('id02');
+
+            // When the user clicks anywhere outside of the modal, close it
+
+            modal2.style.display = "block";
+            window.onclick = function(event) {
+                if (event.target == modal2) {
+                    modal2.style.display = "none";
+                }
+            }
+        </script>
+    </body>
 </html>

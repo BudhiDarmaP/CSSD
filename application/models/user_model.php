@@ -76,7 +76,8 @@ class user_model extends CI_Model {
             'status' => $this->input->post('status'),
         );
     }
-    public function lihat_user(){
+
+    public function lihat_user() {
         $new_user_look_data = array(
             'nama_instansi' => $this->input->post('nama_instansi'),
             'password' => $this->input->post('password'),
@@ -84,4 +85,19 @@ class user_model extends CI_Model {
             'status' => $this->input->post('status'),
         );
     }
+
+    public function login($username, $password) {
+        if (strpos($username, 'AD') !== FALSE) {
+
+            $sql = "SELECT * FROM user WHERE id_user = '$username'";
+            $result = $this->db->query($sql);
+            
+            if ($result->num_rows() == 1) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
+    }
+
 }

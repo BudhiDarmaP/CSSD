@@ -120,5 +120,9 @@ class Login extends CI_Controller{
 		$this->session->unset_userdata($array_items);
 		redirect('login');
 	}
+        
+        function test(){
+            echo 'test aja';
+        }
 }
 ?>
