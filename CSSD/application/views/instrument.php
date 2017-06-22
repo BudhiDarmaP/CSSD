@@ -109,7 +109,7 @@ and open the template in the editor.
                         <?php
 //                        $instrumen = $this->load->model('Instrument');
 //                        $result = $this->load->model('Instrument')->panggil_semua_data_instrument();
-//                        while ($row = mysqli_fetch_array($result)) {
+//                        while ($row = foreach($result)) {
 //
 //                            echo "<tr>
 //                                    <td style='text-align: center'>$row[0]</td>
@@ -118,7 +118,6 @@ and open the template in the editor.
 //                                                <td style='text-align: center'>$row[3]</td>
 //                                    </tr>";
 //                        }
-//                        
                         ?>
                         <tr>
                             <td style="text-align: center"></td>

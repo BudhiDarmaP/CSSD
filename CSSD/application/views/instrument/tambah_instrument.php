@@ -14,7 +14,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?php echo base_url('images/Logo.png')?>" rel="icon" type="image/png"/>
+        <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
         <title>Instrument</title>
     </head>
@@ -121,26 +121,29 @@ and open the template in the editor.
                 </div>
                 <div class="w3-container w3-white w3-padding-16 w3-card">
                     <form action="#">
-                        <div class="w3-row-padding">
-                            <div>
-                                <label>Masukkan Nama Instrumen</label>
-                                <input class="w3-input w3-border" type="text" value="" name="nama_instrumen" required="" placeholder="Nama Instrumen">
+                            <div class="w3-row-padding">
+                                <div>
+                                    <label>Masukkan Nama Instrumen</label>
+                                    <input class="w3-input w3-border" type="text" value="" name="nama_instrumen" required="" placeholder="Nama Instrumen"
+                                           style="width: 50%">
+                                </div>
                             </div>
-                        </div>
-                        <div class="w3-row-padding w3-padding">
-                            <div>
-                                <label>Masukkan Jumlah Instrumen</label>
-                                <input class="w3-input w3-border" type="text" value="" name="jumlah_instrtumen" required="" placeholder="Jumlah Instrumen">
-                            </div>
-                        </div>
-                        <div class="w3-row-padding w3-padding">
-                            <div>
-                                <label>Masukkan Jumlah Steril</label>
-                                <input class="w3-input w3-border" type="text" value="" name="steril" required="" placeholder="Jumlah Steril">
-                            </div>
-                        </div>
 
-                        <button class="buttonTambah" style="width: 12% " type="submit" name="ubah" value="yes"><i class="fa fa-plus"></i> TAMBAH</button>
+                            <div class="w3-row-padding w3-padding">
+                                <div>
+                                    <label>Masukkan Jumlah Instrumen</label>
+                                    <input class="w3-input w3-border" type="text" value="" name="jumlah_instrtumen" required="" placeholder="Jumlah Instrumen"
+                                           style="width: 50%">
+                                </div>
+                            </div>
+                            <div class="w3-row-padding w3-padding">
+                                <div>
+                                    <label>Masukkan Jumlah Steril</label>
+                                    <input class="w3-input w3-border" type="text" value="" name="steril" required="" placeholder="Jumlah Steril"
+                                           style="width: 50%">
+                                </div>
+                            </div>
+                            <button class="buttonTambah" style="width: 12% " type="submit" name="ubah" value="yes"><i class="fa fa-plus"></i> TAMBAH</button>
                     </form>
                 </div>
             </div>
