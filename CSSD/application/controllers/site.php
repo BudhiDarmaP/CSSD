@@ -18,6 +18,9 @@ class Site extends CI_Controller {
     function instrument(){
         $this->load->view('instrument');
     }
+    function peminjaman(){
+        $this->load->view('peminjaman');
+    }
     function laporan(){
         $this->load->view('laporan');
     }
