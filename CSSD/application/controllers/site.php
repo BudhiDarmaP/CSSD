@@ -15,7 +15,16 @@ class Site extends CI_Controller {
     function halamanUtama(){
         $this->load->view('home');
     }
-    function halamanInstrument(){
+    function instrument(){
         $this->load->view('instrument');
+    }
+    function laporan(){
+        $this->load->view('laporan');
+    }
+    function tambah_pemijaman(){
+        $this->load->view('tambah_pemijam');
+    }
+    function ubah_password(){
+        $this->load->view('ubah_password');
     }
 }
