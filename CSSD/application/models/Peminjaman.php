@@ -15,4 +15,8 @@ class Peminjaman {
                 . "WHERE `id_user`='$id' AND `tangggal_pinjam`='$tanggal_pinjam'");
         return $q;
     }
+    function print_pdf(){
+        $pdf = new PDF();
+        
+    }
 }
