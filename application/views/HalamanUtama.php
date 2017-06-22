@@ -28,7 +28,7 @@
 
         /* First image (Logo. Full height) */
         .bgimg-1 {
-            background-image: url('images/RSUD.jpg');
+            background-image: url(<?php echo base_url('/images/RSUD.jpg/'); ?>);
             min-height: 100%;
             
         }

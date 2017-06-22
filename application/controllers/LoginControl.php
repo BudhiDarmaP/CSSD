@@ -29,12 +29,15 @@ class LoginControl extends CI_Controller {
             $this->load->view('home');
             echo 'success';
         } else {
+            
+            $data = array(
+                'username' => $username,
+                'is_logged_in' => false,
+            );
+            $this->session->set_userdata($data);
 
             $this->load->view('welcome_message');
-            echo 'failed';
-            echo $username;
-            echo $password;
-            echo 'failed9s';
+            
         }
     }
 

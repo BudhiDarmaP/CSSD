@@ -16,6 +16,10 @@ class Site extends CI_Controller {
         $this->load->view('home');
     }
     
+    function halamanLogin(){
+        $this->load->view('welcome_message');
+    }
+    
     
 
 }
