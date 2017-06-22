@@ -49,6 +49,46 @@ and open the template in the editor.
                 background-attachment: scroll;
             }
         }
+        .buttonTambah{
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #f44336;
+            border: none;
+            color: #fff;
+            text-align: center;
+            font-size: 22px;
+            padding: 5px;
+            width: 140px;
+            /*height: 50px;*/
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .buttonTambah span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .buttonTambah span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .buttonTambah:hover span {
+            padding-right: 25px;
+        }
+
+        .buttonAtur:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
     </style>
     <body>
 
@@ -61,9 +101,9 @@ and open the template in the editor.
 
                 <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
                 <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i>CARI</a>
-                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH</a>
-                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i>HAPUS</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
+                <a href="<?php echo base_url('/site/tambah'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH</a>
+                <a href="<?php echo base_url('/site/hapus'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i>HAPUS</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
 
@@ -94,9 +134,9 @@ and open the template in the editor.
 
             <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">Daftar Instrumen Di CSSD</b>
+                    <b style="color: green">Hapus Instrumen Di CSSD</b>
                 </div>
-
+                <form>
                 <table class="w3-table w3-striped w3-bordered" align="center">
                     <thead>
                         <tr class="w3-theme">
@@ -128,17 +168,9 @@ and open the template in the editor.
                         </tr> 
                     </tbody>
                 </table>
+                        <button class="buttonTambah" style="width: 12%" type="submit" name="ubah" value="yes"><i class="fa fa-warning"></i>HAPUS</button>
+                    </form>
             </div>
-            <div class="w3-container w3-margin-bottom">
-
-                <p class="w3-center">     
-                    <br>Halaman ini berisikan informasi tentang semua daftar instrumen yang terdapat di CSSD RSUD Karangasem.<br>
-                    Data yang terdapat pada tabel inforasi instrumen adalah data yang valid.<br>
-                    <br>Halaman ini bertujuan untuk memudahkan pengguna dalam melakukan pencari ataupun melihat daftar instrumen yang tersedia.
-                    <br>
-                </p>
-            </div>
-
         </div>
 
     </div>

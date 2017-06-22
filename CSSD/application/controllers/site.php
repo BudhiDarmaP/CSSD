@@ -24,6 +24,12 @@ class Site extends CI_Controller {
     function laporan(){
         $this->load->view('laporan');
     }
+    function tambah_instrument(){
+        $this->load->view('tambah_instrument');
+    }
+    function hapus_instrument(){
+        $this->load->view('hapus_instrument');
+    }
     function tambah_pemijaman(){
         $this->load->view('tambah_pemijam');
     }

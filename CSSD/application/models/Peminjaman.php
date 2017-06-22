@@ -17,6 +17,5 @@ class Peminjaman {
     }
     function print_pdf(){
         $pdf = new PDF();
-        
     }
 }
