@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <a href="index.php/LoginControl/destroy_session" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-sign-in"></i> HOME</a>
             </div>
         </div>
-
+ 
         <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
 
             <div class="w3-display-middle w3-animate-opacity">
