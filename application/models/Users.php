@@ -91,9 +91,9 @@ class Users extends CI_Model {
         $result = $this->db->query($sql);
 
         if ($result->num_rows() == 1) {
-            return TRUE;
+            return $result->row();
         } else {
-            return FALSE;
+            return null;
         }
     }
 

@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 
-class LoginControl extends CI_Controller {
+class UserControl extends CI_Controller {
 
     function __construct() {
         parent::__construct();
     }
 
-    function cobaLogin() {
+    function ubahPassword() {
         $this->load->model('Users');
         $username = $_GET["username"];
         $password = $_GET["password"];
@@ -55,13 +55,6 @@ class LoginControl extends CI_Controller {
             $this->session->set_userdata($data);
             $this->load->view('welcome_message');
         }
-    }
-
-    function destroy_session() {
-        $array_items = array('username', 'is_logged_in', 'password', 'nama_user', 'no_telepon', 'status_user', 'not_user');
-
-        $this->session->unset_userdata($array_items);
-        $this->load->view('welcome_message');
     }
 
 }

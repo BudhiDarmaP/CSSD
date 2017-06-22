@@ -24,6 +24,10 @@ class Site extends CI_Controller {
         $this->load->view('data_instrumen');
     }
     
+    function ubah_password(){
+        $this->load->view('ubah_password');
+    }
+    
     
 
 }
