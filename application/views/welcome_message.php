@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <a href="index.php/LoginControl/destroy_session" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-sign-in"></i> HOME</a>
             </div>
         </div>
- 
+
         <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
 
             <div class="w3-display-middle w3-animate-opacity">
@@ -115,17 +115,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php
                         if (isset($_SESSION["not_user"])) {
                             echo "<h5 class=\"w3-center\">Anda Tidak Berhak Login</i></h5>";
+                            $this->session->unset_userdata('not_user');
                         } else {
                             echo "<h5 class=\"w3-center\">Kombinasi Username dan Password Salah <i>Mohon Diulangi</i></h5>";
                         }
                         echo "</div>
                             <div class = \"container w3-center\">
-                        <a class=\"buttonAtur\" onclick=\"document.getElementById('id02').style.display = 'none'\" style=\"vertical-align:middle;\"><span>ULANGI</span></a>
+                        <a class=\"buttonAtur\" href=\""
+                        ?><?php echo base_url('LoginControl/destroy_session') ?><?php
+                        echo "\" style=\"vertical-align:middle;\"><span>ULANGI</span></a>
                     </div>
                 </div>
             </div>";
-                        session_unset();
-                        session_destroy();
+                        $this->session->unset_userdata('is_logged_in');
                     }
                     ?>
                 </div>

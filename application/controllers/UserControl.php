@@ -13,23 +13,22 @@ class UserControl extends CI_Controller {
     }
 
     function ubahPassword() {
-        $this->load->model('Users');
         $username = $_GET["username"];
-        $password = $_GET["password"];
-        $query = $this->Users->login($username, $password);
+        $oldpassword = $_GET["oldpassword"];
+        $newpassword = $_GET["newpassword"];
+        $confirmpassword = $_GET["confirmpassword"];
 
-        if ($query != null) {
+        $this->load->model('Users');
+        $query = $this->Users->ubah_password($username, $oldpassword, $newpassword, $confirmpassword);
+
+        if ($query) {
             $data = array(
-                'username' => $username,
-                'password' => $password,
-                'is_logged_in' => true,
-                'nama_user' => $query->nama_user,
-                'no_telepon' => $query->no_telepon,
-                'status_user' => $query->status_user
+                'password' => $newpassword,
+                'ubah_password' => true
             );
 
             $this->session->set_userdata($data);
-//            redirect('site/halamanUtama');
+
             if (strpos($username, 'AD') !== FALSE) {
                 $this->load->view('home');
             } elseif (strpos($username, 'CS') !== FALSE) {
@@ -44,16 +43,15 @@ class UserControl extends CI_Controller {
                 );
 
                 $this->session->set_userdata($data);
-                $this->load->view('welcome_message');
+                $this->load->view('ubah_password');
             }
         } else {
 
             $data = array(
-                'username' => $username,
-                'is_logged_in' => false,
+                'ubah_password' => false
             );
             $this->session->set_userdata($data);
-            $this->load->view('welcome_message');
+            $this->load->view('ubah_password');
         }
     }
 
