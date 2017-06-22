@@ -15,4 +15,7 @@ class Site extends CI_Controller {
     function halamanUtama(){
         $this->load->view('home');
     }
+    function halamanInstrument(){
+        $this->load->view('instrument');
+    }
 }

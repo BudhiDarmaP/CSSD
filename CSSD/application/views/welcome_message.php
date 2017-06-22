@@ -6,10 +6,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
-        <link href="./bootstrap-3.3.6/css/All.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url('/bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="./bootstrap-3.3.6/css/Login.css" rel="stylesheet" type="text/css" />
-        <link href="./images/Logo.png" rel="icon" type="image/png"/>
+        <link href="<?php echo base_url('/bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url('/images/Logo.png'); ?>" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
         <title>Login Operator</title>
     </head>
@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         /* First image (Logo. Full height) */
         .bgimg-1 {
-            background-image: url('./images/RSUD.jpg');
+            background-image: url('<?php echo base_url('/images/RSUD.jpg'); ?>');
             min-height: 100%;
             
         }
@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <!-- Navbar on small screens -->
             <div id="myNavbar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
-                <a href="./index.php/LoginControl/destroy_session" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-sign-in"></i> HOME</a>
+                <a href="<?php echo base_url('/index.php/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-sign-in"></i> HOME</a>
             </div>
         </div>
 
@@ -106,14 +106,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="w3-display-middle w3-animate-opacity">
                 <!--                <div class="w3-display-middle w3-padding w3-col m3">-->
                 <div class="w3-container w3-green w3-center">
-                    <img src="./images/LogoCSSD.png" class="w3-center w3-margin-bottom">
+                    <img src="<?php echo base_url('/images/LogoCSSD.png'); ?>" class="w3-center w3-margin-bottom">
                 </div>
                 <div class="w3-container w3-white w3-padding-16">
-                    <form action="./index.php/LoginControl/cobaLogin">
+                    <form action="<?php echo base_url('/index.php/LoginControl/cobaLogin'); ?>">
                         <input type="text" name="username" id="username" placeholder="Username" required="required" style="width:100%;height:60px"/>
                         <input type="password" name="password" id="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
                         <button><h3>Login</h3></button>
-                        <a href="./index.php/LoginControl/destroy_session"><h3>Logout</h3></a>
                     </form>
                 </div>
             </div>

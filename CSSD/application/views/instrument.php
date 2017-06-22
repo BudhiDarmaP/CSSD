@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Halaman Utama</title>
+    <title>Instrument</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -65,6 +65,7 @@
                 <a href="<?php echo base_url('/site/instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-scissors"></i>INSTRUMEN</a>
                 <a href="<?php echo base_url('/site/peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-pencil"></i>PEMINJAMAN</a>
                 <a href="<?php echo base_url('/site/laporan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i>LAPORAN</a>
+                <a href="<?php echo base_url('/site/laporan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i>TAMBAH PEMINJAM</a>
                 <a href="<?php echo base_url('/site/ubah_password/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i>UBAH PASSWORD</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
@@ -84,7 +85,7 @@
         <!-- Second Parallax Image with Portfolio Text -->
         <div class="bgimg-2 w3-display-container w3-opacity-min">
             <div class="w3-display-topmiddle w3-center w3-black w3-opacity w3-animate-fading w3-padding-small">
-                <span class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity">Central Sterile Supply Department</span>
+                
             </div>
         </div>
 
