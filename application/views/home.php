@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="bootstrap-3.3.6/css/Login.css" rel="stylesheet" type="text/css" />
     <link href="./images/Logo.png" rel="icon" type="image/png"/>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -33,7 +33,6 @@
 
         /* Second image (Portfolio) */
         .bgimg-2 {
-            background-image: url('images/RSUD.jpg');
             min-height: 400px;
         }
 
@@ -63,13 +62,12 @@
                 </a>
 
                 <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-scissors"></i>INSTRUMEN</a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-pencil"></i>PEMINJAMAN</a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i>LAPORAN</a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i>UBAH PASSWORD</a>
-                <a href="<?php echo base_url('LoginControl/destroy_session') ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
+                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-scissors"></i>INSTRUMEN</a>
+                <a href="<?php echo base_url('/site/peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-pencil"></i>PEMINJAMAN</a>
+                <a href="<?php echo base_url('/site/laporan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i>LAPORAN</a>
+                <a href="<?php echo base_url('/site/ubah_password/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i>UBAH PASSWORD</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
-
         </div>
 
         <!-- First Parallax Image with Logo Text -->

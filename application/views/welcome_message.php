@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="./images/Logo.png" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
-        <title>Login Operator</title>
+        <title>Login</title>
     </head>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -110,12 +110,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     if (isset($_SESSION["is_logged_in"])) {
                         echo "<div id=\"id02\" class=\"modal w3-responsive\">
                 <div class=\"modal-content animate w3-black\" style=\"margin-top:15%\">
-                    <div class=\"container\">
-                        
-                        <h5 class=\"w3-center\">Kombinasi Username dan Password Salah <i>Mohon Diulangi</i></h5>
-                        
-                    </div>
-                    <div class=\"container w3-center\">
+                    <div class=\"container\">";
+                        ?>
+                        <?php
+                        if (isset($_SESSION["not_user"])) {
+                            echo "<h5 class=\"w3-center\">Anda Tidak Berhak Login</i></h5>";
+                        } else {
+                            echo "<h5 class=\"w3-center\">Kombinasi Username dan Password Salah <i>Mohon Diulangi</i></h5>";
+                        }
+                        echo "</div>
+                            <div class = \"container w3-center\">
                         <a class=\"buttonAtur\" onclick=\"document.getElementById('id02').style.display = 'none'\" style=\"vertical-align:middle;\"><span>ULANGI</span></a>
                     </div>
                 </div>

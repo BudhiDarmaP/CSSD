@@ -7,11 +7,11 @@
 class Instrument extends CI_Model {
    
     function panggil_semua_data_instrument() {
-        $q = $this->db->query("SELECT * FROM `instrument`");
-        return $q->result;
+        $result = $this->db->query("SELECT * FROM instrumen");
+        return $result;
     }
     function panggil_data_instrument() {
-        $q = $this->db->query("SELECT * FROM `instrument` WHERE STERIL > 0");
+        $q = $this->db->query("SELECT * FROM instrumen WHERE STERIL > 0");
         return $q->result;
     }
 }

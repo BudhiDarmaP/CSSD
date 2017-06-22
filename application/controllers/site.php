@@ -20,6 +20,10 @@ class Site extends CI_Controller {
         $this->load->view('welcome_message');
     }
     
+    function instrumen(){
+        $this->load->view('data_instrumen');
+    }
+    
     
 
 }

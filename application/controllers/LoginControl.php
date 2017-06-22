@@ -26,18 +26,30 @@ class LoginControl extends CI_Controller {
 
             $this->session->set_userdata($data);
 //            redirect('site/halamanUtama');
-            $this->load->view('home');
-            echo 'success';
+            if (strpos($username, 'AD') !== FALSE) {
+                $this->load->view('home');
+            } elseif (strpos($username, 'CS') !== FALSE) {
+                $this->load->view('home');
+            } elseif (strpos($username, 'I') !== FALSE) {
+                $this->load->view('home');
+            } else {
+                $data = array(
+                    'username' => $username,
+                    'is_logged_in' => false,
+                    'not_user' => true
+                );
+                
+                $this->session->set_userdata($data);
+                $this->load->view('welcome_message');
+            }
         } else {
-            
+
             $data = array(
                 'username' => $username,
                 'is_logged_in' => false,
             );
             $this->session->set_userdata($data);
-
             $this->load->view('welcome_message');
-            
         }
     }
 
