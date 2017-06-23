@@ -112,7 +112,6 @@ and open the template in the editor.
                         <?php
                         if (isset($cari_instrumen)) {
                             foreach ($cari_instrumen as $r):
-
                                 echo "
                                     <tr>
                                     <td style='text-align: center'>$r->id_instrumen</td>
