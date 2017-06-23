@@ -108,7 +108,7 @@ and open the template in the editor.
                         </tr>
                     <tbody>
                         <?php
-//                        $instrumen = $this->load->model('Instrument');
+
                         if (isset($ada_instrumen)) {
                             foreach ($ada_instrumen as $r):
 
