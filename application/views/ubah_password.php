@@ -133,15 +133,6 @@
             </div>
         </div>
 
-
-        <!--        <footer class="w3-center w3-green w3-margin-bottom">
-                    <div class="w3-section w3-padding-small"></div>
-                    <div class="w3-xlarge w3-section">
-                        <i class="fa fa-facebook-official w3-hover-opacity"></i>
-        
-                    </div>
-                    <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-                    <div class="w3-section w3-padding-small"></div>-->
         <script>
             function myFunction() {
                 var navbar = document.getElementById("myNavbar");
