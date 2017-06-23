@@ -99,11 +99,11 @@ and open the template in the editor.
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i>CARI</a>
-                <a href="<?php echo base_url('/site/tambah'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH</a>
-                <a href="<?php echo base_url('/site/hapus'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i>HAPUS</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
+               <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
+                <a href="<?php echo base_url('/site/instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i>CARI</a>
+                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH</a>
+                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i>HAPUS</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
 

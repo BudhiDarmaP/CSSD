@@ -11,13 +11,26 @@
  *
  * @author budhidarmap
  */
-class TambahInstrumentControl {
-    function tambah($nama, $jumlah, $steril){
-        //panggil nama
-            //jika tidak ada
-                //insert instrument
-                //return nilai instrument
-            //jika ada
-                //return pesan 'sudah ada'
+class TambahInstrumentControl extends CI_Controller {
+
+    function __construct() {
+        parent::__construct();
     }
+
+    function tambah() {
+        $this->load->model('Instrumen');
+        $nama = $_GET["nama_instrumen"];
+        $jumlah = $_GET["jumlah_instrumen"];
+        $steril = $_GET["steril"];
+        $query = $this->Instrumen->tambah_data_instrumen($nama, $jumlah, $steril);
+        
+        if ($query) {
+            $this->load->view('tambah_instrument');
+            echo 'Sukses!';
+        } else {
+            $this->load->view('tambah_instrument');
+            echo 'Gagal!';
+        }
+    }
+
 }

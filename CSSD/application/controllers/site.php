@@ -28,10 +28,10 @@ class Site extends CI_Controller {
         $this->load->view('tambah_instrument');
     }
     function hapus_instrument(){
-        $this->load->view('instrument/hapus_instrument');
+        $this->load->view('hapus_instrument');
     }
     function tambah_pemijaman(){
-        $this->load->view('isntrument/tambah_pemijam');
+        $this->load->view('tambah_pemijam');
     }
     function ubah_password(){
         $this->load->view('ubah_password');
