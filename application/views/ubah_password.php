@@ -84,9 +84,9 @@
             if (isset($_SESSION["ubah_password"])) {
                 $ubah = $_SESSION["ubah_password"];
                 if ($ubah) {
-                    echo "<script>swal(\"Ubah Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
+                    echo "<script>swal(\"Ubah Password Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
                 } else {
-                    echo "<script>swal(\"Ubah Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
+                    echo "<script>swal(\"Ubah Password Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
                 }
                 $this->session->unset_userdata('ubah_password');
             }

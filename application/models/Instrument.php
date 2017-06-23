@@ -6,7 +6,7 @@
  */
 class Instrument extends CI_Model {
    
-    function panggil_semua_data_instrument() {
+    public function panggil_semua_data_instrument() {
         $result = $this->db->query("SELECT * FROM instrumen");
         return $result->result();
     }

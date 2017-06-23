@@ -28,23 +28,7 @@ class UserControl extends CI_Controller {
             );
 
             $this->session->set_userdata($data);
-
-            if (strpos($username, 'AD') !== FALSE) {
-                $this->load->view('home');
-            } elseif (strpos($username, 'CS') !== FALSE) {
-                $this->load->view('home');
-            } elseif (strpos($username, 'I') !== FALSE) {
-                $this->load->view('home');
-            } else {
-                $data = array(
-                    'username' => $username,
-                    'is_logged_in' => false,
-                    'not_user' => true
-                );
-
-                $this->session->set_userdata($data);
-                $this->load->view('ubah_password');
-            }
+            $this->load->view('ubah_password');
         } else {
 
             $data = array(

@@ -79,12 +79,12 @@ and open the template in the editor.
             <div class="w3-container w3-responsive w3-padding-24">
                 <form action="./BusControl">
                     <div class="col-xs-12">
-                        <table>
+                        <table style="width:30%">
                             <tr>
-                                <th style="width: 80%">
-                                    <input style="height: 40px;width:90%;margin-top:15px" type="text" class="form-control" name="namainstrumen" placeholder="Masukkan Nama Instrumen" required="">
+                                <th style="width: 90%">
+                                    <input style="height: 40px;width:95%;margin-top:15px" type="text" class="form-control" name="namainstrumen" placeholder="Masukkan Nama Instrumen" required="">
                                 </th>
-                                <th style="width: 20%;margin-left:1px">
+                                <th style="width: 10%;margin-left:1px">
                                     <button class="btn btn-success" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
                                 </th>
                             </tr>
@@ -102,30 +102,27 @@ and open the template in the editor.
                     <thead>
                         <tr class="w3-theme">
                             <th style="text-align: center;">ID INSTRUMEN</th>
-                            <th style="text-align: center;">NAMA INSTRUMEN</th>
+                            <th style="text-align: left;">NAMA INSTRUMEN</th>
                             <th style="text-align: center;">JUMLAH TOTAL INSTRUMEN</th>
                             <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
                         </tr>
                     <tbody>
-                        //<?php
+                        <?php
 //                        $instrumen = $this->load->model('Instrument');
-//                        $result = $this->load->model('Instrument')->panggil_semua_data_instrument();
-//                        while ($row = mysqli_fetch_array($result)) {
-//
-//                            echo "<tr>
-//                                    <td style='text-align: center'>$row[0]</td>
-//                                        <td style='text-align: center'>$row[1]</td>
-//                                            <td style='text-align: center'>$row[2]</td>
-//                                                <td style='text-align: center'>$row[3]</td>
-//                                    </tr>";
-//                        }
-//                        ?>
-                        <tr>
-                            <td style="text-align: center"></td>
-                            <td style="text-align: center"><b></b></td>
-                            <td style="text-align: center"></td>
-                            <td style="text-align: center"></td>
-                        </tr> 
+                        if (isset($ada_instrumen)) {
+                            foreach ($ada_instrumen as $r):
+
+                                echo "
+                                    <tr>
+                                    <td style='text-align: center'>$r->id_instrumen</td>
+                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                    <td style='text-align: center'>$r->jumlah</td>
+                                    <td style='text-align: center'>$r->steril</td>
+                                    </tr>";
+                            endforeach;
+                        }
+                        ?>
+                        
                     </tbody>
                 </table>
             </div>
@@ -210,14 +207,14 @@ and open the template in the editor.
             <td colspan="2"></td>
         </tr>
 <?php foreach ($data as $instrument) { ?>
-                <tr>
-                    <td><?php echo $instrument['id_instrument']; ?></td>
-                    <td><?php echo $instrument['nama_instrument']; ?></td>
-                    <td><?php echo $instrument['jumlah']; ?></td>
-                    <td><?php echo $instrument['steril']; ?></td>
-                    <td><a href="<?php echo base_url() . "index.php///" . $isntrument['id_peminjam']; ?>">Edit</td>
-                    <td><a href="<?php echo base_url() . "index.php/instrument/delete_data/" . $isntrument['id_peminjam']; ?>">Delete</td>
-                </tr>
+                                        <tr>
+                                            <td><?php echo $instrument['id_instrument']; ?></td>
+                                            <td><?php echo $instrument['nama_instrument']; ?></td>
+                                            <td><?php echo $instrument['jumlah']; ?></td>
+                                            <td><?php echo $instrument['steril']; ?></td>
+                                            <td><a href="<?php echo base_url() . "index.php///" . $isntrument['id_peminjam']; ?>">Edit</td>
+                                            <td><a href="<?php echo base_url() . "index.php/instrument/delete_data/" . $isntrument['id_peminjam']; ?>">Delete</td>
+                                        </tr>
 <?php } ?>
     </table>
     <a href="<?php echo base_url() . "index.php/instrument/add_data"; ?>">Insert</a>

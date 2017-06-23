@@ -11,23 +11,23 @@ class Site extends CI_Controller {
     function __construct() {
         parent::__construct();
     }
-    
-    function halamanUtama(){
+
+    function halamanUtama() {
         $this->load->view('home');
     }
-    
-    function halamanLogin(){
+
+    function halamanLogin() {
         $this->load->view('welcome_message');
     }
-    
-    function instrumen(){
-        $this->load->view('data_instrumen');
+
+    function instrumen() {
+        $this->load->model('Instrument');
+        $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+        $this->load->view('data_instrumen', $data);
     }
-    
-    function ubah_password(){
+
+    function ubah_password() {
         $this->load->view('ubah_password');
     }
-    
-    
 
 }

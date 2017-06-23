@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
 
-            <div class="w3-display-middle w3-animate-opacity">
+            <div class="w3-display-middle w3-animate-opacity w3-card-4">
                 <!--                <div class="w3-display-middle w3-padding w3-col m3">-->
                 <div class="w3-container w3-green w3-center">
                     <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-bottom">
@@ -135,7 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <form action="<?php echo base_url('LoginControl/cobaLogin') ?>">
                         <input type="text" name="username" id="username" placeholder="Username" required="required" style="width:100%;height:60px"/>
                         <input type="password" name="password" id="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
-                        <button><h3>Login</h3></button>
+                        <button class="w3-goldyellow"><h3>Login</h3></button>
 
                     </form>
                 </div>
