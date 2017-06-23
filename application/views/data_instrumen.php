@@ -14,7 +14,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?php echo base_url('images/Logo.png')?>" rel="icon" type="image/png"/>
+        <link href="./images/Logo.png" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
         <title>Instrument</title>
     </head>
@@ -49,46 +49,6 @@ and open the template in the editor.
                 background-attachment: scroll;
             }
         }
-        .buttonTambah{
-            display: inline-block;
-            border-radius: 4px;
-            background-color: #f44336;
-            border: none;
-            color: #fff;
-            text-align: center;
-            font-size: 22px;
-            padding: 5px;
-            width: 140px;
-            /*height: 50px;*/
-            transition: all 0.5s;
-            cursor: pointer;
-            margin: 5px;
-        }
-
-        .buttonTambah span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-        }
-
-        .buttonTambah span:after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-        }
-
-        .buttonTambah:hover span {
-            padding-right: 25px;
-        }
-
-        .buttonAtur:hover span:after {
-            opacity: 1;
-            right: 0;
-        }
     </style>
     <body>
 
@@ -99,11 +59,12 @@ and open the template in the editor.
                     <i class="fa fa-bars"></i>
                 </a>
 
-               <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i>CARI</a>
-                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH</a>
-                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i>HAPUS</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
+                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-scissors"></i>INSTRUMEN</a>
+                <a href="<?php echo base_url('/site/peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-pencil"></i>PEMINJAMAN</a>
+                <a href="<?php echo base_url('/site/laporan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i>LAPORAN</a>
+                <a href="<?php echo base_url('/site/ubah_password/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i>UBAH PASSWORD</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
 
@@ -118,12 +79,12 @@ and open the template in the editor.
             <div class="w3-container w3-responsive w3-padding-24">
                 <form action="./BusControl">
                     <div class="col-xs-12">
-                        <table>
+                        <table style="width:30%">
                             <tr>
-                                <th style="width: 85%">
-                                    <input style="height: 40px;width:100%;margin-top:15px" type="text" class="form-control" name="namainstrumen" placeholder="Masukkan Nama Instrumen" required="">
+                                <th style="width: 90%">
+                                    <input style="height: 40px;width:95%;margin-top:15px" type="text" class="form-control" name="namainstrumen" placeholder="Masukkan Nama Instrumen" required="">
                                 </th>
-                                <th style="width: 20%;margin-left:4px">
+                                <th style="width: 10%;margin-left:1px">
                                     <button class="btn btn-success" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
                                 </th>
                             </tr>
@@ -134,43 +95,47 @@ and open the template in the editor.
 
             <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">Hapus Instrumen Di CSSD</b>
+                    <b style="color: green">Daftar Instrumen Di CSSD</b>
                 </div>
-                <form>
+
                 <table class="w3-table w3-striped w3-bordered" align="center">
                     <thead>
                         <tr class="w3-theme">
                             <th style="text-align: center;">ID INSTRUMEN</th>
-                            <th style="text-align: center;">NAMA INSTRUMEN</th>
+                            <th style="text-align: left;">NAMA INSTRUMEN</th>
                             <th style="text-align: center;">JUMLAH TOTAL INSTRUMEN</th>
                             <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
                         </tr>
                     <tbody>
                         <?php
-//                        $instrumen = $this->load->model('Instrument');
-//                        $result = $this->load->model('Instrument')->panggil_semua_data_instrument();
-//                        while ($row = mysqli_fetch_array($result)) {
-//
-//                            echo "<tr>
-//                                    <td style='text-align: center'>$row[0]</td>
-//                                        <td style='text-align: center'>$row[1]</td>
-//                                            <td style='text-align: center'>$row[2]</td>
-//                                                <td style='text-align: center'>$row[3]</td>
-//                                    </tr>";
-//                        }
-//                        
+
+                        if (isset($ada_instrumen)) {
+                            foreach ($ada_instrumen as $r):
+
+                                echo "
+                                    <tr>
+                                    <td style='text-align: center'>$r->id_instrumen</td>
+                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                    <td style='text-align: center'>$r->jumlah</td>
+                                    <td style='text-align: center'>$r->steril</td>
+                                    </tr>";
+                            endforeach;
+                        }
                         ?>
-                        <tr>
-                            <td style="text-align: center"></td>
-                            <td style="text-align: center"><b></b></td>
-                            <td style="text-align: center"></td>
-                            <td style="text-align: center"></td>
-                        </tr> 
+                        
                     </tbody>
                 </table>
-                        <button class="buttonTambah" style="width: 12%" type="submit" name="ubah" value="yes"><i class="fa fa-warning"></i>HAPUS</button>
-                    </form>
             </div>
+            <div class="w3-container w3-margin-bottom">
+
+                <p class="w3-center">     
+                    <br>Halaman ini berisikan informasi tentang semua daftar instrumen yang terdapat di CSSD RSUD Karangasem.<br>
+                    Data yang terdapat pada tabel inforasi instrumen adalah data yang valid.<br>
+                    <br>Halaman ini bertujuan untuk memudahkan pengguna dalam melakukan pencari ataupun melihat daftar instrumen yang tersedia.
+                    <br>
+                </p>
+            </div>
+
         </div>
 
     </div>
@@ -206,7 +171,7 @@ and open the template in the editor.
             var modal = document.getElementById('id01');
 
             // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
+            window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
@@ -217,7 +182,7 @@ and open the template in the editor.
             // When the user clicks anywhere outside of the modal, close it
 
             modal2.style.display = "block";
-            window.onclick = function (event) {
+            window.onclick = function(event) {
                 if (event.target == modal2) {
                     modal2.style.display = "none";
                 }
@@ -226,3 +191,33 @@ and open the template in the editor.
     </footer>
 </body>
 </html>
+
+<!--<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+    <body>
+        <table border="1" style="border-collapse: collapse;">
+        <tr style="background: grey">
+            <td>ID Instrument</td>
+            <td>Nama Instrument</td>
+            <td>Jumlah</td>
+            <td>Steril</td>
+            <td colspan="2"></td>
+        </tr>
+<?php foreach ($data as $instrument) { ?>
+                                        <tr>
+                                            <td><?php echo $instrument['id_instrument']; ?></td>
+                                            <td><?php echo $instrument['nama_instrument']; ?></td>
+                                            <td><?php echo $instrument['jumlah']; ?></td>
+                                            <td><?php echo $instrument['steril']; ?></td>
+                                            <td><a href="<?php echo base_url() . "index.php///" . $isntrument['id_peminjam']; ?>">Edit</td>
+                                            <td><a href="<?php echo base_url() . "index.php/instrument/delete_data/" . $isntrument['id_peminjam']; ?>">Delete</td>
+                                        </tr>
+<?php } ?>
+    </table>
+    <a href="<?php echo base_url() . "index.php/instrument/add_data"; ?>">Insert</a>
+    </body>
+</html>-->
+
