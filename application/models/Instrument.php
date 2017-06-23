@@ -23,10 +23,10 @@ class Instrument extends CI_Model {
     }
 
     function cari_data_instrument($key) {
-        $q = $this->db->query("SELECT * FROM `instrument` "
-                . "WHERE (ID_INSTRUMEN ='$key' AND NAMA_INSTRUMEN = '$key') AND"
+        $q = $this->db->query("SELECT * FROM `instrumen` "
+                . "WHERE (ID_INSTRUMEN like '%$key%' OR NAMA_INSTRUMEN like '%$key%') AND "
                 . "STERIL > 0");
-        return $q->result;
+        return $q->result();
     }
 
     function panggil_data_jumlah() {
@@ -34,7 +34,7 @@ class Instrument extends CI_Model {
         return $q->result;
     }
 
-    function tambah_data_instrumen($nama, $jumlah, $steril) {
+    function tambah_data_instrument($nama, $jumlah, $steril) {
         //cek keadaan barang
         $q = "SELECT * FROM WHERE nama_instrumen='$nama'";
         $cek = $this->db->query($q);

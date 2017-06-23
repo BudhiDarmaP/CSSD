@@ -118,12 +118,12 @@ and open the template in the editor.
             <div class="w3-container w3-responsive w3-padding-24">
                 <form action="./BusControl">
                     <div class="col-xs-12">
-                        <table>
+                        <table style="width:30%">
                             <tr>
-                                <th style="width: 85%">
-                                    <input style="height: 40px;width:100%;margin-top:15px" type="text" class="form-control" name="namainstrumen" placeholder="Cari Instrumen Untuk Dihapus" required="">
+                                <th style="width: 90%">
+                                    <input style="height: 40px;width:95%;margin-top:15px" type="text" class="form-control" name="namainstrumen" placeholder="Cari Instrumen Untuk Dihapus" required="">
                                 </th>
-                                <th style="width: 20%;margin-left:4px">
+                                <th style="width: 10%;margin-left:1px">
                                     <button class="btn btn-success" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
                                 </th>
                             </tr>
@@ -131,7 +131,7 @@ and open the template in the editor.
                     </div>
                 </form>
             </div>
-
+            
             <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                     <b style="color: green">Hapus Instrumen Di CSSD</b>

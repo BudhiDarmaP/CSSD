@@ -14,6 +14,9 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
+        <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
+        <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
         <link href="./images/Logo.png" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
         <title>Instrument</title>
@@ -76,7 +79,7 @@ and open the template in the editor.
 
         <div class="w3-container">
             <div class="w3-container w3-responsive w3-padding-24">
-                <form action="./BusControl">
+                <form action="<?php echo base_url('/InstrumenControl/cari'); ?>">
                     <div class="col-xs-12">
                         <table style="width:30%">
                             <tr>
@@ -94,7 +97,7 @@ and open the template in the editor.
 
             <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">Daftar Instrumen Di CSSD</b>
+                    <b style="color: green">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
                 </div>
 
                 <table class="w3-table w3-striped w3-bordered" align="center">
@@ -107,9 +110,8 @@ and open the template in the editor.
                         </tr>
                     <tbody>
                         <?php
-
-                        if (isset($ada_instrumen)) {
-                            foreach ($ada_instrumen as $r):
+                        if (isset($cari_instrumen)) {
+                            foreach ($cari_instrumen as $r):
 
                                 echo "
                                     <tr>
@@ -119,9 +121,24 @@ and open the template in the editor.
                                     <td style='text-align: center'>$r->steril</td>
                                     </tr>";
                             endforeach;
+                            $this->session->unset_userdata('nama_instrumen');
+                            $this->session->unset_userdata('cari_instrumen');
+                        } else {
+                            if (isset($ada_instrumen)) {
+                                foreach ($ada_instrumen as $r):
+
+                                    echo "
+                                    <tr>
+                                    <td style='text-align: center'>$r->id_instrumen</td>
+                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                    <td style='text-align: center'>$r->jumlah</td>
+                                    <td style='text-align: center'>$r->steril</td>
+                                    </tr>";
+                                endforeach;
+                            }
                         }
                         ?>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -206,14 +223,14 @@ and open the template in the editor.
             <td colspan="2"></td>
         </tr>
 <?php foreach ($data as $instrument) { ?>
-                                        <tr>
-                                            <td><?php echo $instrument['id_instrument']; ?></td>
-                                            <td><?php echo $instrument['nama_instrument']; ?></td>
-                                            <td><?php echo $instrument['jumlah']; ?></td>
-                                            <td><?php echo $instrument['steril']; ?></td>
-                                            <td><a href="<?php echo base_url() . "index.php///" . $isntrument['id_peminjam']; ?>">Edit</td>
-                                            <td><a href="<?php echo base_url() . "index.php/instrument/delete_data/" . $isntrument['id_peminjam']; ?>">Delete</td>
-                                        </tr>
+                                                    <tr>
+                                                        <td><?php echo $instrument['id_instrument']; ?></td>
+                                                        <td><?php echo $instrument['nama_instrument']; ?></td>
+                                                        <td><?php echo $instrument['jumlah']; ?></td>
+                                                        <td><?php echo $instrument['steril']; ?></td>
+                                                        <td><a href="<?php echo base_url() . "index.php///" . $isntrument['id_peminjam']; ?>">Edit</td>
+                                                        <td><a href="<?php echo base_url() . "index.php/instrument/delete_data/" . $isntrument['id_peminjam']; ?>">Delete</td>
+                                                    </tr>
 <?php } ?>
     </table>
     <a href="<?php echo base_url() . "index.php/instrument/add_data"; ?>">Insert</a>
