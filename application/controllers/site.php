@@ -30,4 +30,26 @@ class Site extends CI_Controller {
         $this->load->view('ubah_password');
     }
 
+    function peminjaman() {
+        $this->load->view('peminjaman');
+    }
+
+    function laporan() {
+        $this->load->view('laporan');
+    }
+
+    function tambah_instrument() {
+        $this->load->view('tambah_instrument');
+    }
+
+    function hapus_instrument() {
+        $this->load->model('Instrument');
+        $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+        $this->load->view('hapus_instrument', $data);
+    }
+
+    function tambah_pemijaman() {
+        $this->load->view('tambah_pemijam');
+    }
+
 }
