@@ -18,31 +18,52 @@ class LoginControl extends CI_Controller {
         $password = $_GET["password"];
         $query = $this->Users->login($username, $password);
 
-        if ($query) {
+        if ($query != null) {
             $data = array(
                 'username' => $username,
+                'password' => $password,
                 'is_logged_in' => true,
+                'nama_user' => $query->nama_user,
+                'no_telepon' => $query->no_telepon,
+                'status_user' => $query->status_user
             );
 
             $this->session->set_userdata($data);
 //            redirect('site/halamanUtama');
-            $this->load->view('home');
-            echo 'success';
+            if (strpos($username, 'AD') !== FALSE) {
+                $this->load->view('home');
+            } elseif (strpos($username, 'CS') !== FALSE) {
+                $this->load->view('home');
+            } elseif (strpos($username, 'I') !== FALSE) {
+                $this->load->view('home');
+            } else {
+                $data = array(
+                    'username' => $username,
+                    'is_logged_in' => false,
+                    'not_user' => true
+                );
+
+                $this->session->set_userdata($data);
+                $this->load->view('welcome_message');
+            }
         } else {
 
+            $data = array(
+                'username' => $username,
+                'is_logged_in' => false,
+            );
+            $this->session->set_userdata($data);
             $this->load->view('welcome_message');
-            echo 'failed';
-            echo $username;
-            echo $password;
-            echo 'failed9s';
         }
     }
 
     function destroy_session() {
-        $array_items = array('username', 'is_logged_in');
+        $array_items = array('username', 'is_logged_in', 'password', 'nama_user', 'no_telepon', 'status_user', 'not_user');
 
         $this->session->unset_userdata($array_items);
         $this->load->view('welcome_message');
     }
+
 }
+
 ?>

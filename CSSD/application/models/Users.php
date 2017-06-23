@@ -116,17 +116,26 @@ class Users extends CI_Model {
         }
     }
 
-    function ubah_password($id, $password) {
+    public function ubah_password($username, $oldpassword, $newpassword, $confirmpassword) {
         //update password
-        $query = "UPDATE `user` SET `password`='$password' WHERE `id_user`='$id' AND status_user != 0";
-        $this->db->query($query);
-        //cek
-        $q = "SELECT * FROM user WHERE `id_user` = '$id' AND `password` = '$password'";
-        $cek = $this->db->query($q);
-        //jika berhasil
-        if ($cek->num_rows() == 1) {
-            return TRUE;
-            //jika tidak berhasil
+        if ($newpassword == $confirmpassword) {
+            $validasi = $this->login($username, $oldpassword);
+            if ($validasi != null) {
+                $query = "UPDATE `user` SET `password`='$newpassword' WHERE `id_user`='$username' AND `status_user` != 0";
+                $this->db->query($query);
+                //cek
+                $q = "SELECT * FROM user WHERE id_user = '$username' AND password = '$newpassword'";
+                $cek = $this->db->query($q);
+                //jika berhasil
+                if ($cek->num_rows() == 1) {
+                    $this->db->query("commit");
+                    return TRUE;
+                } else {
+                    return FALSE;
+                }
+            } else {
+                return FALSE;
+            }
         } else {
             return FALSE;
         }
@@ -208,16 +217,13 @@ class Users extends CI_Model {
     }
 
     public function login($username, $password) {
-        if (strpos($username, 'CSSD') !== FALSE) {
+        $sql = "SELECT * FROM user WHERE id_user = '$username' and password = '$password'";
+        $result = $this->db->query($sql);
 
-            $sql = "SELECT * FROM user WHERE (id_user = '$username' AND password = '$password')";
-            $result = $this->db->query($sql);
-
-            if ($result->num_rows() == 1) {
-                return TRUE;
-            } else {
-                return FALSE;
-            }
+        if ($result->num_rows() == 1) {
+            return $result->row();
+        } else {
+            return null;
         }
     }
 

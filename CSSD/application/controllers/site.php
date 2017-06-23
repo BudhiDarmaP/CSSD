@@ -24,6 +24,11 @@ class Site extends CI_Controller {
     function laporan(){
         $this->load->view('laporan');
     }
+    function instrumen() {
+        $this->load->model('Instrument');
+        $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+        $this->load->view('data_instrumen', $data);
+    }
     function tambah_instrument(){
         $this->load->view('tambah_instrument');
     }

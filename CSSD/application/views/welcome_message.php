@@ -5,13 +5,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
-        <link href="<?php echo base_url('/bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="<?php echo base_url('/bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?php echo base_url('/images/Logo.png'); ?>" rel="icon" type="image/png"/>
+        <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="./images/Logo.png" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
-        <title>Login Operator</title>
+        <title>Login</title>
     </head>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -31,13 +30,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         /* First image (Logo. Full height) */
         .bgimg-1 {
-            background-image: url('<?php echo base_url('/images/RSUD.jpg'); ?>');
+            background-image: url(<?php echo base_url('images/RSUD.jpg'); ?>);
             min-height: 100%;
-            
+
         }
 
         /* Second image (Portfolio) */
-        
+
         .w3-wide {letter-spacing: 10px;}
         .w3-hover-opacity {cursor: pointer;}
 
@@ -97,22 +96,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <!-- Navbar on small screens -->
             <div id="myNavbar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
-                <a href="<?php echo base_url('/index.php/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-sign-in"></i> HOME</a>
+                <a href="index.php/LoginControl/destroy_session" class="w3-bar-item w3-button" onclick="toggleFunction()"><i class="fa fa-sign-in"></i> HOME</a>
             </div>
         </div>
 
         <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
 
-            <div class="w3-display-middle w3-animate-opacity">
+            <div class="w3-display-middle w3-animate-opacity w3-card-4">
                 <!--                <div class="w3-display-middle w3-padding w3-col m3">-->
                 <div class="w3-container w3-green w3-center">
-                    <img src="<?php echo base_url('/images/LogoCSSD.png'); ?>" class="w3-center w3-margin-bottom">
+                    <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-bottom">
+                    <?php
+                    if (isset($_SESSION["is_logged_in"])) {
+                        echo "<div id=\"id02\" class=\"modal w3-responsive\">
+                <div class=\"modal-content animate w3-black\" style=\"margin-top:15%\">
+                    <div class=\"container\">";
+                        ?>
+                        <?php
+                        if (isset($_SESSION["not_user"])) {
+                            echo "<h5 class=\"w3-center\">Anda Tidak Berhak Login</i></h5>";
+                            $this->session->unset_userdata('not_user');
+                        } else {
+                            echo "<h5 class=\"w3-center\">Kombinasi Username dan Password Salah <i>Mohon Diulangi</i></h5>";
+                        }
+                        echo "</div>
+                            <div class = \"container w3-center\">
+                        <a class=\"buttonAtur\" href=\""
+                        ?><?php echo base_url('LoginControl/destroy_session') ?><?php
+                        echo "\" style=\"vertical-align:middle;\"><span>ULANGI</span></a>
+                    </div>
+                </div>
+            </div>";
+                        $this->session->unset_userdata('is_logged_in');
+                    }
+                    ?>
                 </div>
                 <div class="w3-container w3-white w3-padding-16">
-                    <form action="<?php echo base_url('/index.php/LoginControl/cobaLogin'); ?>">
+                    <form action="<?php echo base_url('LoginControl/cobaLogin') ?>">
                         <input type="text" name="username" id="username" placeholder="Username" required="required" style="width:100%;height:60px"/>
                         <input type="password" name="password" id="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
-                        <button><h3>Login</h3></button>
+                        <button class="w3-goldyellow"><h3>Login</h3></button>
+
                     </form>
                 </div>
             </div>
@@ -157,11 +181,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             // When the user clicks anywhere outside of the modal, close it
 
             modal2.style.display = "block";
-            window.onclick = function(event) {
-                if (event.target == modal2) {
-                    modal2.style.display = "none";
-                }
-            }
+//            window.onclick = function(event) {
+//                if (event.target == modal2) {
+//                    modal2.style.display = "none";
+//                }
+//            }
         </script>
     </body>
 </html>
