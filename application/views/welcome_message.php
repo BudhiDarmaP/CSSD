@@ -136,7 +136,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <input type="text" name="username" id="username" placeholder="Username" required="required" style="width:100%;height:60px"/>
                         <input type="password" name="password" id="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
                         <button class="w3-goldyellow"><h3>Login</h3></button>
-
                     </form>
                 </div>
             </div>

@@ -40,5 +40,4 @@ class InstrumenControl extends CI_Controller {
         $data['nama_instrumen'] = $nama;
         $this->load->view('data_instrumen', $data);
     }
-
 }

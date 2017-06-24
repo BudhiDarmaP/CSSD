@@ -33,6 +33,11 @@ class Site extends CI_Controller {
     function peminjaman() {
         $this->load->view('peminjaman');
     }
+    function tambah_peminjaman() {
+        $this->load->model('Instrument');
+        $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+        $this->load->view('tambah_peminjaman', $data);
+    }
 
     function laporan() {
         $this->load->view('laporan');
