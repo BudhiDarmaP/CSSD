@@ -129,7 +129,7 @@
                     <b style="color: green">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
                 </div>
 
-                <from action="<?php echo base_url('/PeminjamanControl/pinjam'); ?>">
+                <form action="<?php echo base_url('/PeminjamanControl/pinjam'); ?>">
                     <table class="w3-table w3-striped w3-bordered" align="center">
                         <thead>
                             <tr class="w3-theme">
@@ -174,7 +174,7 @@
                         </tbody>
                     </table>
                     <button class="buttonPinjam w3-goldyellow"><i class="fa fa-briefcase">KONFIRMASI</i></button>
-                </from>
+                </form>
             </div>
         </div>
 
