@@ -53,8 +53,8 @@
             color: #fff;
             text-align: center;
             font-size: 22px;
-            padding: 3px;
-            width: 140px;
+            padding: 2px;
+            width: 170px;
             transition: all 0.5s;
             cursor: pointer;
             margin: 5px;
@@ -135,7 +135,6 @@
                             <tr class="w3-theme">
                                 <th style="text-align: center;">ID INSTRUMEN</th>
                                 <th style="text-align: left;">NAMA INSTRUMEN</th>
-                                <th style="text-align: center;">JUMLAH TOTAL INSTRUMEN</th>
                                 <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
                                 <th style="text-align: center;">PILIH</th>
                             </tr>
@@ -147,7 +146,6 @@
                                     <tr>
                                     <td style='text-align: center'>$r->id_instrumen</td>
                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                                    <td style='text-align: center'>$r->jumlah</td>
                                     <td style='text-align: center'>$r->steril</td>
                                     <td style='text-align: center'>
                                     <input type='checkbox' name='id' value='$r->id_instrumen'>
@@ -164,7 +162,6 @@
                                     <tr>
                                     <td style='text-align: center'>$r->id_instrumen</td>
                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                                    <td style='text-align: center'>$r->jumlah</td>
                                     <td style='text-align: center'>$r->steril</td>
                                     <td style='text-align: center'>
                                     <input type='checkbox' name='id' value='$r->id_instrumen'>
@@ -176,7 +173,7 @@
                             ?>
                         </tbody>
                     </table>
-                    <button class="buttonPinjam w3-goldyellow"><i class="fa fa-briefcase"></i>KONFIRMASI</button>
+                    <button class="buttonPinjam w3-goldyellow"><i class="fa fa-briefcase">KONFIRMASI</i></button>
                 </from>
             </div>
         </div>
