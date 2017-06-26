@@ -148,7 +148,7 @@
                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
                                     <td style='text-align: center'>$r->steril</td>
                                     <td style='text-align: center'>
-                                    <input type='checkbox' name='id' value='$r->id_instrumen'>
+                                    <input type='checkbox' name='id[]' value='$r->id_instrumen'>
                                     </td>
                                     </tr>";
                                 endforeach;
@@ -164,7 +164,7 @@
                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
                                     <td style='text-align: center'>$r->steril</td>
                                     <td style='text-align: center'>
-                                    <input type='checkbox' name='id' value='$r->id_instrumen'>
+                                    <input type='checkbox' name='id[]' value='$r->id_instrumen'>
                                     </td>
                                     </tr>";
                                     endforeach;

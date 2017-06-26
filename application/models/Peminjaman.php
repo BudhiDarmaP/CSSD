@@ -5,13 +5,18 @@
  *
  * @author budhidarmap
  */
-class Peminjaman extends CI_Model{
-    function pinjam($id_peminjam, $id_instrumen, $jumlah, $tgl_pinjam, $tgl_kembali){
+class Peminjaman extends CI_Model {
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    function pinjam($id_peminjam, $id_instrumen, $jumlah, $tgl_pinjam, $tgl_kembali) {
         //cek ketersedian barang
         $q = "SELECT * FROM `instrumen` WHERE nama_instrumen='$id_instrumen' AND steril>'$jumlah'";
         $cek = $this->db->query($q);
         //jika lebih dari permintaan
-        if ($cek->num_rows()> 0) {
+        if ($cek->num_rows() > 0) {
             //input peminjaman
             $q = "INSERT INTO `peminjaman`"
                     . "(`id_peminjam`, "
@@ -27,9 +32,9 @@ class Peminjaman extends CI_Model{
                     . "STR_TO_DATE('$tgl_pinjam', '%m/%d/%Y'), "
                     . "STR_TO_DATE('$tgl_kembali', '%m/%d/%Y'), "
                     . "0)";
-            $this->db->query($q);
+            $this->db->insert($q);
             $this->db->commit();
-            
+
             //panggil data peminjaman
             $q = "SELECT * FROM `peminjaman`"
                     . "WHERE id_user = '$id_peminjam' AND id_instrumen='$id_instrumen' "
@@ -40,5 +45,10 @@ class Peminjaman extends CI_Model{
         } else {
             return NULL;
         }
+    }
+    function insert_pinjam($data){
+        $this->db->insert('peminjaman', $data);
+        $hasil=$this->db->select('peminjaman', $data);
+        return $hasil;
     }
 }

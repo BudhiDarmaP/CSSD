@@ -21,8 +21,13 @@ class PeminjamanControl extends CI_Controller {
 
     function pinjam() {
         $this->load->model('Instrument');
-        $nama = $_GET["id"];
-        $data['cari_instrumen'] = $this->Instrument->cari_data_instrument($nama);
+        $id = $this->input->post('id');
+        $result=array();
+        foreach ($id as $key=>$val){
+            $result[] = array(
+                'id'=>$_POST['id'][$key]);
+        }
+        $data['cari_instrumen'] = $this->Instrument->cari_data_instrument($result);
         $data['nama_instrumen'] = $nama;
         $this->load->view('konfirmasi_peminjaman', $data);
     }
@@ -34,9 +39,15 @@ class PeminjamanControl extends CI_Controller {
         $jumlah = $_GET["jumlah"];
         $tgl_pinjam = $_GET["tgl_pinjam"];
         $tgl_kembali = $_GET["tgl_kembali"];
-        $data['pinjam_instrumen'] = $this->Peminjaman->pinjam($id_peminjam, $id_instrumen, $jumlah, $tgl_pinjam, $tgl_kembali);
-        $this->load->model('Instrument');
-        $data['nama_instrumen'] = $this->Instrument->cari_data_instrument($id_instrumen);
+        $pinjam=array(
+            'id_peminjam'=>  $this->input->post(),
+            'id_instrumen'=>  $this->input->post($id_instrumen),
+            'jumlah_pinjam'=>  $this->input->post($jumlah),
+            'tanggal_pinjam'=>  $this->input->post($tgl_pinjam),
+            'tanggal_kembali'=>  $this->input->post($tgl_kembali),
+            'status_peminjaman'=>  $this->input->post(0)
+        );
+        $this->Peminjaman->insert_pinjam($pinjam);
         $this->load->view('result_peminjaman', $data);
     }
 }
