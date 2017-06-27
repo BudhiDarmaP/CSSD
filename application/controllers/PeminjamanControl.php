@@ -9,6 +9,10 @@ class PeminjamanControl extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+
+        $this->load->library('form_validation'); // digunakan untuk proses validasi yg di input
+        $this->load->database(); // Load our cart model for our entire class
+        $this->load->helper(array('url', 'form')); // Load our cart model for our entire class
     }
 
     function cari() {
@@ -21,33 +25,44 @@ class PeminjamanControl extends CI_Controller {
 
     function pinjam() {
         $this->load->model('Instrument');
-        $id = $this->input->post('id');
-        $result=array();
-        foreach ($id as $key=>$val){
-            $result[] = array(
-                'id'=>$_POST['id'][$key]);
+        $id = $_GET['id'];
+        $data[count($id)] = null;
+        $index = 1;
+        foreach ($id as $key) {
+            $data[$index] = $this->Instrument->panggil_data_id($key);
+            $index++;
         }
-        $data['cari_instrumen'] = $this->Instrument->cari_data_instrument($result);
-        $data['nama_instrumen'] = $nama;
+        $data['cari_instrumen'] = $data;
         $this->load->view('konfirmasi_peminjaman', $data);
     }
 
     function konfirmasi() {
+        //panggil model
         $this->load->model('Peminjaman');
-        $id_peminjam = $_SESSION["username"];
-        $id_instrumen = $_GET["id_instrumen"];
-        $jumlah = $_GET["jumlah"];
-        $tgl_pinjam = $_GET["tgl_pinjam"];
-        $tgl_kembali = $_GET["tgl_kembali"];
-        $pinjam=array(
-            'id_peminjam'=>  $this->input->post(),
-            'id_instrumen'=>  $this->input->post($id_instrumen),
-            'jumlah_pinjam'=>  $this->input->post($jumlah),
-            'tanggal_pinjam'=>  $this->input->post($tgl_pinjam),
-            'tanggal_kembali'=>  $this->input->post($tgl_kembali),
-            'status_peminjaman'=>  $this->input->post(0)
-        );
-        $this->Peminjaman->insert_pinjam($pinjam);
+        //get parameter
+        $user = $_SESSION['username'];
+        $id = $_GET['id_instrumen'];
+        $jumlah = $_GET['jumlah'];
+        $tgl_pinjam = $_GET['tgl_pinjam'];
+        $tgl_kembali = $_GET['tgl_kembali'];
+        //deklarasi array
+        $data[count($id)] = null;
+        $index = 1;
+        //deklarasi input
+        $input;
+        //melooping array input
+        foreach ($jumlah as $input) {
+        }
+        //looping array id
+        foreach ($id as $key) {
+            //simpan peminjaman
+                $data[$index] = $this->Peminjaman->pinjam($user, $key, $input, $tgl_pinjam, $tgl_kembali);
+            $index++;
+        }
+        //simpan hasil ke dalam array
+        $data['pinjam_instrumen'] = $data;
+        //panggil view
         $this->load->view('result_peminjaman', $data);
     }
+
 }

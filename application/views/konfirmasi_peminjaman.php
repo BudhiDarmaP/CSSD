@@ -91,127 +91,132 @@
         .buttonPinjam:hover span {
             padding-right: 25px;
         }
-    </style>
-    <body>
+        .inputTanggal input{
+            width:200px; border:1px dotted #CI_Unit_test; 
+            border-radius:4px; -moz-border-radius:4px; 
+            height:38px; margin-left:3px;'
+            }
+        </style>
+        <body>
 
-        <!-- Navbar (sit on top) -->
-        <div class="w3-top">
-            <div class="w3-bar w3-card w3-white" id="myNavbar">
-                <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                    <i class="fa fa-bars"></i>
-                </a>
+            <!-- Navbar (sit on top) -->
+            <div class="w3-top">
+                <div class="w3-bar w3-card w3-white" id="myNavbar">
+                    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+                        <i class="fa fa-bars"></i>
+                    </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/tambah_peminjam/'); ?>" class="w3-bar-item w3-button     w3-hide-small"><i class="fa fa-user"></i>TAMBAH PEMINJAM</a>
-                <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH PEMINJAMAN</a>
-                <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-check"></i>CEK PEMINJAMAN</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
-            </div>
-        </div>
-
-        <!-- First Parallax Image with Logo Text -->
-        <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
-        </div>
-
-        <!-- Container (About Section) -->
-        <div class="w3-content w3-container w3-center" id="about">
-            <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
-        </div>
-
-        <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
-            <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                <b style="color: green">Konfirmasi Peminjaman</b>
+                    <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
+                    <a href="<?php echo base_url('/site/tambah_peminjam/'); ?>" class="w3-bar-item w3-button     w3-hide-small"><i class="fa fa-user"></i>TAMBAH PEMINJAM</a>
+                    <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH PEMINJAMAN</a>
+                    <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-check"></i>CEK PEMINJAMAN</a>
+                    <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
+                </div>
             </div>
 
-            <form action='<?php echo base_url('/PeminjamanControl/konfirmasi'); ?>'>
-                <table class="w3-table w3-striped w3-bordered" align="center">
-                    <thead>
-                        <tr class="w3-theme">
-                            <th style="text-align: center;">ID INSTRUMEN</th>
-                            <th style="text-align: left;">NAMA INSTRUMEN</th>
-                            <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
-                            <th style="text-align: center;">TANGGAL PINJAM</th>
-                            <th style="text-align: center;">TANGGAL KEMBALI</th>
-                            <th style="text-align: center;">JUMLAH PINJAM</th>
+            <!-- First Parallax Image with Logo Text -->
+            <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
+            </div>
+
+            <!-- Container (About Section) -->
+            <div class="w3-content w3-container w3-center" id="about">
+                <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
+            </div>
+
+            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
+                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
+                    <b style="color: green">Konfirmasi Peminjaman</b>
+                </div>
+
+                <form action='<?php echo base_url('/PeminjamanControl/konfirmasi'); ?>'>
+                    <table><tr style='text-align: center'>
+                            <th>TANGGAL PINJAM</th>
+                            <td class='inputTanggal'><input type='text' id='datepicker' name='tgl_pinjam' placeholder="Klik untuk isi"></td>
                         </tr>
-                    <tbody>
-                        <?php
-                        foreach ($cari_instrumen as $r):
-                            echo "
+                        <tr style='text-align: center'>
+                            <th>TANGGAL KEMBALI</th>
+                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder="Klik untuk isi"></td>
+                        </tr></table>
+                    <table class="w3-table w3-striped w3-bordered" align="center">
+                        <thead>
+                            <tr class="w3-theme">
+                                <th style="text-align: center;">ID INSTRUMEN</th>
+                                <th style="text-align: left;">NAMA INSTRUMEN</th>
+                                <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
+                                <th style="text-align: center;">JUMLAH PINJAM</th>
+                            </tr>
+                        <tbody>
+                            <?php
+                            foreach ($cari_instrumen as $r):
+                                echo "
                                     <tr>
                                     <td style='text-align: center'>$r->id_instrumen</td>
                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
                                     <td style='text-align: center'>$r->steril</td>
                                     <td style='text-align: center'>
-                                    <input type='text' id='datepicker' name='tgl_pinjam'>
-                                    </td>
-                                    <td style='text-align: center'>
-                                    <input type='text' id='datepicker2' name='tgl_kembali'>
-                                    </td>
-                                    <td style='text-align: center'>
-                                    <input type='number' name='jumlah' value='' max='$r->steril' min='0' placeholder='0'>
-                                    <input type='hidden' value='$r->id_instrumen' name='id_instrumen'>    
+                                    <input type='number' name='jumlah[]' value='' max='$r->steril' min='0' placeholder='0'>
+                                    <input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>    
                                     </td>
                                     </tr>";
-                        endforeach;
-                        $this->session->unset_userdata('nama_instrumen');
-                        $this->session->unset_userdata('cari_instrumen');
-                        ?>
-                    </tbody>
-                </table>
-                <button class="buttonPinjam w3-goldyellow"><i class="fa fa-briefcase"></i>PINJAM</button>
-            </form>
+                            endforeach;
+                            $this->session->unset_userdata('nama_instrumen');
+                            $this->session->unset_userdata('cari_instrumen');
+                            ?>
+                        </tbody>
+                    </table>
+                    <button class="buttonPinjam w3-goldyellow"><i class="fa fa-briefcase"></i>PINJAM</button>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <footer class="w3-center w3-green w3-margin-bottom">
-        <div class="w3-section w3-padding-small"></div>
-        <div class="w3-xlarge w3-section">
-            <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        <footer class="w3-center w3-green w3-margin-bottom">
+            <div class="w3-section w3-padding-small"></div>
+            <div class="w3-xlarge w3-section">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
 
-        </div>
-        <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-        <div class="w3-section w3-padding-small"></div>
-        <script>
-            function myFunction() {
-                var navbar = document.getElementById("myNavbar");
-                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                    navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                } else {
-                    navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+            </div>
+            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
+            <div class="w3-section w3-padding-small"></div>
+            <script>
+                function myFunction() {
+                    var navbar = document.getElementById("myNavbar");
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                    } else {
+                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+                    }
                 }
-            }
-            function toggleFunction() {
-                var x = document.getElementById("navDemo");
-                if (x.className.indexOf("w3-show") == -1) {
-                    x.className += " w3-show";
-                } else {
-                    x.className = x.className.replace(" w3-show", "");
+                function toggleFunction() {
+                    var x = document.getElementById("navDemo");
+                    if (x.className.indexOf("w3-show") == -1) {
+                        x.className += " w3-show";
+                    } else {
+                        x.className = x.className.replace(" w3-show", "");
+                    }
                 }
-            }
-        </script>
-        <script>
-            // Get the modal
-            var modal = document.getElementById('id01');
+            </script>
+            <script>
+                // Get the modal
+                var modal = document.getElementById('id01');
 
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
                 }
-            }
 
-            var modal2 = document.getElementById('id02');
+                var modal2 = document.getElementById('id02');
 
-            // When the user clicks anywhere outside of the modal, close it
+                // When the user clicks anywhere outside of the modal, close it
 
-            modal2.style.display = "block";
-            window.onclick = function (event) {
-                if (event.target == modal2) {
-                    modal2.style.display = "none";
+                modal2.style.display = "block";
+                window.onclick = function (event) {
+                    if (event.target == modal2) {
+                        modal2.style.display = "none";
+                    }
                 }
-            }
-        </script>
-    </footer>
-</body>
+            </script>
+        </footer>
+    </body>
 </html>

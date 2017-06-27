@@ -29,8 +29,13 @@ class Instrument extends CI_Model {
         return $q->result();
     }
 
+    function panggil_data_id($id) {
+            $q = $this->db->query("SELECT * FROM `instrumen` WHERE id_instrumen = '$id'");
+            return $q->row();        
+    }
+
     function panggil_data_jumlah() {
-        $q = $this->db->query("SELECT * FROM `instrument` WHERE STERIL > 0");
+        $q = $this->db->query("SELECT * FROM `instrumen` WHERE STERIL > 0");
         return $q->result;
     }
 

@@ -13,12 +13,12 @@ class Peminjaman extends CI_Model {
 
     function pinjam($id_peminjam, $id_instrumen, $jumlah, $tgl_pinjam, $tgl_kembali) {
         //cek ketersedian barang
-        $q = "SELECT * FROM `instrumen` WHERE nama_instrumen='$id_instrumen' AND steril>'$jumlah'";
-        $cek = $this->db->query($q);
+        $select = "SELECT * FROM `instrumen` WHERE id_instrumen='$id_instrumen' AND steril>=$jumlah";
+        $cek = $this->db->query($select);
         //jika lebih dari permintaan
         if ($cek->num_rows() > 0) {
             //input peminjaman
-            $q = "INSERT INTO `peminjaman`"
+            $insert = "INSERT INTO `peminjaman`"
                     . "(`id_peminjam`, "
                     . "`id_instrumen`, "
                     . "`jumlah_pinjam`, "
@@ -32,23 +32,26 @@ class Peminjaman extends CI_Model {
                     . "STR_TO_DATE('$tgl_pinjam', '%m/%d/%Y'), "
                     . "STR_TO_DATE('$tgl_kembali', '%m/%d/%Y'), "
                     . "0)";
-            $this->db->insert($q);
-            $this->db->commit();
-
+            $this->db->query($insert);
+            
             //panggil data peminjaman
-            $q = "SELECT * FROM `peminjaman`"
-                    . "WHERE id_user = '$id_peminjam' AND id_instrumen='$id_instrumen' "
-                    . "AND tanggal_pinjam='$tgl_pinjam' AND tanggal_kembali='$tgl_kembali'"
-                    . "AND jumlah='$jumlah' AND status_peminjaman=0";
-            $data = $this->db->query($q);
-            return $data->result();
+            $select2 = "SELECT * FROM `peminjaman`"
+                    . "WHERE (id_peminjam = '$id_peminjam' AND id_instrumen='$id_instrumen' "
+                    . "AND tanggal_pinjam=STR_TO_DATE('$tgl_pinjam', '%m/%d/%Y') "
+                    . "AND tanggal_kembali=STR_TO_DATE('$tgl_kembali', '%m/%d/%Y') "
+                    . "AND jumlah_pinjam=$jumlah AND status_peminjaman=0)";
+            $hasil = $this->db->query($select2);
+            return $hasil->result();
         } else {
             return NULL;
         }
     }
-    function insert_pinjam($data){
-        $this->db->insert('peminjaman', $data);
-        $hasil=$this->db->select('peminjaman', $data);
-        return $hasil;
+
+    function panggil_pinjam($user, $id_inst, $jumlah, $tgl_pinjam, $tgl_kembali) {
+        if ($user == NULL || $id_inst == NULL) {
+            $q = "SELECT * FROM `peminjaman` WHERE status_peminjaman=0";
+            $data = $this->db->query($q);
+            return $data->result();
+        }
     }
 }

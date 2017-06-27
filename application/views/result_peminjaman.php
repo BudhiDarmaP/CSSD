@@ -108,91 +108,85 @@
 
         <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
             <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                <b style="color: green">Daftar Amprah</b>
-            </div>
-
-            <table class="w3-table w3-striped w3-bordered" align="center">
-                <thead>
-                    <tr class="w3-theme">
-                        <th style="text-align: center;">ID INSTRUMEN</th>
-                        <th style="text-align: left;">NAMA INSTRUMEN</th>
-                        <th style="text-align: center;">TANGGAL PINJAM</th>
-                        <th style="text-align: center;">TANGGAL KEMBALI</th>
-                        <th style="text-align: center;">JUMLAH</th>
-                    </tr>
-                <tbody>
-                    <?php
-                    if ($pinjam_instrumen == NULL) {
-                        echo "<tr>
-                         <td style='text-align: center'>PEMINJAMAN GAGAL</td>
-                         </tr>";
-                    } else {
-                        foreach ($pinjam_instrumen as $r):
-                            echo "
-                                    <tr>
-                                    <td style='text-align: center'>$r->id_peminjam</td>
-                                    <td style='text-align: center'><b>$r->id_instrumen</b></td>
-                                    <td style='text-align: center'>$r->tanggal_pinjam</td>
-                                    <td style='text-align: center'>$r->tanggal_kembali</td>
-                                    <td style='text-align: center'>$r->jumlah</td>
-                                    </tr>";
-                        endforeach;
-                        $this->session->unset_userdata('nama_instrumen');
-                        $this->session->unset_userdata('pinjam_instrumen');
-                    }
-                    ?>
+                <?php
+                if ($pinjam_instrumen[1] == NULL) {
+                    echo "<h2 style='text-align: center; color: red'>PEMINJAMAN GAGAL</h2></div>";
+                } else {
+                    echo "<b style='color: green'>Daftar Amprah</b></div>
+                    <table class = 'w3-table w3-striped w3-bordered' align = 'center'>
+                <thead><tr class = 'w3-theme'>
+                <th style = 'text-align: center;'>ID INSTRUMEN</th>
+                <th style = 'text-align: left;'>NAMA INSTRUMEN</th>
+                <th style = 'text-align: center;'>TANGGAL PINJAM</th>
+                <th style = 'text-align: center;'>TANGGAL KEMBALI</th>
+                <th style = 'text-align: center;'>JUMLAH</th>
+                </tr>
+                <tbody>";
+                    foreach ($pinjam_instrumen as $r):
+                        echo "
+                <tr>
+                <td style='text-align: center'>$r->id_peminjam</td>
+                <td style='text-align: center'><b>$r->id_instrumen</b></td>
+                <td style='text-align: center'>$r->tanggal_pinjam</td>
+                <td style='text-align: center'>$r->tanggal_kembali</td>
+                <td style='text-align: center'>$r->jumlah</td>
+                </tr>";
+                    endforeach;
+                    $this->session->unset_userdata('pinjam_instrumen');
+                }
+                ?>
                 </tbody>
-            </table>
-        </div>
-
-        <footer class="w3-center w3-green w3-margin-bottom">
-            <div class="w3-section w3-padding-small"></div>
-            <div class="w3-xlarge w3-section">
-                <i class="fa fa-facebook-official w3-hover-opacity"></i>
-
+                </table>
             </div>
-            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-            <div class="w3-section w3-padding-small"></div>
-            <script>
-                function myFunction() {
-                    var navbar = document.getElementById("myNavbar");
-                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                    } else {
-                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                    }
-                }
-                function toggleFunction() {
-                    var x = document.getElementById("navDemo");
-                    if (x.className.indexOf("w3-show") == -1) {
-                        x.className += " w3-show";
-                    } else {
-                        x.className = x.className.replace(" w3-show", "");
-                    }
-                }
-            </script>
-            <script>
-                // Get the modal
-                var modal = document.getElementById('id01');
 
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function (event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
+            <footer class="w3-center w3-green w3-margin-bottom">
+                <div class="w3-section w3-padding-small"></div>
+                <div class="w3-xlarge w3-section">
+                    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+
+                </div>
+                <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
+                <div class="w3-section w3-padding-small"></div>
+                <script>
+                    function myFunction() {
+                        var navbar = document.getElementById("myNavbar");
+                        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                            navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                        } else {
+                            navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+                        }
                     }
-                }
-
-                var modal2 = document.getElementById('id02');
-
-                // When the user clicks anywhere outside of the modal, close it
-
-                modal2.style.display = "block";
-                window.onclick = function (event) {
-                    if (event.target == modal2) {
-                        modal2.style.display = "none";
+                    function toggleFunction() {
+                        var x = document.getElementById("navDemo");
+                        if (x.className.indexOf("w3-show") == -1) {
+                            x.className += " w3-show";
+                        } else {
+                            x.className = x.className.replace(" w3-show", "");
+                        }
                     }
-                }
-            </script>
-        </footer>
+                </script>
+                <script>
+                    // Get the modal
+                    var modal = document.getElementById('id01');
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+
+                    var modal2 = document.getElementById('id02');
+
+                    // When the user clicks anywhere outside of the modal, close it
+
+                    modal2.style.display = "block";
+                    window.onclick = function (event) {
+                        if (event.target == modal2) {
+                            modal2.style.display = "none";
+                        }
+                    }
+                </script>
+            </footer>
     </body>
 </html>
