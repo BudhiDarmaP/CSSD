@@ -114,14 +114,14 @@ and open the template in the editor.
         </div>
         
         <?php
-            if (isset($_SESSION["tambah_peminjam"])) {
-                $ubah = $_SESSION["tambah_peminjam"];
+            if (isset($_SESSION["tambah_user"])) {
+                $ubah = $_SESSION["tambah_user"];
                 if ($ubah) {
                     echo "<script>swal(\"Tambah Peminjam Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
                 } else {
                     echo "<script>swal(\"Tambah Peminjam Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
                 }
-                $this->session->unset_userdata('tambah_peminjam');
+                $this->session->unset_userdata('tambah_user');
             }
             ?>
 
@@ -136,20 +136,17 @@ and open the template in the editor.
                 </div>
                 <table align="center"><tr><th>
                     <div class="w3-container w3-white w3-padding-16 w3-card w3-margin-bottom">
-                        <form action="<?php echo base_url('/UserControl/tambahEksternal'); ?>">
+                        <form action="<?php echo base_url('/UserControl/tambahUser'); ?>">
                             <div class="w3-row-padding">
                                 <div class=" w3-margin-bottom">
                                     <label>Masukkan Nama Peminjam</label>
-                                    <input class="w3-input w3-border" type="text" value="" name="nama_peminjam" required="" placeholder="Nama Peminjam">
+                                    <input class="w3-input w3-border" type="text" value="" name="nama_user" required="" placeholder="Nama Peminjam">
                                 </div>
 
                                 <div class=" w3-margin-bottom">
                                     <label>Masukkan No Telephone</label>
-                                    <input class="w3-input w3-border" type="text" value="" name="no_telepon" required="" placeholder="No Telepon" onkeypress="return isNumber(event)">
-                                </div>
-                                <div class=" w3-margin-bottom">
-                                    <label>Masukkan Password</label>
-                                    <input class="w3-input w3-border" type="password" value="" name="password" required="" placeholder="Password">
+                                    <input class="w3-input w3-border" type="text" value="" name="no_telp" required="" placeholder="No Telepon" onkeypress="return isNumber(event)">
+                                    <input type="hidden" name="status_user" value="3">
                                 </div>
                                 <div class="w3-margin-bottom w3-center">
                                     <button class="buttonTambah" type="submit" name="tambah" value="yes"><i class="fa fa-plus"></i> TAMBAH</button>

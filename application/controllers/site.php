@@ -26,8 +26,18 @@ class Site extends CI_Controller {
         $this->load->view('data_instrumen', $data);
     }
 
+    function ubah_password_konfirmasi() {
+        $this->load->view('ubah_password_konfirmasi');
+    }
+
     function ubah_password() {
         $this->load->view('ubah_password');
+    }
+
+    function tambah_user() {
+        $this->load->model('Users');
+        $data['data_user'] = $this->Users->panggil_data_user();
+        $this->load->view('tambah_user', $data);
     }
 
     function peminjaman() {

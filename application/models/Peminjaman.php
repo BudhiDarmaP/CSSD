@@ -11,7 +11,7 @@ class Peminjaman extends CI_Model {
         parent::__construct();
     }
 
-    function pinjam($trans, $id_pem, $id_ins, $jum, $tgl_pin, $tgl_kem) {
+    function pinjam($trans, $id_pem, $id_ins, $jum, $tgl_pin, $tgl_kem, $status) {
         //cek ketersedian barang
         $select = "SELECT * FROM `instrumen` WHERE id_instrumen='$id_ins' AND steril>=$jum";
         $cek = $this->db->query($select);
@@ -33,7 +33,7 @@ class Peminjaman extends CI_Model {
                     . "$jum, "
                     . "STR_TO_DATE('$tgl_pin', '%m/%d/%Y'), "
                     . "STR_TO_DATE('$tgl_kem', '%m/%d/%Y'), "
-                    . "0)";
+                    . "$status)";
             $this->db->query($insert);
             return TRUE;
         } else {

@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Ubah Password</title>
+    <title>Tambah User</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -111,88 +111,123 @@
         </div>
 
         <?php
-        if (isset($_SESSION["ubah_password"])) {
-            $ubah = $_SESSION["ubah_password"];
+        if (isset($_SESSION["tambah_user"])) {
+            $ubah = $_SESSION["tambah_user"];
             if ($ubah) {
-                echo "<script>swal(\"Ubah Password Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
+                echo "<script>swal(\"Tambah User Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
             } else {
-                echo "<script>swal(\"Ubah Password Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
+                echo "<script>swal(\"Tambah User Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
             }
-            $this->session->unset_userdata('ubah_password');
+            $this->session->unset_userdata('tambah_user');
         }
         ?>
 
-        <div class="bgimg-2 w3-display-container w3-opacity-min w3-animate-top">
-            <div  class="w3-display-topmiddle w3-padding w3-col l6 m8">
-                <form action="<?php echo base_url('UserControl/ubahPassword') ?>">
-                    <?php
-                    if (isset($_GET["status"])) {
-                        $status = $_GET["status"];
-                        $nama = $_SESSION["nama_user"];
-                        if ($status == 0) {
-                            $username = $_SESSION["username"];
-                            echo "<div class=\"w3-container w3-theme\">
-                                <h3><i class=\"fa fa-users w3-margin-right\"></i>UBAH PASSWORD</h3>
-                                <table class=\"w3-xxlarge w3-text-white w3-wide w3-animate-opacity\">
-                                    <tr><th class=\"w3-large\">Anda Masuk Sebagai</th></tr>
-                                    <tr><td>$nama</td></tr>
-                                </table>
+        <div class="bgimg-2 w3-display-container w3-opacity-min">
+            <div  class="w3-display-topmiddle w3-padding" style="width: 100%">
+                <table style="width: 100%;vertical-align:text-top;margin-bottom:10%">
+                    <tr>
+                        <th class="w3-animate-top w3-top" style="width:30%">
+                    <form action="<?php echo base_url('UserControl/tambahUser') ?>">
+                        <div class="w3-container w3-theme">
+                            <h3><i class="fa fa-user-circle-o w3-margin-right w3-margin-top"></i>TAMBAHKAN USER INTERNAL</h3>
+                            <table class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity">
+                                <tr><td>CSSD</td></tr>
+                            </table>
+                        </div>
+                        <div class="w3-container w3-white w3-padding-16 w3-card">
+
+                            <div class="w3-row-padding w3-padding" style="margin:0 -16px;">
+                                <div>
+                                    <label><i class="fa fa-id-card"></i> Nama User</label>
+                                    <input class="w3-input w3-border" type="text" value="" name="nama_user" required="" placeholder="Masukkan nama pegawai (pegawai CSSD atau SIM) / nama ruangan (peminjam internal)">
+                                </div>
                             </div>
-                            <div class=\"w3-container w3-white w3-padding-16 w3-card\">
-                                
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-key\"></i> Masukkan Password Lama</label>
-                                        <input class=\"w3-input w3-border\" type=\"password\" value=\"\" name=\"oldpassword\" required=\"\" placeholder=\"Old Password\">
-                                    </div>
-                                    </div>
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-key\"></i> Masukkan Password Baru</label>
-                                        <input class=\"w3-input w3-border\" type=\"password\" value=\"\" name=\"newpassword\" required=\"\" placeholder=\"New Password\">
-                                    </div>
-                                    </div>
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-check\"></i> Konfirmasi Password Baru</label>
-                                        <input class=\"w3-input w3-border\" type=\"password\" value=\"\" name=\"confirmpassword\" required=\"\" placeholder=\"Confirm New Password\">
-                                        <input type=\"hidden\" name=\"username\" value=\"$username\">
-                                        <input type=\"hidden\" name=\"status\" value=\"$status\">
-                                    </div>
-                                    </div>
-                                    <button class=\"w3-button w3-green\" type=\"submit\" name=\"ubah\" value=\"yes\"><h2><i class=\"fa fa-check-circle w3-margin-right\"></i> UBAH</h2></button>
-                                
-                            </div>";
-                        } else {
-                            echo "<div class=\"w3-container w3-theme\">
-                                <h3 class=\"w3-xxlarge w3-text-white w3-animate-opacity\"><i class=\"fa fa-users w3-margin-right\"></i>UBAHKAN PASSWORD</h3>
-                                <table class=\"w3-xxlarge w3-text-white w3-wide w3-animate-opacity\">
-                                    <tr><th class=\"w3-large\">Anda Masuk Sebagai</th></tr>
-                                    <tr><td>$nama</td></tr>
-                                </table>
+                            <div class="w3-row-padding w3-padding" style="margin:0 -16px;">
+                                <div>
+                                    <label><i class="fa fa-phone-square"></i> Nomor Telepon</label>
+                                    <input class="w3-input w3-border" type="text" value="" name="no_telp" required="" onkeypress="return isNumber(event)" placeholder="Masukkan kontak user yang bisa dihubungi" maxlength="13">
+                                </div>
                             </div>
-                            <div class=\"w3-container w3-white w3-padding-16 w3-card\">
-                                
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-user\"></i> Masukkan Username Pengguna</label>
-                                        <input class=\"w3-input w3-border\" type=\"text\" value=\"\" name=\"username\" required=\"\" placeholder=\"Username\">
-                                    </div>
-                                    </div>
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-key\"></i> Masukkan Password Baru</label>
-                                        <input class=\"w3-input w3-border\" type=\"password\" value=\"\" name=\"newpassword\" required=\"\" placeholder=\"New Password\">
-                                        <input type=\"hidden\" name=\"status\" value=\"$status\">
-                                    </div>
-                                    </div>
-                                    <button class=\"w3-button w3-green\" type=\"submit\" name=\"ubah\" value=\"yes\"><h2><i class=\"fa fa-check-circle w3-margin-right\"></i> UBAH</h2></button>
-                                
-                            </div>";
-                        }
-                    }
-                    ?>
-                </form>
+                            <div class="w3-row-padding w3-padding w3-margin-bottom" style="margin:0 -16px;">
+                                <div>
+                                    <label><i class="fa fa-check"></i> Status User</label>
+                                    <select class="w3-input w3-border w3-padding-16" name="status_user">
+                                        <option value="0">Super Administrator</option>
+                                        <option value="1">Administrator CSSD</option>
+                                        <option value="2">Peminjam Internal</option>
+                                    </select> 
+                                </div>
+                            </div>
+                            <button class="w3-button w3-green" type="submit" name="ubah" value="yes"><h2><i class="fa fa-plus-square w3-margin-right"></i> TAMBAH</h2></button>
+
+                        </div>
+                    </form>
+                    </th>
+                    <th class="w3-top">
+                    <table class="w3-table w3-striped w3-bordered w3-card w3-margin-left w3-margin-top w3-margin-right" align="center" style="width:67%">
+                        <thead class="w3-margin-top">
+                            <tr>
+                                <th colspan="4" class="w3-green">
+                        <h3 class="w3-right w3-xxlarge"><i class="fa fa-users w3-margin-right"></i>DAFTAR USER</h3>
+                        </th>
+                        </tr>
+                        <tr class="w3-theme w3-margin-top">
+                            <th style="text-align: right;">USERNAME</th>
+                            <th style="text-align: left;">NAMA</th>
+                            <th style="text-align: center;">NOMOR TELEPON</th>
+                            <th style="text-align: center;">STATUS</th>
+                        </tr>
+                        </thead>
+                        <tbody class="w3-animate-opacity">
+                            <?php
+
+                            function cekStatus($stat) {
+                                if ($stat == 0) {
+                                    return 'Super Administrator';
+                                } elseif ($stat == 1) {
+                                    return 'Administrator CSSD';
+                                } elseif ($stat == 2) {
+                                    return 'Peminjam Internal';
+                                } else {
+                                    return 'Peminjam Eksternal';
+                                }
+                            }
+
+                            function cekWarna($stat) {
+                                if ($stat == 0) {
+                                    return 'red';
+                                } else if ($stat == 2) {
+                                    return 'black';
+                                } else if ($stat == 3) {
+                                    return '#006699';
+                                }  else {
+                                    return 'green';
+                                }
+                            }
+
+                            if (isset($data_user)) {
+                                $data_status_user;
+                                $warna;
+                                foreach ($data_user as $r):
+                                    $data_status_user = cekStatus($r->status_user);
+                                    $warna = cekWarna($r->status_user);
+                                    echo "
+                                    <tr>
+                                    <td style='text-align: right'>$r->id_user</td>
+                                    <td style='text-align: left'><b>$r->nama_user</b></td>
+                                    <td style='text-align: center'>$r->no_telepon</td>
+                                    <td style='text-align: center;color:$warna'>$data_status_user</td>
+                                    </tr>";
+                                endforeach;
+                            }
+                            ?>
+
+                        </tbody>
+                    </table>
+
+                    </th>
+                    </tr>
+                </table>
             </div>
         </div>
 

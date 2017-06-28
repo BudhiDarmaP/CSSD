@@ -11,7 +11,7 @@
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
-    <link href="./images/Logo.png" rel="icon" type="image/png"/>
+    <link href="<?php echo base_url('images/Logo.png');?>" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -95,29 +95,39 @@
             <div class="w3-top">
                 <div class="w3-bar w3-card w3-white" id="myNavbar">
                     <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                    <i class="fa fa-bars"></i>
-                </a>
+                        <i class="fa fa-bars"></i>
+                    </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <?php
-                if (isset($_SESSION["status_user"])) {
-                    $status_user = $_SESSION["status_user"];
-                    if ($status_user == 0 || $status_user == 1) {
-                        echo "
-                        <a href=\""; echo base_url('/site/tambah_peminjam/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
-                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
-                        <a href=\""; echo base_url('/site/cek_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
+                    <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                    <?php
+                    if (isset($_SESSION["status_user"])) {
+                        $status_user = $_SESSION["status_user"];
+                        if ($status_user == 0 || $status_user == 1) {
+                            echo "
+                        <a href=\"";
+                            echo base_url('/site/tambah_peminjam/');
+                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
+                        <a href=\"";
+                            echo base_url('/site/tambah_peminjaman/');
+                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
+                        <a href=\"";
+                            echo base_url('/site/cek_peminjaman/');
+                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
                         ";
-                    } else {
-                        echo "
-                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        <a href=\""; echo base_url('/site/ubah_password/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
+                        } else {
+                            echo "
+                        <a href=\"";
+                            echo base_url('/site/tambah_peminjaman/');
+                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        <a href=\"";
+                            echo base_url('/site/ubah_password/');
+                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
                         ";
+                        }
                     }
-                }
-                ?>
-                
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
+                    ?>
+
+                    <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
                 </div>
             </div>
 
@@ -137,12 +147,34 @@
 
                 <form action='<?php echo base_url('/PeminjamanControl/konfirmasi'); ?>'>
                     <table><tr style='text-align: center'>
+                            <?php
+                            if ($status_user == 0 || $status_user == 1) {
+                            echo "<th>ID PEMINJAM</th>
+                            <td><select name='peminjam'>";
+                            foreach ($id_peminjam as $r):
+                                echo "
+                                    <option value='$r->id_user'>$r->nama_user</option>
+                                    ";
+                            endforeach;
+                            echo "</select></td>
                             <th>TANGGAL PINJAM</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker' name='tgl_pinjam' placeholder="Klik untuk isi"></td>
-                        </tr>
-                        <tr style='text-align: center'>
+                            <td class='inputTanggal'><input type='text' id='datepicker' name='tgl_pinjam' placeholder='Klik untuk isi'></td>
+                            </tr>
+                            <tr style='text-align: center'>
+                            <th></th>
+                            <td></td>
                             <th>TANGGAL KEMBALI</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder="Klik untuk isi"></td>
+                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>";
+                            }else {
+                                echo "<input type='hidden' name='peminjam' value=''>
+                                    <th>TANGGAL PINJAM</th>
+                            <td class='inputTanggal'><input type='text' id='datepicker' name='tgl_pinjam' placeholder='Klik untuk isi'></td>
+                            </tr>
+                            <tr style='text-align: center'>
+                            <th>TANGGAL KEMBALI</th>
+                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>";
+                            }
+                            ?>
                         </tr></table>
                     <table class="w3-table w3-striped w3-bordered" align="center">
                         <thead>

@@ -8,26 +8,23 @@
 class Users extends CI_Model {
 
     function panggil_data_user() {
-        $q = $this->db->query("SELECT * FROM `user` WHERE id_user != 'admin' ");
-        return $q;
+        $q = $this->db->query("SELECT * FROM `user`");
+        return $q->result();
     }
 
     function panggil_data_pegawai() {
         $q = $this->db->query("SELECT * FROM `user` WHERE STATUS_USER = 1");
-        return $q->num_rows();
-        ;
+        return $q;
     }
 
     function panggil_data_internal() {
         $q = $this->db->query("SELECT * FROM `user` WHERE STATUS_USER = 2");
-        return $q->num_rows();
-        ;
+        return $q;
     }
 
     function panggil_data_eksternal() {
         $q = $this->db->query("SELECT * FROM `user` WHERE STATUS_USER = 3");
-        return $q->num_rows();
-        ;
+        return $q;
     }
 
     function panggil_data_peminjam() {
@@ -35,31 +32,68 @@ class Users extends CI_Model {
         return $q;
     }
 
-    function panggil_jumlah_pegawai() {
-        $q = $this->db->query("SELECT COUNT(*) FROM user WHERE STATUS_USER = 1");
+    function panggil_jumlah_pegawai($status_user) {
+        $q = $this->db->query("SELECT * FROM user WHERE STATUS_USER = $status_user");
         return $q->num_rows();
-        ;
     }
 
     function panggil_jumlah_internal() {
         $q = $this->db->query("SELECT COUNT(*) FROM user WHERE STATUS_USER = 2");
-        return $q->num_rows();
-        ;
+        return $q;
     }
 
     function panggil_jumlah_eksternal() {
         $q = $this->db->query("SELECT COUNT(*) FROM user WHERE STATUS_USER = 3");
-        return $q->num_rows();
-        ;
+        return $q;
+    }
+    
+    function id_otomatis($status_user){
+        $jumlah = $this->panggil_jumlah_pegawai($status_user);
+        $jumlah = $jumlah + 1;
+        $id = '';
+        if($status_user == 0){
+            if ($jumlah < 10) {
+                $id = 'AD00' . $jumlah;
+            } elseif ($jumlah >= 10 && $jumlah < 100){
+                $id = 'AD0' . $jumlah;
+            } else {
+                $id = 'AD' . $jumlah;
+            }
+        } elseif ($status_user == 1) {
+            if ($jumlah < 10) {
+                $id = 'CSSD00' . $jumlah;
+            } elseif ($jumlah >= 10 && $jumlah < 100){
+                $id = 'CSSD0' . $jumlah;
+            } else {
+                $id = 'CSSD' . $jumlah;
+            }
+        } elseif ($status_user == 2) {
+            if ($jumlah < 10) {
+                $id = 'I00' . $jumlah;
+            } elseif ($jumlah >= 10 && $jumlah < 100){
+                $id = 'I0' . $jumlah;
+            } else {
+                $id = 'I' . $jumlah;
+            }
+        } else {
+            if ($jumlah < 10) {
+                $id = 'E00' . $jumlah;
+            } elseif ($jumlah >= 10 && $jumlah < 100){
+                $id = 'E0' . $jumlah;
+            } else {
+                $id = 'E' . $jumlah;
+            }
+        }
+        return $id;
     }
 
-    function tambah_data_pegawai($nama_instansi, $password, $no_tlp) {
+    function tambah_data_pegawai($nama_user, $password, $no_tlp, $status_user) {
         //generate id
-        $jumlah = $this->panggil_jumlah_pegawai();
-        $id = 'CSSD' + $jumlah;
+        $id = $this->id_otomatis($status_user);
+        
         //input user
         $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
-                . "VALUES ('$id','$nama_instansi','$password','$no_tlp',1)";
+                . "VALUES ('$id','$nama_user','$password','$no_tlp',$status_user)";
         $this->db->query($q);
 
         $q = "SELECT * FROM user WHERE id_user = '$id'";
@@ -77,9 +111,9 @@ class Users extends CI_Model {
         //generate id
         $jumlah = $this->panggil_jumlah_internal();
         if ($jumlah < 10) {
-            $id = 'I0' . $jumlah;
+            $id = 'I0' + $jumlah;
         } else {
-            $id = 'I' . $jumlah;
+            $id = 'I' + $jumlah;
         }
         //input user
         $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
@@ -98,33 +132,25 @@ class Users extends CI_Model {
     }
 
     function tambah_data_eksternal($nama_instansi, $password, $no_tlp) {
-        $q = "SELECT * FROM user WHERE `nama_user` = '$nama_instansi'";
-        $cek = $this->db->query($q);
         //generate id
-        if ($cek->num_rows() == 0) {
-            $jumlah = $this->panggil_jumlah_eksternal();
-            if ($jumlah < 1) {
-                $id = 'E00';
-            } else if ($jumlah > 0 && $jumlah < 10) {
-                $id = 'E0' . $jumlah;
-            } else {
-                $id = 'E' . $jumlah;
-            }
+        $jumlah = $this->panggil_jumlah_eksternal();
+        if ($jumlah < 10) {
+            $id = 'E0' + $jumlah;
+        } else {
+            $id = 'E' + $jumlah;
+        }
 
-            //input user
-            $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
-                    . "VALUES ('$id','$nama_instansi','$password','$no_tlp',3)";
-            $this->db->query($q);
+        //input user
+        $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
+                . "VALUES ('$id','$nama_instansi','$password','$no_tlp',3)";
+        $this->db->query($q);
 
-            $q = "SELECT * FROM user WHERE `id_user` = '$id'";
-            $cek = $this->db->query($q);
-            //jika berhasil
-            if ($cek->num_rows() == 1) {
-                return TRUE;
-                //jika tidak berhasil
-            } else {
-                return FALSE;
-            }
+        $q = "SELECT * FROM user WHERE `id_user` = '$id'";
+        $cek = $this->db->query($q);
+        //jika berhasil
+        if ($cek->num_rows() == 1) {
+            return TRUE;
+            //jika tidak berhasil
         } else {
             return FALSE;
         }
@@ -135,7 +161,7 @@ class Users extends CI_Model {
         if ($newpassword == $confirmpassword) {
             $validasi = $this->login($username, $oldpassword);
             if ($validasi != null) {
-                $query = "UPDATE `user` SET `password`='$newpassword' WHERE `id_user`='$username' AND `status_user` != 0";
+                $query = "UPDATE `user` SET `password`='$newpassword' WHERE `id_user`='$username'";
                 $this->db->query($query);
                 //cek
                 $q = "SELECT * FROM user WHERE id_user = '$username' AND password = '$newpassword'";
@@ -150,6 +176,23 @@ class Users extends CI_Model {
             } else {
                 return FALSE;
             }
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function ubah_password_super($username, $newpassword) {
+        //update password
+
+        $query = "UPDATE `user` SET `password`='$newpassword' WHERE `id_user`='$username'";
+        $this->db->query($query);
+        //cek
+        $q = "SELECT * FROM user WHERE id_user = '$username' AND password = '$newpassword'";
+        $cek = $this->db->query($q);
+        //jika berhasil
+        if ($cek->num_rows() == 1) {
+            $this->db->query("commit");
+            return TRUE;
         } else {
             return FALSE;
         }
