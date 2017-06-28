@@ -60,9 +60,9 @@ class PeminjamanControl extends CI_Controller {
             $index++;
         }
         //simpan hasil ke dalam array
-        $data['pinjam_instrumen'] = $data;
+        $tampil['pinjam_instrumen'] = $this->Peminjaman->panggil_pinjam($user,$key,$input,$tgl_pinjam,$tgl_kembali);
         //panggil view
-        $this->load->view('result_peminjaman', $data);
+        $this->load->view('result_peminjaman', $tampil);
     }
 
 }

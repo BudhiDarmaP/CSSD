@@ -120,6 +120,7 @@
                 <th style = 'text-align: center;'>TANGGAL PINJAM</th>
                 <th style = 'text-align: center;'>TANGGAL KEMBALI</th>
                 <th style = 'text-align: center;'>JUMLAH</th>
+                <th style = 'text-align: center;'>STATUS</th>
                 </tr>
                 <tbody>";
                     foreach ($pinjam_instrumen as $r):
@@ -129,8 +130,22 @@
                 <td style='text-align: center'><b>$r->id_instrumen</b></td>
                 <td style='text-align: center'>$r->tanggal_pinjam</td>
                 <td style='text-align: center'>$r->tanggal_kembali</td>
-                <td style='text-align: center'>$r->jumlah</td>
+                <td style='text-align: center'>$r->jumlah_pinjam</td>";
+                        if ($r->status_peminjaman == 0) {
+                        echo "
+                <td style='text-align: center'><h5 style='color:orange'>MENUNGGU APPROVE</h5></td>
                 </tr>";
+                        }
+                        else if ($r->status_peminjaman == 1) {
+                        echo "
+                <td style='text-align: center'><h5 style='color:orange'>BELUM DIKEMBALIKAN</h5></td>
+                </tr>";
+                        }
+                        else if ($r->status_peminjaman == 2) {
+                        echo "
+                <td style='text-align: center'><h5 style='color:orange'>SUDAH DIKEMBALIKAN</h5></td>
+                </tr>";
+                        }
                     endforeach;
                     $this->session->unset_userdata('pinjam_instrumen');
                 }

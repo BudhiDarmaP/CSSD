@@ -35,23 +35,26 @@ class Peminjaman extends CI_Model {
             $this->db->query($insert);
             
             //panggil data peminjaman
-            $select2 = "SELECT * FROM `peminjaman`"
-                    . "WHERE (id_peminjam = '$id_peminjam' AND id_instrumen='$id_instrumen' "
-                    . "AND tanggal_pinjam=STR_TO_DATE('$tgl_pinjam', '%m/%d/%Y') "
-                    . "AND tanggal_kembali=STR_TO_DATE('$tgl_kembali', '%m/%d/%Y') "
-                    . "AND jumlah_pinjam=$jumlah AND status_peminjaman=0)";
-            $hasil = $this->db->query($select2);
-            return $hasil->result();
+//            $select2 = "SELECT * FROM `peminjaman`"
+//                    . "WHERE (id_peminjam = '$id_peminjam' AND id_instrumen='$id_instrumen' "
+//                    . "AND tanggal_pinjam=STR_TO_DATE('$tgl_pinjam', '%m/%d/%Y') "
+//                    . "AND tanggal_kembali=STR_TO_DATE('$tgl_kembali', '%m/%d/%Y') "
+//                    . "AND jumlah_pinjam=$jumlah AND status_peminjaman=0)";
+//            $hasil = $this->db->query($select2);
+//            return $hasil->result();
+            return TRUE;
         } else {
             return NULL;
         }
     }
 
     function panggil_pinjam($user, $id_inst, $jumlah, $tgl_pinjam, $tgl_kembali) {
-        if ($user == NULL || $id_inst == NULL) {
-            $q = "SELECT * FROM `peminjaman` WHERE status_peminjaman=0";
-            $data = $this->db->query($q);
-            return $data->result();
+            $select2 = "SELECT * FROM `peminjaman`"
+                    . "WHERE (id_peminjam = '$user' AND id_instrumen='$id_inst' "
+                    . "AND tanggal_pinjam=STR_TO_DATE('$tgl_pinjam', '%m/%d/%Y') "
+                    . "AND tanggal_kembali=STR_TO_DATE('$tgl_kembali', '%m/%d/%Y') "
+                    . "AND jumlah_pinjam=$jumlah AND status_peminjaman=0)";
+            $hasil = $this->db->query($select2);
+            return $hasil->result();
         }
-    }
 }
