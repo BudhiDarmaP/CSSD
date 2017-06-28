@@ -47,16 +47,14 @@ class PeminjamanControl extends CI_Controller {
         $tgl_kembali = $_GET['tgl_kembali'];
         //generate id
         $tgl = date('YmdHis');
-        $id_transaksi = $user.$tgl;
+        $id_transaksi = $user . $tgl;
         //deklarasi array
         $data[count($id)] = null;
         $index = 1;
         //deklarasi input
         $input;
         //melooping array input
-        foreach ($jumlah as $input) {
-            
-        }
+        foreach ($jumlah as $input) {}
         //looping array id
         foreach ($id as $key) {
             //simpan peminjaman

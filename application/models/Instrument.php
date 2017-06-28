@@ -36,9 +36,9 @@ class Instrument extends CI_Model {
             return $q->row();        
     }
 
-    function panggil_data_jumlah() {
-        $q = $this->db->query("SELECT * FROM `instrumen` WHERE STERIL > 0");
-        return $q->result;
+    function panggil_data_steril($id) {
+        $q = $this->db->query("SELECT STERIL FROM `instrumen` WHERE id_instrumen = '$id'");
+        return $q->result();
     }
 
     function tambah_data_instrument($nama, $jumlah) {
