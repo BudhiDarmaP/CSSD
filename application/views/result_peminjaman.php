@@ -138,12 +138,12 @@
                         }
                         else if ($r->status_peminjaman == 1) {
                         echo "
-                <td style='text-align: center'><h5 style='color:orange'>BELUM DIKEMBALIKAN</h5></td>
+                <td style='text-align: center'><h5 style='color:red'>BELUM DIKEMBALIKAN</h5></td>
                 </tr>";
                         }
                         else if ($r->status_peminjaman == 2) {
                         echo "
-                <td style='text-align: center'><h5 style='color:orange'>SUDAH DIKEMBALIKAN</h5></td>
+                <td style='text-align: center'><h5 style='color:green'>SUDAH DIKEMBALIKAN</h5></td>
                 </tr>";
                         }
                     endforeach;
