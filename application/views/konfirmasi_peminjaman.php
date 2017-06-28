@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <title>Peminjaman</title>
@@ -33,7 +32,6 @@
             color: #777;
             line-height: 1.8;
         }
-
         /* Create a Parallax Effect */
         .bgimg-1, .bgimg-2, .bgimg-3 {
             background-attachment: fixed;
@@ -41,16 +39,13 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-
         /* First image (Logo. Full height) */
         .bgimg-1 {
             background-image: url('Gambar/Rute2.png');
             min-height: 100%;
         }
-
         .w3-wide {letter-spacing: 10px;}
         .w3-hover-opacity {cursor: pointer;}
-
         /* Turn off parallax scrolling for tablets and phones */
         @media only screen and (max-device-width: 1024px) {
             .bgimg-1, .bgimg-2, .bgimg-3 {
@@ -71,14 +66,12 @@
             cursor: pointer;
             margin: 5px;
         }
-
         .buttonPinjam span {
             cursor: pointer;
             display: inline-block;
             position: relative;
             transition: 0.5s;
         }
-
         .buttonPinjam span:after {
             content: '\00bb';
             position: absolute;
@@ -87,7 +80,6 @@
             right: 20px;
             transition: 0.5s;
         }
-
         .buttonPinjam:hover span {
             padding-right: 25px;
         }
@@ -103,14 +95,29 @@
             <div class="w3-top">
                 <div class="w3-bar w3-card w3-white" id="myNavbar">
                     <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                        <i class="fa fa-bars"></i>
-                    </a>
+                    <i class="fa fa-bars"></i>
+                </a>
 
-                    <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                    <a href="<?php echo base_url('/site/tambah_peminjam/'); ?>" class="w3-bar-item w3-button     w3-hide-small"><i class="fa fa-user"></i>TAMBAH PEMINJAM</a>
-                    <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH PEMINJAMAN</a>
-                    <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-check"></i>CEK PEMINJAMAN</a>
-                    <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <?php
+                if (isset($_SESSION["status_user"])) {
+                    $status_user = $_SESSION["status_user"];
+                    if ($status_user == 0 || $status_user == 1) {
+                        echo "
+                        <a href=\""; echo base_url('/site/tambah_peminjam/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
+                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
+                        <a href=\""; echo base_url('/site/cek_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
+                        ";
+                    } else {
+                        echo "
+                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        <a href=\""; echo base_url('/site/ubah_password/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
+                        ";
+                    }
+                }
+                ?>
+                
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
                 </div>
             </div>
 
@@ -198,18 +205,14 @@
             <script>
                 // Get the modal
                 var modal = document.getElementById('id01');
-
                 // When the user clicks anywhere outside of the modal, close it
                 window.onclick = function (event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
                     }
                 }
-
                 var modal2 = document.getElementById('id02');
-
                 // When the user clicks anywhere outside of the modal, close it
-
                 modal2.style.display = "block";
                 window.onclick = function (event) {
                     if (event.target == modal2) {

@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="./images/Logo.png" rel="icon" type="image/png"/>
+        <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
         <title>Login</title>
     </head>
@@ -136,6 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <input type="text" name="username" id="username" placeholder="Username" required="required" style="width:100%;height:60px"/>
                         <input type="password" name="password" id="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
                         <button class="w3-goldyellow"><h3>Login</h3></button>
+
                     </form>
                 </div>
             </div>

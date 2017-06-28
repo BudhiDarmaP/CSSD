@@ -45,6 +45,9 @@ class PeminjamanControl extends CI_Controller {
         $jumlah = $_GET['jumlah'];
         $tgl_pinjam = $_GET['tgl_pinjam'];
         $tgl_kembali = $_GET['tgl_kembali'];
+        //generate id
+        $tgl = date('YmdHis');
+        $id_transaksi = $user.$tgl;
         //deklarasi array
         $data[count($id)] = null;
         $index = 1;
@@ -52,15 +55,16 @@ class PeminjamanControl extends CI_Controller {
         $input;
         //melooping array input
         foreach ($jumlah as $input) {
+            
         }
         //looping array id
         foreach ($id as $key) {
             //simpan peminjaman
-                $data[$index] = $this->Peminjaman->pinjam($user, $key, $input, $tgl_pinjam, $tgl_kembali);
+            $data[$index] = $this->Peminjaman->pinjam($id_transaksi, $user, $key, $input, $tgl_pinjam, $tgl_kembali);
             $index++;
         }
         //simpan hasil ke dalam array
-        $tampil['pinjam_instrumen'] = $this->Peminjaman->panggil_pinjam($user,$key,$input,$tgl_pinjam,$tgl_kembali);
+        $tampil['pinjam_instrumen'] = $this->Peminjaman->panggil_pinjam($id_transaksi);
         //panggil view
         $this->load->view('result_peminjaman', $tampil);
     }

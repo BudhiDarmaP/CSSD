@@ -102,11 +102,11 @@ and open the template in the editor.
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i> CARI</a>
-                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i> TAMBAH</a>
-                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i> HAPUS</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>            
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
+                <a href="<?php echo base_url('/site/tambah_peminjam/'); ?>" class="w3-bar-item w3-button     w3-hide-small"><i class="fa fa-user"></i>TAMBAH PEMINJAM</a>
+                <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH PEMINJAMAN</a>
+                <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-check"></i>CEK PEMINJAMAN</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
 
@@ -114,14 +114,14 @@ and open the template in the editor.
         </div>
         
         <?php
-            if (isset($_SESSION["tambah_instrumen"])) {
-                $ubah = $_SESSION["tambah_instrumen"];
+            if (isset($_SESSION["tambah_peminjam"])) {
+                $ubah = $_SESSION["tambah_peminjam"];
                 if ($ubah) {
-                    echo "<script>swal(\"Tambah Instrumen Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
+                    echo "<script>swal(\"Tambah Peminjam Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
                 } else {
-                    echo "<script>swal(\"Tambah Instrumen Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
+                    echo "<script>swal(\"Tambah Peminjam Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
                 }
-                $this->session->unset_userdata('tambah_instrumen');
+                $this->session->unset_userdata('tambah_peminjam');
             }
             ?>
 
@@ -132,23 +132,27 @@ and open the template in the editor.
         <div class="w3-container">
             <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">PENAMBAHAN INSTRUMEN BARU</b>
+                    <b style="color: green">PENAMBAHAN PEMINJAM EKSTERNAL</b>
                 </div>
                 <table align="center"><tr><th>
                     <div class="w3-container w3-white w3-padding-16 w3-card w3-margin-bottom">
-                        <form action="<?php echo base_url('/InstrumenControl/tambah'); ?>">
+                        <form action="<?php echo base_url('/UserControl/tambahEksternal'); ?>">
                             <div class="w3-row-padding">
                                 <div class=" w3-margin-bottom">
-                                    <label>Masukkan Nama Instrumen</label>
-                                    <input class="w3-input w3-border" type="text" value="" name="nama_instrumen" required="" placeholder="Nama Instrumen">
+                                    <label>Masukkan Nama Peminjam</label>
+                                    <input class="w3-input w3-border" type="text" value="" name="nama_peminjam" required="" placeholder="Nama Peminjam">
                                 </div>
 
                                 <div class=" w3-margin-bottom">
-                                    <label>Masukkan Jumlah Instrumen</label>
-                                    <input class="w3-input w3-border" type="number" value="" name="jumlah_instrumen" required="" placeholder="0" onkeypress="return isNumber(event)">
+                                    <label>Masukkan No Telephone</label>
+                                    <input class="w3-input w3-border" type="text" value="" name="no_telepon" required="" placeholder="No Telepon" onkeypress="return isNumber(event)">
+                                </div>
+                                <div class=" w3-margin-bottom">
+                                    <label>Masukkan Password</label>
+                                    <input class="w3-input w3-border" type="password" value="" name="password" required="" placeholder="Password">
                                 </div>
                                 <div class="w3-margin-bottom w3-center">
-                                    <button class="buttonTambah" type="submit" name="ubah" value="yes"><i class="fa fa-plus"></i> TAMBAH</button>
+                                    <button class="buttonTambah" type="submit" name="tambah" value="yes"><i class="fa fa-plus"></i> TAMBAH</button>
                                 </div>
                             </div>
                         </form>

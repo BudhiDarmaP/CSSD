@@ -16,7 +16,10 @@ and open the template in the editor.
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
-        <title>Instrument</title>
+        <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
+        <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
+        <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
+        <title>Hapus Instrument</title>
     </head>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -99,10 +102,10 @@ and open the template in the editor.
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i>CARI</a>
-                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH</a>
-                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i>HAPUS</a>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i> CARI</a>
+                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i> TAMBAH</a>
+                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i> HAPUS</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -110,13 +113,53 @@ and open the template in the editor.
         <div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
         </div>
 
+        <?php
+        if (isset($_SESSION["hapus_instrumen"])) {
+            $ubah = $_SESSION["hapus_instrumen"];
+            if ($ubah == 1) {
+                echo "<script>swal(\"Hapus Instrumen Berhasil\", \"\", \"success\");</script>";
+            } elseif ($ubah == 0) {
+                echo "<script>swal({
+                    title: \"Tidak ada penghapusan instrumen\",
+                    text: \"Data Instrumen Aman.\",
+                    timer: 3000,
+                    showConfirmButton: false,
+                    animation: \"slide-from-top\",
+                    });</script>";
+            } else {
+                echo "<script>swal(\"Centang Checkbox Untuk Menghapus\", \"\", \"error\");</script>";
+            }
+            $this->session->unset_userdata('hapus_instrumen');
+        }
+
+        if (isset($_SESSION["hapus_instrumen_confirm"])) {
+            $list_id = $_SESSION["listid"];
+            echo "<div id='id02' class='modal w3-responsive'>
+                <div class='modal-content w3-animate-opacity w3-black' style='margin-top:15%;width:100%'>
+                    <div class='container'>
+                        <h5 class='w3-center'>Apakah Anda Yakin Akan Menghapus Data Instrumen?</i></h5>
+                    </div>
+                    <div class='container w3-center'>
+                        <a class='btn btn-danger w3-xlarge' href='";
+            echo base_url('/InstrumenControl/hapusFix?denied=1/');
+            echo "' style='vertical-align:middle;'><i class='fa fa-check-square-o'></i> <span>Ya</span></a>
+                        <a class='btn btn-success w3-xlarge' href='";
+            echo base_url('/InstrumenControl/hapusFix?denied=0/');
+            echo "'><i class='fa fa-remove'></i> <span onclick=\"document.getElementById('id02').style.display = 'none'\">Tidak</span></a>
+                    </div>
+                </div>
+            </div>";
+            $this->session->unset_userdata('hapus_instrumen_confirm');
+        }
+        ?>
+
         <div class="w3-content w3-container w3-center" id="about">
             <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
         </div>
 
         <div class="w3-container">
             <div class="w3-container w3-responsive w3-padding-24">
-                <form action="./BusControl">
+                <form action="<?php echo base_url('/InstrumenControl/cariHapus'); ?>">
                     <div class="col-xs-12">
                         <table style="width:30%">
                             <tr>
@@ -131,40 +174,82 @@ and open the template in the editor.
                     </div>
                 </form>
             </div>
-            
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
+
+
+            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-opacity">
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                     <b style="color: green">Hapus Instrumen Di CSSD</b>
                 </div>
-                <form>
-                    <table class="w3-table w3-striped w3-bordered" align="center">
+                <form action="<?php echo base_url('/InstrumenControl/hapus'); ?>">
+                    <table class="w3-table w3-striped w3-bordered w3-card" align="center" style="width:60%">
                         <thead>
                             <tr class="w3-theme">
                                 <th style="text-align: center;">ID INSTRUMEN</th>
                                 <th style="text-align: center;">NAMA INSTRUMEN</th>
                                 <th style="text-align: center;">JUMLAH TOTAL INSTRUMEN</th>
                                 <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
+                                <th style="text-align: center;">PILIH</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            if (isset($ada_instrumen)) {
-                                foreach ($ada_instrumen as $r):
-
-                                    echo "
+                            if (isset($cari_instrumen)) {
+                                foreach ($cari_instrumen as $r):
+                                    if ($r->jumlah > 0) {
+                                        echo "
                                     <tr>
                                     <td style='text-align: center'>$r->id_instrumen</td>
                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
                                     <td style='text-align: center'>$r->jumlah</td>
                                     <td style='text-align: center'>$r->steril</td>
+                                    <td style='text-align: center'><input type='checkbox' name='id[]' value='$r->id_instrumen'></td>
                                     </tr>";
+                                    }
                                 endforeach;
+                                $this->session->unset_userdata('nama_instrumen');
+                                $this->session->unset_userdata('cari_instrumen');
+                            } else {
+                                if (isset($ada_instrumen)) {
+
+                                    foreach ($ada_instrumen as $r):
+                                        if ($r->jumlah > 0) {
+                                            echo "
+                                    <tr>
+                                    <td style='text-align: center'>$r->id_instrumen</td>
+                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                    <td style='text-align: center'>$r->jumlah</td>
+                                    <td style='text-align: center'>$r->steril</td>
+                                    <td style='text-align: center'><input type='checkbox' name='id[]' value='$r->id_instrumen'></td>
+                                    </tr>";
+                                        }
+                                    endforeach;
+                                }
                             }
                             ?>
-
+                            <?php
+//                            if (isset($ada_instrumen)) {
+//                                foreach ($ada_instrumen as $r):
+//
+//                                    echo "
+//                                    <tr>
+//                                    <td style='text-align: center'>$r->id_instrumen</td>
+//                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+//                                    <td style='text-align: center'>$r->jumlah</td>
+//                                    <td style='text-align: center'>$r->steril</td>
+//                                    
+//                                    </tr>";
+//                                endforeach;
+//                            }
+//                            
+                            ?>
+                            <tr>
+                                <td colspan="5" style="text-align: right">
+                                    <button class="buttonTambah w3-center" style="width: 20%" type="submit" name="ubah" value="yes"><i class="fa fa-warning"></i>HAPUS</button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
-                    <button class="buttonTambah w3-center" style="width: 12%" type="submit" name="ubah" value="yes"><i class="fa fa-warning"></i>HAPUS</button>
+
                 </form>
             </div>
         </div>
@@ -213,11 +298,11 @@ and open the template in the editor.
             // When the user clicks anywhere outside of the modal, close it
 
             modal2.style.display = "block";
-            window.onclick = function(event) {
-                if (event.target == modal2) {
-                    modal2.style.display = "none";
-                }
-            }
+//            window.onclick = function(event) {
+//                if (event.target == modal2) {
+//                    modal2.style.display = "none";
+//                }
+//            }
         </script>
     </footer>
 </body>

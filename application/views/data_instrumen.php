@@ -17,7 +17,7 @@ and open the template in the editor.
         <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
         <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
         <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
-        <link href="./images/Logo.png" rel="icon" type="image/png"/>
+        <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
         <script src="JavaScript.js"></script>
         <title>Instrument</title>
     </head>
@@ -62,10 +62,10 @@ and open the template in the editor.
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i>CARI</a>
-                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH</a>
-                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i>HAPUS</a>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i> CARI</a>
+                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i> TAMBAH</a>
+                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i> HAPUS</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -95,144 +95,129 @@ and open the template in the editor.
                 </form>
             </div>
 
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
+            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-opacity" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
-                </div>
-
-                <table class="w3-table w3-striped w3-bordered" align="center">
-                    <thead>
-                        <tr class="w3-theme">
-                            <th style="text-align: center;">ID INSTRUMEN</th>
-                            <th style="text-align: left;">NAMA INSTRUMEN</th>
-                            <th style="text-align: center;">JUMLAH TOTAL INSTRUMEN</th>
-                            <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
-                        </tr>
-                    <tbody>
+                    <b class="w3-xlarge"style="color: green">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
+                    <b style="color: black"><br>Total Instrumen 
                         <?php
-                        if (isset($cari_instrumen)) {
-                            foreach ($cari_instrumen as $r):
-                                echo "
-                                    <tr>
-                                    <td style='text-align: center'>$r->id_instrumen</td>
-                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                                    <td style='text-align: center'>$r->jumlah</td>
-                                    <td style='text-align: center'>$r->steril</td>
-                                    </tr>";
-                            endforeach;
-                            $this->session->unset_userdata('nama_instrumen');
-                            $this->session->unset_userdata('cari_instrumen');
-                        } else {
-                            if (isset($ada_instrumen)) {
-                                foreach ($ada_instrumen as $r):
-
-                                    echo "
-                                    <tr>
-                                    <td style='text-align: center'>$r->id_instrumen</td>
-                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                                    <td style='text-align: center'>$r->jumlah</td>
-                                    <td style='text-align: center'>$r->steril</td>
-                                    </tr>";
-                                endforeach;
+                        if (isset($ada_instrumen) || isset($cari_instrumen)) {
+                            $total = 0;
+                            if (isset($cari_instrumen)) {
+                                $total = count($cari_instrumen);
+                            } else {
+                                $total = count($ada_instrumen);
                             }
+                            echo ": $total</b>";
                         }
                         ?>
+                        </div>
 
-                    </tbody>
-                </table>
-            </div>
-            <div class="w3-container w3-margin-bottom">
+                        <table class="w3-table w3-striped w3-bordered" align="center">
+                            <thead>
+                                <tr class="w3-theme">
+                                    <th style="text-align: center;">ID INSTRUMEN</th>
+                                    <th style="text-align: left;">NAMA INSTRUMEN</th>
+                                    <th style="text-align: center;">JUMLAH TOTAL INSTRUMEN</th>
+                                    <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
+                                </tr>
+                            <tbody>
+                                <?php
+                                if (isset($cari_instrumen)) {
+                                    foreach ($cari_instrumen as $r):
+                                        if ($r->jumlah > 0) {
+                                            echo "
+                                    <tr>
+                                    <td style='text-align: center'>$r->id_instrumen</td>
+                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                    <td style='text-align: center'>$r->jumlah</td>
+                                    <td style='text-align: center'>$r->steril</td>
+                                    </tr>";
+                                        }
+                                    endforeach;
+                                    $this->session->unset_userdata('nama_instrumen');
+                                    $this->session->unset_userdata('cari_instrumen');
+                                } else {
+                                    if (isset($ada_instrumen)) {
+                                        foreach ($ada_instrumen as $r):
+                                            if ($r->jumlah > 0) {
+                                                echo "
+                                    <tr>
+                                    <td style='text-align: center'>$r->id_instrumen</td>
+                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                    <td style='text-align: center'>$r->jumlah</td>
+                                    <td style='text-align: center'>$r->steril</td>
+                                    </tr>";
+                                            }
+                                        endforeach;
+                                    }
+                                }
+                                ?>
 
-                <p class="w3-center">     
-                    <br>Halaman ini berisikan informasi tentang semua daftar instrumen yang terdapat di CSSD RSUD Karangasem.<br>
-                    Data yang terdapat pada tabel inforasi instrumen adalah data yang valid.<br>
-                    <br>Halaman ini bertujuan untuk memudahkan pengguna dalam melakukan pencari ataupun melihat daftar instrumen yang tersedia.
-                    <br>
-                </p>
+                            </tbody>
+                        </table>
+                </div>
+                <div class="w3-container w3-margin-bottom">
+
+                    <p class="w3-center">     
+                        <br>Halaman ini berisikan informasi tentang semua daftar instrumen yang terdapat di CSSD RSUD Karangasem.<br>
+                        Data yang terdapat pada tabel inforasi instrumen adalah data yang valid.<br>
+                        <br>Halaman ini bertujuan untuk memudahkan pengguna dalam melakukan pencari ataupun melihat daftar instrumen yang tersedia.
+                        <br>
+                    </p>
+                </div>
+
             </div>
 
         </div>
 
-    </div>
+        <footer class="w3-center w3-green w3-margin-bottom">
+            <div class="w3-section w3-padding-small"></div>
+            <div class="w3-xlarge w3-section">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
 
-    <footer class="w3-center w3-green w3-margin-bottom">
-        <div class="w3-section w3-padding-small"></div>
-        <div class="w3-xlarge w3-section">
-            <i class="fa fa-facebook-official w3-hover-opacity"></i>
-
-        </div>
-        <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-        <div class="w3-section w3-padding-small"></div>
-        <script>
-            function myFunction() {
-                var navbar = document.getElementById("myNavbar");
-                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                    navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                } else {
-                    navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+            </div>
+            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
+            <div class="w3-section w3-padding-small"></div>
+            <script>
+                function myFunction() {
+                    var navbar = document.getElementById("myNavbar");
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                    } else {
+                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+                    }
                 }
-            }
-            function toggleFunction() {
-                var x = document.getElementById("navDemo");
-                if (x.className.indexOf("w3-show") == -1) {
-                    x.className += " w3-show";
-                } else {
-                    x.className = x.className.replace(" w3-show", "");
+                function toggleFunction() {
+                    var x = document.getElementById("navDemo");
+                    if (x.className.indexOf("w3-show") == -1) {
+                        x.className += " w3-show";
+                    } else {
+                        x.className = x.className.replace(" w3-show", "");
+                    }
                 }
-            }
-        </script>
-        <script>
-            // Get the modal
-            var modal = document.getElementById('id01');
+            </script>
+            <script>
+                // Get the modal
+                var modal = document.getElementById('id01');
 
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
                 }
-            }
 
-            var modal2 = document.getElementById('id02');
+                var modal2 = document.getElementById('id02');
 
-            // When the user clicks anywhere outside of the modal, close it
+                // When the user clicks anywhere outside of the modal, close it
 
-            modal2.style.display = "block";
-            window.onclick = function(event) {
-                if (event.target == modal2) {
-                    modal2.style.display = "none";
+                modal2.style.display = "block";
+                window.onclick = function(event) {
+                    if (event.target == modal2) {
+                        modal2.style.display = "none";
+                    }
                 }
-            }
-        </script>
-    </footer>
-</body>
-</html>
-
-<!--<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <table border="1" style="border-collapse: collapse;">
-        <tr style="background: grey">
-            <td>ID Instrument</td>
-            <td>Nama Instrument</td>
-            <td>Jumlah</td>
-            <td>Steril</td>
-            <td colspan="2"></td>
-        </tr>
-<?php foreach ($data as $instrument) { ?>
-                                                    <tr>
-                                                        <td><?php echo $instrument['id_instrument']; ?></td>
-                                                        <td><?php echo $instrument['nama_instrument']; ?></td>
-                                                        <td><?php echo $instrument['jumlah']; ?></td>
-                                                        <td><?php echo $instrument['steril']; ?></td>
-                                                        <td><a href="<?php echo base_url() . "index.php///" . $isntrument['id_peminjam']; ?>">Edit</td>
-                                                        <td><a href="<?php echo base_url() . "index.php/instrument/delete_data/" . $isntrument['id_peminjam']; ?>">Delete</td>
-                                                    </tr>
-<?php } ?>
-    </table>
-    <a href="<?php echo base_url() . "index.php/instrument/add_data"; ?>">Insert</a>
+            </script>
+        </footer>
     </body>
-</html>-->
-
+</html>

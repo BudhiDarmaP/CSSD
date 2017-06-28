@@ -89,10 +89,25 @@
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/tambah_peminjam/'); ?>" class="w3-bar-item w3-button     w3-hide-small"><i class="fa fa-user"></i>TAMBAH PEMINJAM</a>
-                <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH PEMINJAMAN</a>
-                <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-check"></i>CEK PEMINJAMAN</a>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <?php
+                if (isset($_SESSION["status_user"])) {
+                    $status_user = $_SESSION["status_user"];
+                    if ($status_user == 0 || $status_user == 1) {
+                        echo "
+                        <a href=\""; echo base_url('/site/tambah_peminjam/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
+                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
+                        <a href=\""; echo base_url('/site/cek_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
+                        ";
+                    } else {
+                        echo "
+                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        <a href=\""; echo base_url('/site/ubah_password/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
+                        ";
+                    }
+                }
+                ?>
+                
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -109,14 +124,14 @@
         <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
             <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                 <?php
-                if ($pinjam_instrumen[1] == NULL) {
+                if ($pinjam_instrumen == NULL) {
                     echo "<h2 style='text-align: center; color: red'>PEMINJAMAN GAGAL</h2></div>";
                 } else {
                     echo "<b style='color: green'>Daftar Amprah</b></div>
                     <table class = 'w3-table w3-striped w3-bordered' align = 'center'>
                 <thead><tr class = 'w3-theme'>
-                <th style = 'text-align: center;'>ID INSTRUMEN</th>
-                <th style = 'text-align: left;'>NAMA INSTRUMEN</th>
+                <th style = 'text-align: center;'>ID PEMINJAM</th>
+                <th style = 'text-align: center;'>NAMA INSTRUMEN</th>
                 <th style = 'text-align: center;'>TANGGAL PINJAM</th>
                 <th style = 'text-align: center;'>TANGGAL KEMBALI</th>
                 <th style = 'text-align: center;'>JUMLAH</th>
@@ -127,7 +142,7 @@
                         echo "
                 <tr>
                 <td style='text-align: center'>$r->id_peminjam</td>
-                <td style='text-align: center'><b>$r->id_instrumen</b></td>
+                <td style='text-align: center'><b>$r->nama_instrumen</b></td>
                 <td style='text-align: center'>$r->tanggal_pinjam</td>
                 <td style='text-align: center'>$r->tanggal_kembali</td>
                 <td style='text-align: center'>$r->jumlah_pinjam</td>";

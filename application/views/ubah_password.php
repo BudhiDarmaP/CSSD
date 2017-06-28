@@ -14,7 +14,7 @@
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
-    <link href="./images/Logo.png" rel="icon" type="image/png"/>
+    <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
         body, html {
@@ -67,12 +67,41 @@
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-scissors"></i>INSTRUMEN</a>
-                <a href="<?php echo base_url('/site/peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-pencil"></i>PEMINJAMAN</a>
-                <a href="<?php echo base_url('/site/laporan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i>LAPORAN</a>
-                <a href="<?php echo base_url('/site/ubah_password/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i>UBAH PASSWORD</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <?php
+                if (isset($_SESSION["status_user"])) {
+                    $status_user = $_SESSION["status_user"];
+                    if ($status_user == 0) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/tambah_user/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-users\"></i> TAMBAH USER</a>
+                        ";
+                    } elseif ($status_user == 1) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/instrumen/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
+                            <a href=\"";
+                        echo base_url('/site/peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                            <a href=\"";
+                        echo base_url('/site/laporan/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
+                        ";
+                    } elseif ($status_user == 2) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/tambah_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        ";
+                    } else {
+                        redirect(base_url('/LoginControl/destroy_session/'));
+                    }
+                }
+                ?>
+                <a href="<?php echo base_url('/site/ubah_password/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> UBAH PASSWORD</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
 
@@ -133,15 +162,6 @@
             </div>
         </div>
 
-
-        <!--        <footer class="w3-center w3-green w3-margin-bottom">
-                    <div class="w3-section w3-padding-small"></div>
-                    <div class="w3-xlarge w3-section">
-                        <i class="fa fa-facebook-official w3-hover-opacity"></i>
-        
-                    </div>
-                    <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-                    <div class="w3-section w3-padding-small"></div>-->
         <script>
             function myFunction() {
                 var navbar = document.getElementById("myNavbar");
