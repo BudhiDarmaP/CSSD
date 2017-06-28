@@ -12,7 +12,7 @@
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
-    <link href="./images/Logo.png" rel="icon" type="image/png"/>
+    <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
         body, html {
@@ -65,12 +65,41 @@
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-scissors"></i>INSTRUMEN</a>
-                <a href="<?php echo base_url('/site/peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-pencil"></i>PEMINJAMAN</a>
-                <a href="<?php echo base_url('/site/laporan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i>LAPORAN</a>
-                <a href="<?php echo base_url('/site/ubah_password/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i>UBAH PASSWORD</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-green"><i class="fa fa-sign-out"></i> KELUAR</a>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <?php
+                if (isset($_SESSION["status_user"])) {
+                    $status_user = $_SESSION["status_user"];
+                    if ($status_user == 0) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/tambah_user/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-users\"></i> USER</a>
+                        ";
+                    } elseif ($status_user == 1) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/instrumen/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
+                            <a href=\"";
+                        echo base_url('/site/peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                            <a href=\"";
+                        echo base_url('/site/laporan/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
+                        ";
+                    } elseif ($status_user == 2) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/tambah_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        ";
+                    } else {
+                        redirect(base_url('/LoginControl/destroy_session/'));
+                    }
+                }
+                ?>
+                <a href="<?php echo base_url('/site/ubah_password_konfirmasi/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> UBAH PASSWORD</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
 
@@ -81,6 +110,18 @@
         <!-- Container (About Section) -->
         <div class="w3-content w3-container w3-center" id="about">
             <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
+            <?php
+            $status_user = $_SESSION['status_user'];
+            $status_user_text;
+            if ($status_user == 0) {
+                $status_user_text = 'Super Administrator';
+            } elseif ($status_user == 1) {
+                $status_user_text = 'Pegawai CSSD';
+            } else {
+                $status_user_text = 'Peminjam';
+            }
+            echo "<br><span class='w3-large w3-animate-opacity'>Status User : <b class='w3-text-red '>$status_user_text<b> </span>";
+            ?>
         </div>
 
 
@@ -90,6 +131,7 @@
             <div class="w3-display-topmiddle w3-center w3-black w3-opacity w3-animate-fading w3-padding-small">
                 <span class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity">Central Sterile Supply Department</span>
             </div>
+
         </div>
 
         <footer class="w3-center w3-green w3-margin-bottom">

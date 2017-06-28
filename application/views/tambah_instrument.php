@@ -15,8 +15,11 @@ and open the template in the editor.
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
-        <script src="JavaScript.js"></script>
-        <title>Instrument</title>
+        <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
+        <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
+        <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
+        <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
+        <title>Tambah Instrument</title>
     </head>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -99,15 +102,28 @@ and open the template in the editor.
                     <i class="fa fa-bars"></i>
                 </a>
 
-               <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i>CARI</a>
-                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH</a>
-                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i>HAPUS</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>            </div>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i> CARI</a>
+                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i> TAMBAH</a>
+                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i> HAPUS</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>            
+            </div>
         </div>
 
         <div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
         </div>
+        
+        <?php
+            if (isset($_SESSION["tambah_instrumen"])) {
+                $ubah = $_SESSION["tambah_instrumen"];
+                if ($ubah) {
+                    echo "<script>swal(\"Tambah Instrumen Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
+                } else {
+                    echo "<script>swal(\"Tambah Instrumen Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
+                }
+                $this->session->unset_userdata('tambah_instrumen');
+            }
+            ?>
 
         <div class="w3-content w3-container w3-center" id="about">
             <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
@@ -118,33 +134,26 @@ and open the template in the editor.
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                     <b style="color: green">PENAMBAHAN INSTRUMEN BARU</b>
                 </div>
-                <div class="w3-container w3-white w3-padding-16 w3-card">
-                    <form action="<?php base_url('/index.php/TambahInstrumentControl/tambah')?>">
+                <table align="center"><tr><th>
+                    <div class="w3-container w3-white w3-padding-16 w3-card w3-margin-bottom">
+                        <form action="<?php echo base_url('/InstrumenControl/tambah'); ?>">
                             <div class="w3-row-padding">
-                                <div>
+                                <div class=" w3-margin-bottom">
                                     <label>Masukkan Nama Instrumen</label>
-                                    <input class="w3-input w3-border" type="text" value="" name="nama_instrumen" required="" placeholder="Nama Instrumen"
-                                           style="width: 50%">
+                                    <input class="w3-input w3-border" type="text" value="" name="nama_instrumen" required="" placeholder="Nama Instrumen">
                                 </div>
-                            </div>
 
-                            <div class="w3-row-padding w3-padding">
-                                <div>
+                                <div class=" w3-margin-bottom">
                                     <label>Masukkan Jumlah Instrumen</label>
-                                    <input class="w3-input w3-border" type="text" value="" name="jumlah_instrtumen" required="" placeholder="Jumlah Instrumen"
-                                           style="width: 50%">
+                                    <input class="w3-input w3-border" type="number" value="" name="jumlah_instrumen" required="" placeholder="0" onkeypress="return isNumber(event)">
+                                </div>
+                                <div class="w3-margin-bottom w3-center">
+                                    <button class="buttonTambah" type="submit" name="ubah" value="yes"><i class="fa fa-plus"></i> TAMBAH</button>
                                 </div>
                             </div>
-                            <div class="w3-row-padding w3-padding">
-                                <div>
-                                    <label>Masukkan Jumlah Steril</label>
-                                    <input class="w3-input w3-border" type="text" value="" name="steril" required="" placeholder="Jumlah Steril"
-                                           style="width: 50%">
-                                </div>
-                            </div>
-                            <button class="buttonTambah" style="width: 12% " type="submit" name="ubah" value="yes"><i class="fa fa-plus"></i> TAMBAH</button>
-                    </form>
-                </div>
+                        </form>
+                    </div>
+                    </th></tr></table>
             </div>
             <div class="w3-container w3-margin-bottom">
             </div>
@@ -184,7 +193,7 @@ and open the template in the editor.
             var modal = document.getElementById('id01');
 
             // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
+            window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
@@ -195,7 +204,7 @@ and open the template in the editor.
             // When the user clicks anywhere outside of the modal, close it
 
             modal2.style.display = "block";
-            window.onclick = function (event) {
+            window.onclick = function(event) {
                 if (event.target == modal2) {
                     modal2.style.display = "none";
                 }

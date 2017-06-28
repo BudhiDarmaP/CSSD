@@ -25,13 +25,29 @@ class Site extends CI_Controller {
         $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
         $this->load->view('data_instrumen', $data);
     }
+    
+    function ubah_password_konfirmasi() {
+        $this->load->view('ubah_password_konfirmasi');
+    }
 
     function ubah_password() {
         $this->load->view('ubah_password');
     }
+    
+    function tambah_user() {
+        $this->load->model('Users');
+        $data['data_user'] = $this->Users->panggil_data_user();
+        $this->load->view('tambah_user', $data);
+    }
 
     function peminjaman() {
         $this->load->view('peminjaman');
+    }
+    
+    function tambah_peminjaman() {
+        $this->load->model('Instrument');
+        $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+        $this->load->view('tambah_peminjaman', $data);
     }
 
     function laporan() {
@@ -50,6 +66,10 @@ class Site extends CI_Controller {
 
     function tambah_pemijaman() {
         $this->load->view('tambah_pemijam');
+    }
+    
+    function tambah_peminjam() {
+        $this->load->view('tambah_peminjam');
     }
 
 }

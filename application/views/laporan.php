@@ -61,7 +61,7 @@
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
                 <a href="<?php echo base_url('/site/harian/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i> HARIAN</a>
                 <a href="<?php echo base_url('/site/mingguan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-clipboard"></i> MINGGUAN</a>
                 <a href="<?php echo base_url('/site/bulanan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-book"></i> BULANAN</a>
