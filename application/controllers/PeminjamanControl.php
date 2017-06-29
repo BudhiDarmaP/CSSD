@@ -77,7 +77,6 @@ class PeminjamanControl extends CI_Controller {
                 //simpan peminjaman
                 if ($status==1) {
                 $data[$index] = $this->Peminjaman->pinjam_pegawai($id_transaksi, $user, $key, $input1, $input2, $tgl_pinjam, $tgl_kembali, $status);
-                $this->Peminjaman->konfirmasi_update($id, $key,$input1, $input2, $tgl_kembali);
                 }  else{
                 $data[$index] = $this->Peminjaman->pinjam_user($id_transaksi, $key, $input1, $input2, $tgl_pinjam, $status);    
                 }
