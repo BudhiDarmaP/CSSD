@@ -11,19 +11,7 @@
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
-    <link href="<?php echo base_url('images/Logo.png');?>" rel="icon" type="image/png"/>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(function () {
-            $("#datepicker").datepicker({dateformat: 'dd-MM-yy HH:mi'});
-        });
-        $(function () {
-            $("#datepicker2").datepicker({dateformat: 'dd-MM-yy HH:mi'});
-        });
-    </script>
+    <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
     <script src="JavaScript.js"></script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -52,35 +40,35 @@
                 background-attachment: scroll;
             }
         }
-        .buttonPinjam{
+        .buttonKonfirmasi{
             display: inlin-block;
             border-radius: 4px;
             background-color: #f44336;
             border: none;
             color: #fff;
             text-align: center;
-            font-size: 22px;
-            padding: 3px;
-            width: 140px;
+            font-size: 18px;
+            padding: 4px;
+            width: 170px;
             transition: all 0.5s;
             cursor: pointer;
             margin: 5px;
         }
-        .buttonPinjam span {
+        .buttonKonfirmasi span {
             cursor: pointer;
             display: inline-block;
             position: relative;
             transition: 0.5s;
         }
-        .buttonPinjam span:after {
+        .buttonKonfirmasi span:after {
             content: '\00bb';
             position: absolute;
             opacity: 0;
             top: 0;
-            right: 20px;
+            right: 25px;
             transition: 0.5s;
         }
-        .buttonPinjam:hover span {
+        .buttonKonfirmasi:hover span {
             padding-right: 25px;
         }
         .inputTanggal input{
@@ -145,66 +133,55 @@
                     <b style="color: green">Konfirmasi Peminjaman</b>
                 </div>
 
-                <form action='<?php echo base_url('/PeminjamanControl/konfirmasi'); ?>'>
+                <form action='<?php echo base_url('PeminjamanControl/peminjam_belum_konfirmasi'); ?>'>
                     <table><tr style='text-align: center'>
                             <?php
-                            if ($status_user == 1) {
-                            echo "<th>ID PEMINJAM</th>
-                            <td><select name='peminjam'>";
-                            foreach ($id_peminjam as $r):
-                                echo "
+                            if ($status_user == 0 || $status_user == 1) {
+                                echo "<th>ID PEMINJAM</th>
+                                <td><select name='peminjam'>";
+                                foreach ($id_peminjam as $r):
+                                    echo "
                                     <option value='$r->id_user'>$r->nama_user</option>
                                     ";
-                            endforeach;
-                            echo "</select></td>
-                            <th>TANGGAL PINJAM</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker' name='tgl_pinjam' placeholder='Klik untuk isi'></td>
-                            </tr>
-                            <tr style='text-align: center'>
-                            <th></th>
-                            <td></td>
-                            <th>TANGGAL KEMBALI</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>";
+                                endforeach;
+                                echo "</select></td>
+                            <th><button class='btn btn-success' name='cari' value='CARI' style='color: orange'>
+                            <i class='fa fa-search'></i>&nbsp;</button></th>";
                             }else {
-                                echo "<input type='hidden' name='peminjam' value=''>
-                                    <th>TANGGAL PINJAM</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker' name='tgl_pinjam' placeholder='Klik untuk isi'></td>
-                            </tr>
-                            <tr style='text-align: center'>
-                            <th>TANGGAL KEMBALI</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>";
+                                redirect(base_url('/site/home/'));
                             }
                             ?>
-                        </tr></table>
-                    <table class="w3-table w3-striped w3-bordered" align="center">
-                        <thead>
-                            <tr class="w3-theme">
-                                <th style="text-align: center;">ID INSTRUMEN</th>
-                                <th style="text-align: left;">NAMA INSTRUMEN</th>
-                                <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
-                                <th style="text-align: center;">JUMLAH PINJAM</th>
-                            </tr>
-                        <tbody>
-                            <?php
-                            foreach ($cari_instrumen as $r):
-                                echo "
-                                    <tr>
-                                    <td style='text-align: center'>$r->id_instrumen</td>
-                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                                    <td style='text-align: center'>$r->steril</td>
-                                    <td style='text-align: center'>
-                                    <input type='number' name='jumlah[]' value='' max='$r->steril' min='0' placeholder='0'>
-                                    <input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>    
-                                    </td>
+                        </tr></table></form>
+                <table class="w3-table w3-striped w3-bordered" align="center">
+                    <?php
+                    if ($peminjam == NULL) {
+                        echo "<td style='text-align: center'>"
+                        . "<h3 style='color: red'>TIDAK ADA DATA YANG BELUM DIKONFIRMASI</h3></td>";
+                    } else {
+                        echo "<thead>
+                                    <tr class='w3-theme'>
+                                    <th style='text-align: center;'>ID TRANSAKSI</th>
+                                    <th style='text-align: center;'>PEMINJAM</th>
+                                    <th style='text-align: center;'>STATUS</th>
                                     </tr>";
-                            endforeach;
-                            $this->session->unset_userdata('nama_instrumen');
-                            $this->session->unset_userdata('cari_instrumen');
-                            ?>
-                        </tbody>
-                    </table>
-                    <button class="buttonPinjam w3-goldyellow"><i class="fa fa-briefcase"></i>PINJAM</button>
-                </form>
+                        foreach ($peminjam as $r):
+                            echo "<form action='";
+                            echo base_url('PeminjamanControl/konfirmasi_peminjaman');
+                            echo "' method='POST'><tbody><tr>
+                                    <td style='text-align: center'><h4>$r->id_transaksi</h4></td>
+                                    <input type='hidden' name='id' value='$r->id_peminjam'>
+                                    <input type='hidden' name='transaksi' value='$r->id_transaksi'>
+                                    <td style='text-align: center'><h4>$r->nama_user</h4></td>
+                                    <td style='text-align: center'>
+                                    <button class='buttonKonfirmasi w3-goldyellow'>
+                                    <i class='fa fa-check-circle'></i>KONFIRMASI</button>
+                                    </td>
+                                    </tr></tbody></form>";
+                        endforeach;
+                    }
+                    $this->session->unset_userdata('konfirmasi_pegawai');
+                    ?>
+                </table>
             </div>
         </div>
 

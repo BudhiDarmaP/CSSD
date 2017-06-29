@@ -33,7 +33,6 @@ class PeminjamanControl extends CI_Controller {
             $data[$index] = $this->Instrument->panggil_data_id($key);
             $index++;
         }
-//        $data['id_user'] = $this->User->panggil_data_peminjam();
         $id_peminjam = $this->Users->panggil_data_peminjam();
         $data['cari_instrumen'] = $data;
         $data['id_peminjam'] = $id_peminjam;
@@ -44,13 +43,14 @@ class PeminjamanControl extends CI_Controller {
         //panggil model
         $this->load->model('Peminjaman');
         //cek user
-        $user;$status;
-        if ($_GET['peminjam']!=NULL) {
-            $user=$_GET['peminjam'];
-            $status=1;
-        }else{
-        $user = $_SESSION['username'];
-        $status=0;
+        $user;
+        $status;
+        if ($_GET['peminjam'] != NULL) {
+            $user = $_GET['peminjam'];
+            $status = 1;
+        } else {
+            $user = $_SESSION['username'];
+            $status = 0;
         }
         //get parameter
         $id = $_GET['id_instrumen'];
@@ -74,7 +74,7 @@ class PeminjamanControl extends CI_Controller {
             //looping array id
             foreach ($id as $key) {
                 //simpan peminjaman
-                $data[$index] = $this->Peminjaman->pinjam($id_transaksi, $user, $key, $input, $tgl_pinjam, $tgl_kembali,$status);
+                $data[$index] = $this->Peminjaman->pinjam($id_transaksi, $user, $key, $input, $tgl_pinjam, $tgl_kembali, $status);
                 $index++;
             }
             //simpan hasil ke dalam array
@@ -86,6 +86,86 @@ class PeminjamanControl extends CI_Controller {
             $tampil['pinjam_instrumen'] = $this->Peminjaman->panggil_pinjam($id_transaksi);
             //panggil view
             $this->load->view('result_peminjaman', $tampil);
+        }
+    }
+
+    function lihat_pinjaman() {
+        //load model
+        $this->load->model('Peminjaman');
+        //panggil tgl
+        $tgl = $_GET['tgl'];
+        //masukkan tanggal sebagai pencarian peminjaman
+        $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+        //panggil view
+        $this->load->view('lihat_peminjaman', $data);
+    }
+
+    function peminjam_belum_konfirmasi() {
+        //load model
+        $this->load->model('Peminjaman');
+        $this->load->model('Users');
+        //panggil peminjam
+        $peminjam = $_GET['peminjam'];
+        //masukkan id sebagai pencarian peminjaman
+        $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
+        $data['peminjam'] = $this->Peminjaman->panggil_peminjam_id($peminjam);
+        //panggil view
+        $this->load->view('konfirmasi_pegawai', $data);
+    }
+
+    function konfirmasi_peminjaman() {
+        //load model
+        $this->load->model('Peminjaman');
+        //panggil tgl
+        $id = $_POST['id'];
+        $transaksi = $_POST['transaksi'];
+        //masukkan tanggal sebagai pencarian peminjaman
+        $data['pinjam_instrumen'] = $this->Peminjaman->panggil_konfirmasi_id($id, $transaksi);
+        //panggil view
+        $this->load->view('konfirmasi_halaman', $data);
+    }
+
+    function Approved() {
+        //panggil model
+        $this->load->model('Peminjaman');
+        //get parameter
+        $id = $_POST['transaksi'];
+        $instrumen = $_POST['id_instrumen'];
+        $jumlah = $_POST['jumlah'];
+        $steril = $_POST['steril'];
+        //deklarasi input
+        $input1;
+        $input2;
+        $input3;
+        //melooping array input
+        foreach ($instrumen as $input1) {
+            
+        }
+        foreach ($jumlah as $input2) {
+            
+        }
+        foreach ($steril as $input3) {
+            
+        }
+        //looping array id
+        foreach ($id as $key) {
+            //simpan peminjaman
+            $data['result'] = $this->Peminjaman->konfirmasi_update($key, $input1, $input2, $input3);
+        }
+        if ($data) {
+
+            $hasil = array(
+                'konfirmasi' => true
+            );
+            $this->session->set_userdata($hasil);
+            $this->load->view('konfirmasi_halaman');
+        } else {
+
+            $hasil= array(
+                'konfirmasi' => false
+            );
+            $this->session->set_userdata($hasil);
+            $this->load->view('konfirmasi_halaman');
         }
     }
 

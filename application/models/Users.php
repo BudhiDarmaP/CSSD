@@ -14,22 +14,22 @@ class Users extends CI_Model {
 
     function panggil_data_pegawai() {
         $q = $this->db->query("SELECT * FROM `user` WHERE STATUS_USER = 1");
-        return $q;
+        return $q->result();
     }
 
     function panggil_data_internal() {
         $q = $this->db->query("SELECT * FROM `user` WHERE STATUS_USER = 2");
-        return $q;
+        return $q->result();
     }
 
     function panggil_data_eksternal() {
         $q = $this->db->query("SELECT * FROM `user` WHERE STATUS_USER = 3");
-        return $q;
+        return $q->result();
     }
 
     function panggil_data_peminjam() {
-        $q = $this->db->query("SELECT * FROM `user` WHERE STATUS_USER = 2 AND STATUS_USER = 3");
-        return $q;
+        $q = $this->db->query("SELECT * FROM `user` WHERE STATUS_USER = 2 OR STATUS_USER = 3");
+        return $q->result();
     }
 
     function panggil_jumlah_pegawai($status_user) {
@@ -39,12 +39,12 @@ class Users extends CI_Model {
 
     function panggil_jumlah_internal() {
         $q = $this->db->query("SELECT COUNT(*) FROM user WHERE STATUS_USER = 2");
-        return $q;
+        return $q->result();
     }
 
     function panggil_jumlah_eksternal() {
         $q = $this->db->query("SELECT COUNT(*) FROM user WHERE STATUS_USER = 3");
-        return $q;
+        return $q->result();
     }
     
     function id_otomatis($status_user){
