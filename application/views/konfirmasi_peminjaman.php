@@ -169,10 +169,7 @@
                                 echo "<input type='hidden' name='peminjam' value=''>
                                     <th>TANGGAL PINJAM</th>
                             <td class='inputTanggal'><input type='text' id='datepicker' name='tgl_pinjam' placeholder='Klik untuk isi'></td>
-                            </tr>
-                            <tr style='text-align: center'>
-                            <th>TANGGAL KEMBALI</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>";
+                            </tr>";
                             }
                             ?>
                         </tr></table>
@@ -195,6 +192,7 @@
                                     <td style='text-align: center'>
                                     <input type='number' name='jumlah[]' value='' max='$r->steril' min='0' placeholder='0'>
                                     <input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>    
+                                    <input type='hidden' value='$r->steril' name='steril[]'>    
                                     </td>
                                     </tr>";
                             endforeach;

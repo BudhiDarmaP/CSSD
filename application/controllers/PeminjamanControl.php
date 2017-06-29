@@ -47,34 +47,40 @@ class PeminjamanControl extends CI_Controller {
         $status;
         if ($_GET['peminjam'] != NULL) {
             $user = $_GET['peminjam'];
+            $tgl_kembali = $_GET['tgl_kembali'];
             $status = 1;
         } else {
             $user = $_SESSION['username'];
             $status = 0;
+            $tgl_kembali = NULL;
         }
         //get parameter
         $id = $_GET['id_instrumen'];
         $jumlah = $_GET['jumlah'];
+        $steril= $_GET['steril'];
         $tgl_pinjam = $_GET['tgl_pinjam'];
-        $tgl_kembali = $_GET['tgl_kembali'];
         //generate id
         $tgl = date('YmdHis');
         $id_transaksi = $user . $tgl;
         //cek ketersediaan
-        if ($tgl_pinjam != NULL && $tgl_kembali != NULL) {
+        if ($tgl_pinjam != NULL) {
             //deklarasi array
             $data[count($id)] = null;
             $index = 1;
             //deklarasi input
-            $input;
+            $input1;$input2;$cssd='CSSD';
             //melooping array input
-            foreach ($jumlah as $input) {
-                
-            }
+            foreach ($jumlah as $input1) {}
+            foreach ($steril as $input2) {}
             //looping array id
             foreach ($id as $key) {
                 //simpan peminjaman
-                $data[$index] = $this->Peminjaman->pinjam($id_transaksi, $user, $key, $input, $tgl_pinjam, $tgl_kembali, $status);
+                if ($status==1) {
+                $data[$index] = $this->Peminjaman->pinjam_pegawai($id_transaksi, $user, $key, $input1, $input2, $tgl_pinjam, $tgl_kembali, $status);
+                $this->Peminjaman->konfirmasi_update($id, $key,$input1, $input2, $tgl_kembali);
+                }  else{
+                $data[$index] = $this->Peminjaman->pinjam_user($id_transaksi, $key, $input1, $input2, $tgl_pinjam, $status);    
+                }
                 $index++;
             }
             //simpan hasil ke dalam array
@@ -133,6 +139,7 @@ class PeminjamanControl extends CI_Controller {
         $instrumen = $_POST['id_instrumen'];
         $jumlah = $_POST['jumlah'];
         $steril = $_POST['steril'];
+        $tgl_kembali=$_POST['tgl_kembali'];
         //deklarasi input
         $input1;
         $input2;
@@ -150,7 +157,7 @@ class PeminjamanControl extends CI_Controller {
         //looping array id
         foreach ($id as $key) {
             //simpan peminjaman
-            $data['result'] = $this->Peminjaman->konfirmasi_update($key, $input1, $input2, $input3);
+            $data['result'] = $this->Peminjaman->konfirmasi_update($key, $input1, $input2, $input3, $tgl_kembali);
         }
         if ($data) {
 

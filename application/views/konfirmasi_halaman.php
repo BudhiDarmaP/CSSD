@@ -169,7 +169,11 @@
                         echo "</u></h4></div>
                         <form method='POST' action='";
                         echo base_url('PeminjamanControl/Approved');
-                        echo "'><table class='w3-table w3-striped w3-bordered' align='center'>
+                        echo "'>";
+                        echo "<table><th>TANGGAL KEMBALI</th>
+                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>
+                            </table>
+                            <table class='w3-table w3-striped w3-bordered' align='center'>
                             <thead>
                             <tr class='w3-theme'>
                             <th style='text-align: center;'>TANGGAL_PINJAM</th>
