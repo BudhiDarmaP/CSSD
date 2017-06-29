@@ -62,10 +62,10 @@
                 </a>
 
                 <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <a href="<?php echo base_url('/site/harian/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-paperclip"></i> HARIAN</a>
-                <a href="<?php echo base_url('/site/mingguan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-clipboard"></i> MINGGUAN</a>
-                <a href="<?php echo base_url('/site/bulanan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-book"></i> BULANAN</a>
-                <a href="<?php echo base_url('/site/3bulanan/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-dropbox"></i> 3 BULANAN</a>
+                <a href="<?php echo base_url('/site/harian/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-paperclip"></i> HARIAN</a>
+                <a href="<?php echo base_url('/site/mingguan/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-clipboard"></i> MINGGUAN</a>
+                <a href="<?php echo base_url('/site/bulanan/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-book"></i> BULANAN</a>
+                <a href="<?php echo base_url('/site/3bulanan/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-dropbox"></i> 3 BULANAN</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>

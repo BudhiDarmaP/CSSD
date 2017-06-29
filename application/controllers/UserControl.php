@@ -81,6 +81,56 @@ class UserControl extends CI_Controller {
         }
     }
 
+    function editUser() {
+        $this->load->model('Users');
+        $namauser = $_GET["nama_user"];
+        $notelp = $_GET["no_telp"];
+        $username = $_GET["id_user"];
+
+        $ubah = $this->Users->edit_data_user($username, $namauser, $notelp);
+
+        $data;
+        if ($ubah) {
+            $data = array(
+                'nama_user_edit' => $namauser,
+                'id_user_edit' => $username,
+                'edit_user' => true
+            );
+        } else {
+            $data = array(
+                'nama_user_edit' => $namauser,
+                'id_user_edit' => $username,
+                'edit_user' => FALSE
+            );
+        }
+        $this->session->set_userdata($data);
+        redirect(base_url('site/tambah_user'));
+    }
+    
+    function hapusUser() {
+        $this->load->model('Users');
+        $username = $_GET["id_user"];
+
+        $ubah = $this->Users->hapus_data_pegawai($username);
+
+        $data;
+        if ($ubah) {
+            $data = array(
+                'nama_user_edit' => $namauser,
+                'id_user_edit' => $username,
+                'edit_user' => true
+            );
+        } else {
+            $data = array(
+                'nama_user_edit' => $namauser,
+                'id_user_edit' => $username,
+                'edit_user' => FALSE
+            );
+        }
+        $this->session->set_userdata($data);
+        redirect(base_url('site/tambah_user'));
+    }
+
 }
 
 ?>

@@ -11,6 +11,22 @@ class Users extends CI_Model {
         $q = $this->db->query("SELECT * FROM `user`");
         return $q->result();
     }
+    
+    function panggil_data_user_by_id($username) {
+        $q = $this->db->query("SELECT * FROM `user` where id_user = '$username'");
+        return $q->result();
+    }
+    
+    function edit_data_user($username, $namauser, $notelp) {
+        $q = $this->db->query("UPDATE user set nama_user = '$namauser', no_telepon = '$notelp' where id_user = '$username'");
+        //cek
+        $ubah = $this->db->query("select * from user where nama_user = '$namauser' and no_telepon = '$notelp' and id_user = '$username'");
+        if($ubah->num_rows() == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     function panggil_data_pegawai() {
         $q = $this->db->query("SELECT * FROM `user` WHERE STATUS_USER = 1");
@@ -205,7 +221,7 @@ class Users extends CI_Model {
         //jika user ada
         if ($cek->num_rows() == 1) {
             //delete user
-            $sql = "DELETE FROM `user` WHERE nama_user = '$username' AND status_user = 1";
+            $sql = "DELETE FROM `user` WHERE id_user = '$username'";
             $this->db->query($sql);
             //cek user berhasil di delete?
             $q = "SELECT * FROM user WHERE id_user = '$username'";

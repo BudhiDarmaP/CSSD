@@ -132,7 +132,7 @@ and open the template in the editor.
         <div class="w3-container">
             <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">PENAMBAHAN PEMINJAM EKSTERNAL</b>
+                    <b style="color: green">TAMBAH PEMINJAM EKSTERNAL</b>
                 </div>
                 <table align="center"><tr><th>
                     <div class="w3-container w3-white w3-padding-16 w3-card w3-margin-bottom">

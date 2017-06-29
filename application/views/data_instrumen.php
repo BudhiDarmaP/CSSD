@@ -61,11 +61,10 @@ and open the template in the editor.
                 <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
                     <i class="fa fa-bars"></i>
                 </a>
-
                 <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i> CARI</a>
-                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i> TAMBAH</a>
-                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i> HAPUS</a>
+                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-search"></i> CARI</a>
+                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-plus"></i> TAMBAH</a>
+                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-eraser"></i> HAPUS</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -108,6 +107,21 @@ and open the template in the editor.
                                 $total = count($ada_instrumen);
                             }
                             echo ": $total</b>";
+                        }
+
+                        if ($total == 0) {
+                            echo "<div id='id02' class='modal w3-responsive'>
+                                    <div class='modal-content w3-animate-opacity w3-black' style='margin-top:15%;width:100%'>
+                                        <div class='container'>
+                                            <h3 class='w3-center'>Instrumen <a style='color:red'>$nama_instrumen</a> Tidak Ditemukan</h3>
+                                        </div>
+                                        <div class='w3-center w3-margin-bottom'>
+                                    <a class='w3-xxlarge' href='";
+                            echo base_url('/site/instrumen/');
+                            echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-green\"></i></span></a>
+                                        </div>
+                                    </div>
+                                  </div>";
                         }
                         ?>
                         </div>
@@ -212,11 +226,6 @@ and open the template in the editor.
                 // When the user clicks anywhere outside of the modal, close it
 
                 modal2.style.display = "block";
-                window.onclick = function(event) {
-                    if (event.target == modal2) {
-                        modal2.style.display = "none";
-                    }
-                }
             </script>
         </footer>
     </body>

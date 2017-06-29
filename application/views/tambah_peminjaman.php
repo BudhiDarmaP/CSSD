@@ -102,7 +102,7 @@
                     } else {
                         echo "
                         <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        <a href=\""; echo base_url('/site/ubah_password/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
+                        <a href=\""; echo base_url('/site/ubah_password_konfirmasi/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
                         ";
                     }
                 }
@@ -139,13 +139,13 @@
                 </form>
             </div>
 
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
+            <div class="w3-responsive w3-card-4 w3-padding-16" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                     <b style="color: green">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
                 </div>
 
                 <form action="<?php echo base_url('/PeminjamanControl/pinjam'); ?>">
-                    <table class="w3-table w3-striped w3-bordered" align="center">
+                    <table class="w3-table w3-striped w3-bordered w3-animate-opacity" align="center">
                         <thead>
                             <tr class="w3-theme">
                                 <th style="text-align: center;">ID INSTRUMEN</th>

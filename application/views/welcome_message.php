@@ -108,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="w3-container w3-green w3-center">
                     <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-bottom">
                     <?php
-                    if (isset($_SESSION["is_logged_in"])) {
+                    if (isset($_SESSION["is_logged_in"]) || isset($not_login)) {
                         echo "<div id=\"id02\" class=\"modal w3-responsive\">
                 <div class=\"modal-content animate w3-black\" style=\"margin-top:15%\">
                     <div class=\"container\">";
@@ -117,8 +117,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         if (isset($_SESSION["not_user"])) {
                             echo "<h5 class=\"w3-center\">Anda Tidak Berhak Login</i></h5>";
                             $this->session->unset_userdata('not_user');
+                        } elseif (isset($not_login)) {
+                            echo "<h5 class=\"w3-center\"></i></h5>";
                         } else {
                             echo "<h5 class=\"w3-center\">Kombinasi Username dan Password Salah <i>Mohon Diulangi</i></h5>";
+                        }
+
+                        if (isset($not_login)) {
+                            echo "<h5 class=\"w3-center\">Maaf Anda Harus Login</i></h5>";
                         }
                         echo "</div>
                             <div class = \"container w3-center\">
@@ -133,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     ?>
                 </div>
                 <div class="w3-container w3-white w3-padding-16">
-                    <form action="<?php echo base_url('LoginControl/cobaLogin') ?>">
+                    <form method="post" action="<?php echo base_url('LoginControl/cobaLogin') ?>">
                         <input type="text" name="username" id="username" placeholder="Username" required="required" style="width:100%;height:60px"/>
                         <input type="password" name="password" id="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
                         <button class="w3-goldyellow"><h3>Login</h3></button>
