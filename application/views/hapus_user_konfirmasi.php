@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Ubah Password</title>
+    <title>Hapus User</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -33,6 +33,7 @@
 
         /* First image (Logo. Full height) */
         .bgimg-1 {
+            background-image: url('images/Rute TransJogja.png');
             min-height: 100%;
         }
 
@@ -43,6 +44,7 @@
 
         /* Third image (Contact) */
         .bgimg-3 {
+            background-image: url("");
             min-height: 400px;
         }
 
@@ -58,33 +60,44 @@
     </style>
     <body>
         <?php
-        if (isset($_SESSION["status_user"])) {
-            $status = $_SESSION["status_user"];
-            if ($status == 0 || $status == 1) {
-                echo "<div id='id02' class='modal w3-responsive'>
+        $id_user_hapus;
+        $nama_user_hapus;
+        $no_telp_user_hapus;
+        $status_user_hapus;
+        if (isset($hapus_user)) {
+            foreach ($hapus_user as $r):
+                $id_user_hapus = $r->id_user;
+                $nama_user_hapus = $r->nama_user;
+                $no_telp_user_hapus = $r->no_telepon;
+                $status_user_hapus = $r->status_user;
+            endforeach;
+        }
+
+
+        echo "<div id='id02' class='modal w3-responsive'>
                 <div class='modal-content w3-animate-opacity w3-black' style='margin-top:15%;width:100%'>
                     <div class='container'>
-                        <h2 class='w3-center'>Cek Peminjaman</h2>
+                        <h2 class='w3-center'>Apakah Anda Yakin Akan Menghapus Data?</h2>
+                        <h4 class='w3-center'>Hapus Data : $nama_user_hapus ($id_user_hapus)</h4>
                         </div>
                     <div class='container w3-center'>
-                        <a class='btn btn-success w3-large' href='";
-                echo base_url('/site/konfirmasi_pegawai/');
-                echo "' style='vertical-align:middle;'><span>KONFIRMASI</span></a>
-                        <a class='btn btn-primary w3-large' href='";
-                echo base_url('/site/lihat_peminjaman/');
-                echo "' style='vertical-align:middle;'><span>LIHAT PEMINJAMAN</span></a>
-                    </div>
-                    <div class='w3-center w3-margin-bottom'>
-                        <a class='w3-xxlarge' href='";
-                echo base_url('/site/peminjaman/');
-                echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-green\"></i></span></a>
-                    </div>
+                    <table align='center'><tr><td>
+                    <form action='";
+        echo base_url('/UserControl/hapusUser/');
+        echo "'>
+            <button class='btn btn-danger w3-large'>
+                <input type='hidden' name='id_user' value='$id_user_hapus'>
+            <span style='margin-right:10%%'>YA </span><i class=\"fa fa-remove w3-text-black w3-xlarge w3-margin-left\"></i>
+            </button>
+            </form></td>
+            <td><div class='w3-container'></div></td>
+            <td>
+            <a class='btn btn-primary w3-large' href='";
+        echo base_url('/site/tambah_user/');
+        echo "' style='vertical-align:middle;'><span>TIDAK</span></a>
+            </td></tr></table>
                     </div>";
-                $this->session->unset_userdata('');
-            } else {
-                redirect(base_url('/site/halamanUtama/'));
-            }
-        }
+        $this->session->unset_userdata('hapus_instrumen_confirm');
         ?>
         <script>
             function myFunction() {
@@ -118,11 +131,6 @@
             // When the user clicks anywhere outside of the modal, close it
 
             modal2.style.display = "block";
-//            window.onclick = function(event) {
-//                if (event.target == modal2) {
-//                    modal2.style.display = "none";
-//                }
-//            }
         </script>
     </body>
 </html>

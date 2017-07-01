@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Ubah Password</title>
+    <title>Edit User</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -15,7 +15,7 @@
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
-    <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
+    <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
         body, html {
@@ -81,7 +81,7 @@
                     } elseif ($status_user == 1) {
                         echo "
                             <a href=\"";
-                        echo base_url('/site/halamanInstrumen/');
+                        echo base_url('/site/instrumen/');
                         echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
                             <a href=\"";
                         echo base_url('/site/peminjaman/');
@@ -110,94 +110,68 @@
         <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
         </div>
 
-        <?php
-        if (isset($_SESSION["ubah_password"])) {
-            $ubah = $_SESSION["ubah_password"];
-            if ($ubah) {
-                echo "<script>swal(\"Ubah Password Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
-            } else {
-                echo "<script>swal(\"Ubah Password Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
-            }
-            $this->session->unset_userdata('ubah_password');
-        }
-        ?>
-
         <div class="bgimg-2 w3-display-container w3-opacity-min w3-animate-top">
-            <div  class="w3-display-topmiddle w3-padding w3-col l6 m8">
-                <form action="<?php echo base_url('UserControl/ubahPassword') ?>">
+            <div  class="w3-display-topmiddle w3-padding" style="width:40%">
+                <form action="<?php echo base_url('UserControl/editUser') ?>">
+                    <div class="w3-container w3-theme">
+                        <h3><i class="fa fa-user-circle-o w3-margin-right w3-margin-top"></i>UBAH DATA USER INTERNAL</h3>
+                        <table class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity">
+                            <tr><td>CSSD</td></tr>
+                        </table>
+                    </div>
                     <?php
-                    if (isset($_GET["status"])) {
-                        $status = $_GET["status"];
-                        $nama = $_SESSION["nama_user"];
-                        if ($status == 0) {
-                            $username = $_SESSION["username"];
-                            echo "<div class=\"w3-container w3-theme\">
-                                <h3><i class=\"fa fa-users w3-margin-right\"></i>UBAH PASSWORD</h3>
-                                <table class=\"w3-xxlarge w3-text-white w3-wide w3-animate-opacity\">
-                                    <tr><th class=\"w3-large\">Anda Masuk Sebagai</th></tr>
-                                    <tr><td>$nama</td></tr>
-                                </table>
-                            </div>
-                            <div class=\"w3-container w3-white w3-padding-16 w3-card\">
-                                
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-key\"></i> Masukkan Password Lama</label>
-                                        <input class=\"w3-input w3-border\" type=\"password\" value=\"\" name=\"oldpassword\" required=\"\" placeholder=\"Old Password\">
-                                    </div>
-                                    </div>
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-key\"></i> Masukkan Password Baru</label>
-                                        <input class=\"w3-input w3-border\" type=\"password\" value=\"\" name=\"newpassword\" required=\"\" placeholder=\"New Password\">
-                                    </div>
-                                    </div>
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-check\"></i> Konfirmasi Password Baru</label>
-                                        <input class=\"w3-input w3-border\" type=\"password\" value=\"\" name=\"confirmpassword\" required=\"\" placeholder=\"Confirm New Password\">
-                                        <input type=\"hidden\" name=\"username\" value=\"$username\">
-                                        <input type=\"hidden\" name=\"status\" value=\"$status\">
-                                    </div>
-                                    </div>
-                                    <button class=\"w3-button w3-green\" type=\"submit\" name=\"ubah\" value=\"yes\"><h2><i class=\"fa fa-check-circle w3-margin-right\"></i> UBAH</h2></button>
-                                
-                            </div>";
+                    $id_user_edit;
+                    $nama_user_edit;
+                    $no_telp_user_edit;
+                    $status_user_edit;
+                    if (isset($edit_user)) {
+                        foreach ($edit_user as $r):
+                            $id_user_edit = $r->id_user;
+                            $nama_user_edit = $r->nama_user;
+                            $no_telp_user_edit = $r->no_telepon;
+                            $status_user_edit = $r->status_user;
+                        endforeach;
+                    }
+
+//                    $nama_user_edit = 'Imam';
+
+                    function cekStatus($stat) {
+                        if ($stat == 0) {
+                            return 'Super Administrator';
+                        } elseif ($stat == 1) {
+                            return 'Administrator CSSD';
+                        } elseif ($stat == 2) {
+                            return 'Peminjam Internal';
                         } else {
-                            $aksesadmin = $_SESSION["status_user"];
-                            if ($aksesadmin == 0) {
-                                echo "<div class=\"w3-container w3-theme\">
-                                <h3 class=\"w3-xxlarge w3-text-white w3-animate-opacity\"><i class=\"fa fa-users w3-margin-right\"></i>UBAHKAN PASSWORD</h3>
-                                <table class=\"w3-xxlarge w3-text-white w3-wide w3-animate-opacity\">
-                                    <tr><th class=\"w3-large\">Anda Masuk Sebagai</th></tr>
-                                    <tr><td>$nama</td></tr>
-                                </table>
-                            </div>
-                            <div class=\"w3-container w3-white w3-padding-16 w3-card\">
-                                
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-user\"></i> Masukkan Username Pengguna</label>
-                                        <input class=\"w3-input w3-border\" type=\"text\" value=\"\" name=\"username\" required=\"\" placeholder=\"Username\">
-                                    </div>
-                                    </div>
-                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
-                                    <div>
-                                        <label><i class=\"fa fa-key\"></i> Masukkan Password Baru</label>
-                                        <input class=\"w3-input w3-border\" type=\"password\" value=\"\" name=\"newpassword\" required=\"\" placeholder=\"New Password\">
-                                        <input type=\"hidden\" name=\"status\" value=\"$status\">
-                                    </div>
-                                    </div>
-                                    <button class=\"w3-button w3-green\" type=\"submit\" name=\"ubah\" value=\"yes\"><h2><i class=\"fa fa-check-circle w3-margin-right\"></i> UBAH</h2></button>
-                                
-                            </div>";
-                            } else {
-                                redirect(base_url('/site/check_log_in_super_admin/'));
-                            }
+                            return 'Peminjam Eksternal';
                         }
                     }
                     ?>
+                    <div class="w3-container w3-white w3-padding-16 w3-card">
+                        <div class="w3-row-padding w3-padding" style="margin:0 -16px;">
+                            <div>
+                                <label><i class="fa fa-id-card"></i> Nama User</label>
+                                <input class="w3-input w3-border" type="text" value="<?php echo $nama_user_edit ?>" name="nama_user" required="" placeholder="Masukkan nama pegawai (pegawai CSSD atau SIM) / nama ruangan (peminjam internal)">
+                            </div>
+                        </div>
+                        <div class="w3-row-padding w3-padding" style="margin:0 -16px;">
+                            <div>
+                                <label><i class="fa fa-phone-square"></i> Nomor Telepon</label>
+                                <input class="w3-input w3-border" type="text" value="<?php echo $no_telp_user_edit ?>" name="no_telp" required="" onkeypress="return isNumber(event)" placeholder="Masukkan kontak user yang bisa dihubungi" maxlength="13">
+                            </div>
+                        </div>
+                        <div class="w3-row-padding w3-padding w3-margin-bottom" style="margin:0 -16px;">
+                            <div>
+                                <label><i class="fa fa-check"></i> Status User</label>
+                                <input class="w3-input w3-border" style="color:green" type="text" name="status_user" value="<?php echo cekStatus($status_user_edit) ?>" disabled="disable">
+                                <input type="hidden" value="<?php echo $id_user_edit ?>" name="id_user">
+                            </div>
+                        </div>
+                        <button class="w3-button w3-green" type="submit" name="ubah" value="yes"><h2><i class="fa fa-check-circle-o w3-margin-right"></i> UBAH</h2></button>
+
+                    </div>
                 </form>
+
             </div>
         </div>
 
@@ -230,9 +204,7 @@
 
             var modal2 = document.getElementById('id02');
 
-            // When the user clicks anywhere outside of the modal, close it
-
-            modal2.style.display = "block";
+            // When the user clicks anywhere outside of the modal, close it      modal2.style.display = "block";
         </script>
     </body>
 </html>

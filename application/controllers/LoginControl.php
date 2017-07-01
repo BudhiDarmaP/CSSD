@@ -12,10 +12,24 @@ class LoginControl extends CI_Controller {
         parent::__construct();
     }
 
+    function check_log_in() {
+        $is_logged_in_check = $this->session->userdata('is_logged_in');
+
+        if (!isset($is_logged_in_check) || $is_logged_in_check != TRUE) {
+            $data['not_login'] = 'Maaf Anda tidak dapat mengakses halaman ini.<br/><br/> Silakan login terlebih dahulu';
+
+            $this->load->view('welcome_message', $data);
+            $this->CI = & get_instance();
+            $this->CI->output->_display();
+
+            die();
+        }
+    }
+
     function cobaLogin() {
         $this->load->model('Users');
-        $username = $_GET["username"];
-        $password = $_GET["password"];
+        $username = strtoupper($_POST["username"]);
+        $password = $_POST["password"];
         $query = $this->Users->login($username, $password);
 
         if ($query != null) {
@@ -29,7 +43,6 @@ class LoginControl extends CI_Controller {
             );
 
             $this->session->set_userdata($data);
-//            redirect('site/halamanUtama');
             if (strpos($username, 'AD') !== FALSE) {
                 $this->load->view('home');
             } elseif (strpos($username, 'CS') !== FALSE) {
@@ -58,7 +71,7 @@ class LoginControl extends CI_Controller {
     }
 
     function destroy_session() {
-        $array_items = array('username', 'is_logged_in', 'password', 'nama_user', 'no_telepon', 'status_user', 'not_user');
+        $array_items = array('username', 'is_logged_in', 'password', 'nama_user', 'no_telepon', 'status_user', 'not_user', 'not_login');
 
         $this->session->unset_userdata($array_items);
         $this->load->view('welcome_message');

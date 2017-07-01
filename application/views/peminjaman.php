@@ -7,8 +7,15 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="bootstrap-3.3.6/css/Login.css" rel="stylesheet" type="text/css" />
-    <link href="<?php echo base_url('images/Logo.png');?>" rel="icon" type="image/png"/>
+    <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
+    <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
+    <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
+    <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
+    <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
         body, html {
@@ -39,7 +46,7 @@
         /* Third image (Contact) */
         .bgimg-3 {
             background-image: url("");
-            min-height: 400px;
+            min-height: 100%;
         }
 
         .w3-wide {letter-spacing: 10px;}
@@ -69,13 +76,13 @@
                         echo "
                         <a href=\"";
                         echo base_url('/site/tambah_peminjam/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
                             ";
                     }
                 }
                 ?>
-                <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i> TAMBAH PEMINJAMAN</a>
-                <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-check"></i> CEK PEMINJAMAN</a>
+                <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-plus"></i> TAMBAH PEMINJAMAN</a>
+                <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-check"></i> CEK PEMINJAMAN</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -94,8 +101,12 @@
         <!-- Second Parallax Image with Portfolio Text -->
         <div class="bgimg-2 w3-display-container w3-opacity-min">
             <div class="w3-display-topmiddle w3-center w3-black w3-opacity w3-animate-fading w3-padding-small">
-                <span class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity">Halaman Peminjaman</span>
+                <span class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity w3-margin-left"> Halaman Peminjaman</span>
             </div>
+            
+        </div>
+        <div class="bgimg-3 w3-display-container w3-opacity-min">
+            
         </div>
 
         <footer class="w3-center w3-green w3-margin-bottom">

@@ -36,11 +36,10 @@ class Peminjaman extends CI_Model {
                     . "$status)";
             $this->db->query($insert);
             //kurangkan nilai steril dengan jumlah pinjam
-            $total = $jum - $steril;
+            $total = $steril - $jum;
             //update jumlah steril
             $update_instrumen = "UPDATE INSTRUMEN SET STERIL=$total WHERE ID_INSTRUMEN='$id_ins' AND STERIL>=$jum";
             $this->db->query($update_instrumen);
-
             $update_instrumen = "UPDATE PEMINJAMAN SET JUMLAH_PINJAM=$jum, STATUS_PEMINJAMAN=1 , "
                     . "TANGGAL_KEMBALI=STR_TO_DATE('$tgl_kem', '%m/%d/%Y')"
                     . "WHERE (ID_TRANSAKSI='$trans 'AND ID_INSTRUMEN='$id_ins')";
@@ -90,7 +89,7 @@ class Peminjaman extends CI_Model {
     function lihat_peminjaman($tgl) {
         $select = "SELECT a.*, b.nama_instrumen FROM peminjaman a JOIN instrumen b "
                 . "on (a.id_instrumen = b.id_instrumen) "
-                . "WHERE a.tanggal_pinjam = STR_TO_DATE('$tgl', '%m/%d/%Y')";
+                . "WHERE a.tanggal_pinjam = STR_TO_DATE('$tgl', '%d/%m/%Y')";
         $hasil = $this->db->query($select);
         return $hasil->result();
     }
@@ -117,8 +116,18 @@ class Peminjaman extends CI_Model {
         $select = "SELECT a.*, b.nama_instrumen, b.steril, c.nama_user FROM peminjaman a "
                 . "JOIN instrumen b on (a.id_instrumen= b.id_instrumen) "
                 . "JOIN user c on (a.id_peminjam = c.id_user) "
-                . "WHERE a.status_peminjaman=0 AND id_peminjam='$id' AND id_transaksi='$transaksi'"
-                . "GROUP BY a.id_peminjam ORDER BY a.tanggal_pinjam";
+                . "WHERE a.status_peminjaman=0 AND a.id_peminjam='$id' AND a.id_transaksi='$transaksi' "
+                . "ORDER BY a.tanggal_pinjam";
+        $hasil = $this->db->query($select);
+        return $hasil->result();
+    }
+
+    function panggil_transaksi($transaksi) {
+        $select = "SELECT a.*, b.nama_user, c.nama_instrumen FROM peminjaman a "
+                . "JOIN USER b on (a.id_peminjam = b.id_user) "
+                . "JOIN INSTRUMEN c on (a.id_instrumen= c.id_instrumen) "
+                . "WHERE a.status_peminjaman=1 AND a.id_transaksi='$transaksi' "
+                . "ORDER BY c.nama_instrumen";
         $hasil = $this->db->query($select);
         return $hasil->result();
     }
@@ -131,7 +140,6 @@ class Peminjaman extends CI_Model {
         //update jumlah steril
         $update_instrumen = "UPDATE INSTRUMEN SET STERIL=$total WHERE ID_INSTRUMEN='$inst' AND STERIL>=$val2";
         $this->db->query($update_instrumen);
-
         $update_instrumen = "UPDATE PEMINJAMAN SET JUMLAH_PINJAM=$jumlah, STATUS_PEMINJAMAN=1 , "
                 . "TANGGAL_KEMBALI=STR_TO_DATE('$tgl_kembali', '%m/%d/%Y')"
                 . "WHERE (ID_TRANSAKSI='$id' AND ID_INSTRUMEN='$inst')";

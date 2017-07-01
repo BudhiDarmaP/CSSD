@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Ubah Password</title>
+    <title>Pencarian ID Transaksi</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -62,22 +62,20 @@
             $status = $_SESSION["status_user"];
             if ($status == 0 || $status == 1) {
                 echo "<div id='id02' class='modal w3-responsive'>
-                <div class='modal-content w3-animate-opacity w3-black' style='margin-top:15%;width:100%'>
-                    <div class='container'>
-                        <h2 class='w3-center'>Cek Peminjaman</h2>
+                <div class='modal-content w3-animate-opacity' style='margin-top:15%;width:50%'>
+                    <div class='container' style='width:70%'>
+                        <h2 class='w3-center'>Pengembalian</h2>
                         </div>
                     <div class='container w3-center'>
-                        <a class='btn btn-success w3-large' href='";
-                echo base_url('/site/konfirmasi_pegawai/');
-                echo "' style='vertical-align:middle;'><span>KONFIRMASI</span></a>
-                        <a class='btn btn-primary w3-large' href='";
-                echo base_url('/site/lihat_peminjaman/');
-                echo "' style='vertical-align:middle;'><span>LIHAT PEMINJAMAN</span></a>
+                        <form style='width:57%' action='";
+                echo base_url('/PengembalianControl/pengembalian');
+                echo "'><input type='text' name='id_transaksi' placeholder='Masukkan ID Transaksi' value=''>
+                    <button style='width:57%'><h4 style='color: white'>CARI</h4></button></form>
                     </div>
                     <div class='w3-center w3-margin-bottom'>
                         <a class='w3-xxlarge' href='";
-                echo base_url('/site/peminjaman/');
-                echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-green\"></i></span></a>
+                echo base_url('/site/HalamanUtama');
+                echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-red\"></i></span></a>
                     </div>
                     </div>";
                 $this->session->unset_userdata('');

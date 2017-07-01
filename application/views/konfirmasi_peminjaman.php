@@ -11,16 +11,19 @@
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
-    <link href="<?php echo base_url('images/Logo.png');?>" rel="icon" type="image/png"/>
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
+    <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {
+        $(function() {
+            $("#datepicker").datepicker({minDate: 0});
             $("#datepicker").datepicker({dateformat: 'dd-MM-yy HH:mi'});
         });
-        $(function () {
+        $(function() {
+            $("#datepicker2").datepicker({minDate: 0});
             $("#datepicker2").datepicker({dateformat: 'dd-MM-yy HH:mi'});
         });
     </script>
@@ -140,40 +143,43 @@
                 <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
             </div>
 
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
-                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">Konfirmasi Peminjaman</b>
+            <div class="w3-responsive w3-card-4 w3-padding-16" >
+                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left w3-large w3-green">
+                    <b class='w3-padding '>Konfirmasi Peminjaman</b>
                 </div>
 
                 <form action='<?php echo base_url('/PeminjamanControl/konfirmasi'); ?>'>
-                    <table><tr style='text-align: center'>
+                    <table  align="center" style="width:60%">
+                        <tr style='text-align: center'>
                             <?php
                             if ($status_user == 1) {
-                            echo "<th>ID PEMINJAM</th>
-                            <td><select name='peminjam'>";
-                            foreach ($id_peminjam as $r):
-                                echo "
+                                echo "<th style='text-align: center'>PEMINJAM</th>
+                            <td style='text-align: right'><select class='w3-input w3-border w3-padding' name='peminjam' style='width: 80%;text-align:center'>";
+                                foreach ($id_peminjam as $r):
+                                    echo "
                                     <option value='$r->id_user'>$r->nama_user</option>
                                     ";
-                            endforeach;
-                            echo "</select></td>
-                            <th>TANGGAL PINJAM</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker' name='tgl_pinjam' placeholder='Klik untuk isi'></td>
+                                endforeach;
+                                echo "</select></td>
+                            <td></td>
+                            <th style='text-align: right'>TANGGAL PINJAM</th>
+                            <td style='text-align: right' class='inputTanggal fa fa-calendar-o'><input type='text' id='datepicker' name='tgl_pinjam' placeholder='Klik untuk isi' required=''></td>
                             </tr>
                             <tr style='text-align: center'>
                             <th></th>
                             <td></td>
-                            <th>TANGGAL KEMBALI</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>";
+                            <td></td>
+                            <th style='text-align: right'>TANGGAL KEMBALI</th>
+                            <td style='text-align: right' class='inputTanggal fa fa-calendar-o'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi' required=''></td>";
                             }else {
                                 echo "<input type='hidden' name='peminjam' value=''>
                                     <th>TANGGAL PINJAM</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker' name='tgl_pinjam' placeholder='Klik untuk isi'></td>
+                            <td class='inputTanggal fa fa-calendar-o'><input type='text' id='datepicker' name='tgl_pinjam' placeholder='Klik untuk isi'></td>
                             </tr>";
                             }
                             ?>
                         </tr></table>
-                    <table class="w3-table w3-striped w3-bordered" align="center">
+                    <table class="w3-table w3-striped w3-bordered w3-card w3-animate-opacity" align="center" style="width:60%;margin-bottom:10%">
                         <thead>
                             <tr class="w3-theme">
                                 <th style="text-align: center;">ID INSTRUMEN</th>
@@ -190,7 +196,7 @@
                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
                                     <td style='text-align: center'>$r->steril</td>
                                     <td style='text-align: center'>
-                                    <input type='number' name='jumlah[]' value='' max='$r->steril' min='0' placeholder='0'>
+                                    <input type='number' name='jumlah[]' value='' max='$r->steril' min='0' placeholder='0' required='' onkeypress=\"return isNumber(event)\">
                                     <input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>    
                                     <input type='hidden' value='$r->steril' name='steril[]'>    
                                     </td>
@@ -200,13 +206,23 @@
                             $this->session->unset_userdata('cari_instrumen');
                             ?>
                         </tbody>
+                        <tr>
+                            <td colspan="4" style="text-align: center">
+                                <button class="btn btn-warning w3-xlarge w3-hover-text-black" style="width:20%"><i class="fa fa-briefcase"></i> PINJAM</button>
+                            </td>
+                        </tr>
                     </table>
-                    <button class="buttonPinjam w3-goldyellow"><i class="fa fa-briefcase"></i>PINJAM</button>
                 </form>
             </div>
         </div>
+        
+        <div class="bgimg-3 w3-display-container w3-opacity-min">
+            <div class="w3-animate-fading w3-padding-small">
+                
+            </div>
+        </div>
 
-        <footer class="w3-center w3-green w3-margin-bottom">
+        <footer class="w3-center w3-green w3-margin-bottom w3-margin-top">
             <div class="w3-section w3-padding-small"></div>
             <div class="w3-xlarge w3-section">
                 <i class="fa fa-facebook-official w3-hover-opacity"></i>
@@ -236,7 +252,7 @@
                 // Get the modal
                 var modal = document.getElementById('id01');
                 // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function (event) {
+                window.onclick = function(event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
                     }
@@ -244,7 +260,7 @@
                 var modal2 = document.getElementById('id02');
                 // When the user clicks anywhere outside of the modal, close it
                 modal2.style.display = "block";
-                window.onclick = function (event) {
+                window.onclick = function(event) {
                     if (event.target == modal2) {
                         modal2.style.display = "none";
                     }

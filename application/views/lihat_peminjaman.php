@@ -18,8 +18,8 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {
-            $("#datepicker").datepicker({dateformat: 'dd-MM-yy HH:mi'});
+        $(function() {
+            $("#datepicker").datepicker({ dateFormat: 'dd/mm/yy' });
         });
     </script>
     <script src="JavaScript.js"></script>
@@ -143,23 +143,41 @@
             <div class="w3-content w3-container w3-center" id="about">
                 <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
             </div>
-            <form action='<?php echo base_url('/PeminjamanControl/lihat_pinjaman'); ?>'>
-                <table>
-                    <th>TANGGAL PINJAM</th>
-                    <th class='inputTanggal'><input type='text' id='datepicker' name='tgl' placeholder='Klik untuk isi'></th>
+
+            <table style="width:70%" align='center'>
+                <tr>
                     <th>
-                        <button class="btn btn-success" name="cari" value="CARI" style='color: orange'>
-                            <i class="fa fa-search"></i>&nbsp;</button></th>
-                </table>
-            </form>
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
-                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <?php
-                    if ($pinjam_instrumen == NULL) {
-                        echo "<h2 style='text-align: center; color: red'>PEMINJAMAN KOSONG</h2></div>";
-                    } else {
-                        echo "<b style='color: green'>Daftar Amprah Hari Ini</b></div>
-                <table class = 'w3-table w3-striped w3-bordered' align = 'center'>
+                <div class="w3-container w3-responsive w3-padding-24">
+                    <form action="<?php echo base_url('/PeminjamanControl/lihat_pinjaman'); ?>">
+                        <div class="col-xs-12">
+                            <table style="width:30%">
+                                <tr>
+                                    <th style="width: 90%">
+                                        <input class='inputTanggal' style="height: 40px;width:95%;margin-top:15px" type="text" id='datepicker' class="form-control" name="tgl" placeholder="Pilih Tanggal Pinjam" required="">
+                                    </th>
+                                    <th style="width: 10%;margin-left:1px">
+                                        <button class="btn btn-success" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </th>
+        </tr>
+        <tr><th>
+        <div class="w3-responsive w3-card-4 w3-padding-16 w3-center">
+            <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
+                <?php
+                if ($pinjam_instrumen == NULL) {
+                    echo "<h4 style='text-align: center;margin-bottom:10%' class='w3-theme w3-padding w3-large'><b class='w3-padding-16 w3-xxlarge'>Halaman Untuk Melihat Peminjaman</b><br>Pilih Tanggal Untuk Melihat Daftar Peminjaman"
+                    . "<br><img src='";
+                    echo base_url('images/note.png');
+                    echo "' class='w3-center w3-margin-top w3-margin-bottom w3-animate-top'></h4></div>";
+                    echo "<script>swal(\"Peminjaman Kosong\", \"\", \"error\");</script>";
+                } else {
+                    echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Daftar Amprah Tanggal $tanggal</b></div>
+                <table class = 'w3-table w3-striped w3-bordered w3-animate-opacity w3-card' align = 'center' style='margin-bottom:10%'>
                 <thead><tr class = 'w3-theme'>
                 <th style = 'text-align: center;'>ID PEMINJAM</th>
                 <th style = 'text-align: center;'>NAMA INSTRUMEN</th>
@@ -169,83 +187,82 @@
                 <th style = 'text-align: center;'>STATUS</th>
                 </tr>
                 <tbody>";
-                        foreach ($pinjam_instrumen as $r):
-                            echo "
+                    foreach ($pinjam_instrumen as $r):
+                        echo "
                 <tr>
                 <td style='text-align: center'>$r->id_peminjam</td>
                 <td style='text-align: center'><b>$r->nama_instrumen</b></td>
                 <td style='text-align: center'>$r->tanggal_pinjam</td>
                 <td style='text-align: center'>$r->tanggal_kembali</td>
                 <td style='text-align: center'>$r->jumlah_pinjam</td>";
-                            if ($r->status_peminjaman == 0) {
-                                echo "
-                <td style='text-align: center'><h5 style='color:orange'>MENUNGGU APPROVE</h5></td>
+                        if ($r->status_peminjaman == 0) {
+                            echo "
+                <td style='text-align: center'><h5 style='color:orange'>Menunggu Approve</h5></td>
                 </tr>";
-                            } else if ($r->status_peminjaman == 1) {
-                                echo "
-                <td style='text-align: center'><h5 style='color:red'>BELUM DIKEMBALIKAN</h5></td>
+                        } else if ($r->status_peminjaman == 1) {
+                            echo "
+                <td style='text-align: center'><h5 style='color:red'><b>Belum Dikembalikan</b></h5></td>
                 </tr>";
-                            } else if ($r->status_peminjaman == 2) {
-                                echo "
-                <td style='text-align: center'><h5 style='color:green'>SUDAH DIKEMBALIKAN</h5></td>
+                        } else if ($r->status_peminjaman == 2) {
+                            echo "
+                <td style='text-align: center'><h5 style='color:green'>Sudah Dikembalikan</h5></td>
                 </tr>";
-                            }
-                        endforeach;
-                        $this->session->unset_userdata('pinjam_instrumen');
-                    }
-                    ?>
-                    </tbody>
-                    </table>
-                </div>
-
-                <footer class="w3-center w3-green w3-margin-bottom">
-                    <div class="w3-section w3-padding-small"></div>
-                    <div class="w3-xlarge w3-section">
-                        <i class="fa fa-facebook-official w3-hover-opacity"></i>
-
-                    </div>
-                    <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-                    <div class="w3-section w3-padding-small"></div>
-                    <script>
-                        function myFunction() {
-                            var navbar = document.getElementById("myNavbar");
-                            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                                navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                            } else {
-                                navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                            }
                         }
-                        function toggleFunction() {
-                            var x = document.getElementById("navDemo");
-                            if (x.className.indexOf("w3-show") == -1) {
-                                x.className += " w3-show";
-                            } else {
-                                x.className = x.className.replace(" w3-show", "");
-                            }
-                        }
-                    </script>
-                    <script>
-                        // Get the modal
-                        var modal = document.getElementById('id01');
+                    endforeach;
+                    $this->session->unset_userdata('pinjam_instrumen');
+                }
+                ?>
+                </tbody>
+                </table>
+            </div>
+        </th></tr></table>
 
-                        // When the user clicks anywhere outside of the modal, close it
-                        window.onclick = function (event) {
-                            if (event.target == modal) {
-                                modal.style.display = "none";
-                            }
-                        }
+    <footer class="w3-center w3-green w3-margin-bottom">
+        <div class="w3-section w3-padding-small"></div>
+        <div class="w3-xlarge w3-section">
+            <i class="fa fa-facebook-official w3-hover-opacity"></i>
 
-                        var modal2 = document.getElementById('id02');
+        </div>
+        <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
+        <div class="w3-section w3-padding-small"></div>
+        <script>
+            function myFunction() {
+                var navbar = document.getElementById("myNavbar");
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                } else {
+                    navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+                }
+            }
+            function toggleFunction() {
+                var x = document.getElementById("navDemo");
+                if (x.className.indexOf("w3-show") == -1) {
+                    x.className += " w3-show";
+                } else {
+                    x.className = x.className.replace(" w3-show", "");
+                }
+            }
+            // Get the modal
+            var modal = document.getElementById('id01');
 
-                        // When the user clicks anywhere outside of the modal, close it
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
 
-                        modal2.style.display = "block";
-                        window.onclick = function (event) {
-                            if (event.target == modal2) {
-                                modal2.style.display = "none";
-                            }
-                        }
-                    </script>
-                </footer>
-        </body>
-    </html>
+            var modal2 = document.getElementById('id02');
+
+            // When the user clicks anywhere outside of the modal, close it
+
+            modal2.style.display = "block";
+            window.onclick = function(event) {
+                if (event.target == modal2) {
+                    modal2.style.display = "none";
+                }
+            }
+        </script>
+    </footer>
+</body>
+</html>

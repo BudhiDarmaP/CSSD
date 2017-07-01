@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <title>Peminjaman</title>
+    <title>Pengembalian</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
@@ -88,7 +88,12 @@
         .inputTanggal input{
             width:200px; border:1px dotted #CI_Unit_test; 
             border-radius:4px; -moz-border-radius:4px; 
-            height:38px; margin-left:3px;'
+            height:38px; margin-left:3px;
+            }
+        .inputKet input{
+            width:300px; border:1px dotted #CI_Unit_test; 
+            border-radius:4px; -moz-border-radius:4px; 
+            height:38px; margin-left:3px;
             }
         </style>
         <body>
@@ -159,16 +164,16 @@
                     if (isset($_SESSION["konfirmasi"])) {
                         $cek = $_SESSION["konfirmasi"];
                         if ($cek != NULL) {
-                            echo "<h4 style='color: red'>PEMINJAMAN BELUM KONFIRMASI KOSONG</h4>
+                            echo "<h4 style='color: red'>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN</h4>
                             </div>";
                         }
                     } else {
-                        echo "<h4 style='color: green'>Konfirmasi Peminjaman <u><b>$peminjam</b></u></h4></div>";
-                        echo "
+                        echo "<h4 style='color: green'>Konfirmasi Pengembalian <u><b>
+                            </b></u></h4></div>
                         <form method='POST' action='";
-                        echo base_url('PeminjamanControl/Approved');
+                        echo base_url('');
                         echo "'>";
-                        echo "<table><th>TANGGAL KEMBALI</th>
+                        echo "<table><th>TANGGAL PENGEMBALIAN</th>
                             <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>
                             </table>
                             <table class='w3-table w3-striped w3-bordered' align='center'>
@@ -177,21 +182,20 @@
                             <th style='text-align: center;'>TANGGAL_PINJAM</th>
                             <th style='text-align: center;'>TANGGAL_KEMBALI</th>
                             <th style=text-align: left;'>NAMA INSTRUMEN</th>
-                            <th style='text-align: center;'>JUMLAH INSTRUMEN STERIL</th>
                             <th style='text-align: center;'>JUMLAH PINJAM</th>
+                            <th style='text-align: center;'>KETERANGAN</th>
                             <th style='text-align: left;'>CEK</th>
                             </tr>";
-                        foreach ($pinjam_instrumen as $r):
+                        foreach ($pengembalian as $r):
                             echo "<tbody>
+                             <tr>
                             <td style='text-align: center'><h5>$r->tanggal_pinjam</h5></td>
                             <td style='text-align: center'><h5>$r->tanggal_kembali</h5></td>
                             <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                            <td style='text-align: center'>$r->steril</td>
-                            <td style='text-align: center'>
-                            <input type='number' name='jumlah[]' value='$r->jumlah_pinjam' max='$r->steril' min='0'>
-                            <input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>    
-                            <input type='hidden' value='$r->steril' name='steril[]'>    
+                            <td style='text-align: center'>$r->jumlah_pinjam
+                            <td style='text-align: center' class='inputKet'><input type='text' name='ket[]'>
                             <td><input type='checkbox' value='$r->id_transaksi' name='transaksi[]'>
+                            <input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>
                             </td>
                             </tr>";
                         endforeach;

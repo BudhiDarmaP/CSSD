@@ -10,6 +10,24 @@ class UserControl extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->check_log_in();
+    }
+
+    function check_log_in() {
+        $is_logged_in_check = $this->session->userdata('is_logged_in');
+
+        if (!isset($is_logged_in_check) || $is_logged_in_check != TRUE) {
+            $data = array(
+                'is_logged_in' => false,
+                'not_login' => 'Maaf Anda Harus Login'
+            );
+            $this->session->set_userdata($data);
+            $this->load->view('welcome_message');
+            $this->CI = & get_instance();
+            $this->CI->output->_display();
+
+            die();
+        }
     }
 
     function ubahPassword() {
@@ -79,6 +97,56 @@ class UserControl extends CI_Controller {
             $data['data_user'] = $this->Users->panggil_data_user();
             $this->load->view('tambah_user', $data);
         }
+    }
+
+    function editUser() {
+        $this->load->model('Users');
+        $namauser = $_GET["nama_user"];
+        $notelp = $_GET["no_telp"];
+        $username = $_GET["id_user"];
+
+        $ubah = $this->Users->edit_data_user($username, $namauser, $notelp);
+
+        $data;
+        if ($ubah) {
+            $data = array(
+                'nama_user_edit' => $namauser,
+                'id_user_edit' => $username,
+                'edit_user' => true
+            );
+        } else {
+            $data = array(
+                'nama_user_edit' => $namauser,
+                'id_user_edit' => $username,
+                'edit_user' => FALSE
+            );
+        }
+        $this->session->set_userdata($data);
+        redirect(base_url('site/tambah_user'));
+    }
+    
+    function hapusUser() {
+        $this->load->model('Users');
+        $username = $_GET["id_user"];
+
+        $ubah = $this->Users->hapus_data_pegawai($username);
+
+        $data;
+        if ($ubah) {
+            $data = array(
+                'nama_user_edit' => $namauser,
+                'id_user_edit' => $username,
+                'edit_user' => true
+            );
+        } else {
+            $data = array(
+                'nama_user_edit' => $namauser,
+                'id_user_edit' => $username,
+                'edit_user' => FALSE
+            );
+        }
+        $this->session->set_userdata($data);
+        redirect(base_url('site/tambah_user'));
     }
 
 }

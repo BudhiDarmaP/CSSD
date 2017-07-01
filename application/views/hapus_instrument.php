@@ -145,7 +145,7 @@ and open the template in the editor.
             echo "' style='vertical-align:middle;'><i class='fa fa-check-square-o'></i> <span>Ya</span></a>
                         <a class='btn btn-success w3-xlarge' href='";
             echo base_url('/InstrumenControl/hapusFix?denied=0/');
-            echo "'><i class='fa fa-remove'></i> <span onclick=\"document.getElementById('id02').style.display = 'none'\">Tidak</span></a>
+            echo "'><i class='fa fa-remove'></i> <span>Tidak</span></a>
                     </div>
                 </div>
             </div>";
@@ -225,22 +225,6 @@ and open the template in the editor.
                                     endforeach;
                                 }
                             }
-                            ?>
-                            <?php
-//                            if (isset($ada_instrumen)) {
-//                                foreach ($ada_instrumen as $r):
-//
-//                                    echo "
-//                                    <tr>
-//                                    <td style='text-align: center'>$r->id_instrumen</td>
-//                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-//                                    <td style='text-align: center'>$r->jumlah</td>
-//                                    <td style='text-align: center'>$r->steril</td>
-//                                    
-//                                    </tr>";
-//                                endforeach;
-//                            }
-//                            
                             ?>
                             <tr>
                                 <td colspan="5" style="text-align: right">

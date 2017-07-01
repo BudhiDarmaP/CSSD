@@ -8,13 +8,13 @@
 class Instrument extends CI_Model {
 
     public function panggil_semua_data_instrument() {
-        $result = $this->db->query("SELECT * FROM instrumen");
+        $result = $this->db->query("SELECT * FROM instrumen where jumlah > 0");
         return $result->result();
     }
 
     function panggil_data_instrument() {
         $q = $this->db->query("SELECT * FROM instrumen WHERE STERIL > 0");
-        return $q->result();
+        return $q->result;
     }
 
     function panggil_jumlah_instrument_sejenis($key) {
@@ -23,14 +23,13 @@ class Instrument extends CI_Model {
         return $q->num_rows();
     }
 
-
     function cari_data_instrument($key) {
         $q = $this->db->query("SELECT * FROM `instrumen` "
                 . "WHERE (ID_INSTRUMEN like '%$key%' OR NAMA_INSTRUMEN like '%$key%') AND "
                 . "STERIL > 0");
         return $q->result();
     }
-
+    
     function panggil_data_id($id) {
             $q = $this->db->query("SELECT * FROM `instrumen` WHERE id_instrumen = '$id'");
             return $q->row();        
@@ -39,6 +38,11 @@ class Instrument extends CI_Model {
     function panggil_data_steril($id) {
         $q = $this->db->query("SELECT STERIL FROM `instrumen` WHERE id_instrumen = '$id'");
         return $q->result();
+    }
+
+    function panggil_data_jumlah() {
+        $q = $this->db->query("SELECT * FROM `instrument` WHERE STERIL > 0");
+        return $q->result;
     }
 
     function tambah_data_instrument($nama, $jumlah) {

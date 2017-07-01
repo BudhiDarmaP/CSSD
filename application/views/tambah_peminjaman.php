@@ -12,7 +12,7 @@
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
-    <link href="<?php echo base_url('/images/Logo.png');?>" rel="icon" type="image/png"/>
+    <link href="<?php echo base_url('/images/Logo.png'); ?>" rel="icon" type="image/png"/>
     <script src="JavaScript.js"></script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -95,19 +95,29 @@
                     $status_user = $_SESSION["status_user"];
                     if ($status_user == 0 || $status_user == 1) {
                         echo "
-                        <a href=\""; echo base_url('/site/tambah_peminjam/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
-                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
-                        <a href=\""; echo base_url('/site/cek_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
+                        <a href=\"";
+                        echo base_url('/site/tambah_peminjam/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
+                        <a href=\"";
+                        echo base_url('/site/tambah_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
+                        <a href=\"";
+                        echo base_url('/site/cek_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
                         ";
                     } else {
                         echo "
-                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        <a href=\""; echo base_url('/site/ubah_password/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
+                        <a href=\"";
+                        echo base_url('/site/tambah_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        <a href=\"";
+                        echo base_url('/site/ubah_password_konfirmasi/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
                         ";
                     }
                 }
                 ?>
-                
+
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -139,13 +149,48 @@
                 </form>
             </div>
 
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
+            <div class="w3-responsive w3-card-4 w3-padding-16" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                     <b style="color: green">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
                 </div>
+                <?php
+                if (isset($_SESSION["pinjam_instrumen"])) {
+                    $ubah = $_SESSION["pinjam_instrumen"];
+                    if ($ubah) {
+                        echo "<script>swal(\"Pinjam Instrumen Berhasil\", \"\", \"success\");</script>";
+                    } else {
+                        echo "<script>swal(\"Centang Checkbox Untuk Meminjam Instrumen\", \"\", \"error\");</script>";
+                    }
+                    $this->session->unset_userdata('pinjam_instrumen');
+                }
+
+                if (isset($ada_instrumen) || isset($cari_instrumen)) {
+                    $total = 0;
+                    if (isset($cari_instrumen)) {
+                        $total = count($cari_instrumen);
+                    } else {
+                        $total = count($ada_instrumen);
+                    }
+                }
+
+                if ($total == 0) {
+                    echo "<div id='id02' class='modal w3-responsive'>
+                                    <div class='modal-content w3-animate-opacity w3-black' style='margin-top:15%;width:100%'>
+                                        <div class='container'>
+                                            <h3 class='w3-center'>Instrumen <a style='color:red'>$nama_instrumen</a> Tidak Ditemukan</h3>
+                                        </div>
+                                        <div class='w3-center w3-margin-bottom'>
+                                    <a class='w3-xxlarge' href='";
+                    echo base_url('/site/tambah_peminjaman/');
+                    echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-green\"></i></span></a>
+                                        </div>
+                                    </div>
+                                  </div>";
+                }
+                ?>
 
                 <form action="<?php echo base_url('/PeminjamanControl/pinjam'); ?>">
-                    <table class="w3-table w3-striped w3-bordered" align="center">
+                    <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:60%;margin-bottom:5%">
                         <thead>
                             <tr class="w3-theme">
                                 <th style="text-align: center;">ID INSTRUMEN</th>
@@ -173,7 +218,7 @@
                                 if (isset($ada_instrumen)) {
                                     foreach ($ada_instrumen as $r):
 
-                                    echo "
+                                        echo "
                                     <tr>
                                     <td style='text-align: center'>$r->id_instrumen</td>
                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
@@ -186,61 +231,62 @@
                                 }
                             }
                             ?>
+                            <tr>
+                                <td colspan="4" style="text-align: center">
+                                    <button class="btn btn-warning w3-xlarge w3-hover-text-black" style="width:40%"><i class="fa fa-briefcase"></i> KONFIRMASI</button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
-                    <button class="buttonPinjam w3-goldyellow"><i class="fa fa-briefcase">KONFIRMASI</i></button>
+
                 </form>
             </div>
         </div>
 
-            <footer class="w3-center w3-green w3-margin-bottom">
-                <div class="w3-section w3-padding-small"></div>
-                <div class="w3-xlarge w3-section">
-                    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        <footer class="w3-center w3-green w3-margin-bottom">
+            <div class="w3-section w3-padding-small"></div>
+            <div class="w3-xlarge w3-section">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
 
-                </div>
-                <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-                <div class="w3-section w3-padding-small"></div>
-                <script>
-                    function myFunction() {
-                        var navbar = document.getElementById("myNavbar");
-                        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                            navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                        } else {
-                            navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                        }
+            </div>
+            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
+            <div class="w3-section w3-padding-small"></div>
+            <script>
+                function myFunction() {
+                    var navbar = document.getElementById("myNavbar");
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                    } else {
+                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
                     }
-                    function toggleFunction() {
-                        var x = document.getElementById("navDemo");
-                        if (x.className.indexOf("w3-show") == -1) {
-                            x.className += " w3-show";
-                        } else {
-                            x.className = x.className.replace(" w3-show", "");
-                        }
+                }
+                function toggleFunction() {
+                    var x = document.getElementById("navDemo");
+                    if (x.className.indexOf("w3-show") == -1) {
+                        x.className += " w3-show";
+                    } else {
+                        x.className = x.className.replace(" w3-show", "");
                     }
-                </script>
-                <script>
-                    // Get the modal
-                    var modal = document.getElementById('id01');
+                }
+            </script>
+            <script>
+                // Get the modal
+                var modal = document.getElementById('id01');
 
-                    // When the user clicks anywhere outside of the modal, close it
-                    window.onclick = function (event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
                     }
+                }
 
-                    var modal2 = document.getElementById('id02');
+                var modal2 = document.getElementById('id02');
 
-                    // When the user clicks anywhere outside of the modal, close it
+                // When the user clicks anywhere outside of the modal, close it
 
-                    modal2.style.display = "block";
-                    window.onclick = function (event) {
-                        if (event.target == modal2) {
-                            modal2.style.display = "none";
-                        }
-                    }
-                </script>
-            </footer>
+                modal2.style.display = "block";
+
+            </script>
+        </footer>
     </body>
 </html>

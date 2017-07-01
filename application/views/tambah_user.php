@@ -120,13 +120,27 @@
             }
             $this->session->unset_userdata('tambah_user');
         }
+
+        if (isset($_SESSION["edit_user"])) {
+            $nama = $_SESSION["nama_user_edit"];
+            $id = $_SESSION["id_user_edit"];
+            $ubah = $_SESSION["edit_user"];
+            if ($ubah) {
+                echo "<script>swal(\"Data Berhasil Diubah\", \"Ubah Data : $nama ($id)\", \"success\");</script>";
+            } else {
+                echo "<script>swal(\"Data Gagal Diubah\", \"Ubah Data : $nama ($id)\", \"error\");</script>";
+            }
+            $this->session->unset_userdata('edit_user');
+            $this->session->unset_userdata('nama_user_edit');
+            $this->session->unset_userdata('id_user_edit');
+        }
         ?>
 
-        <div class="bgimg-2 w3-display-container w3-opacity-min">
+        <div class="bgimg-2 w3-display-container">
             <div  class="w3-display-topmiddle w3-padding" style="width: 100%">
                 <table style="width: 100%;vertical-align:text-top;margin-bottom:10%">
                     <tr>
-                        <th class="w3-animate-top w3-top" style="width:30%">
+                        <th class="w3-animate-top w3-top w3-opacity-min w3-hover-opacity-off" style="width:30%">
                     <form action="<?php echo base_url('UserControl/tambahUser') ?>">
                         <div class="w3-container w3-theme">
                             <h3><i class="fa fa-user-circle-o w3-margin-right w3-margin-top"></i>TAMBAHKAN USER INTERNAL</h3>
@@ -139,7 +153,7 @@
                             <div class="w3-row-padding w3-padding" style="margin:0 -16px;">
                                 <div>
                                     <label><i class="fa fa-id-card"></i> Nama User</label>
-                                    <input class="w3-input w3-border" type="text" value="" name="nama_user" required="" placeholder="Masukkan nama pegawai (pegawai CSSD atau SIM) / nama ruangan (peminjam internal)">
+                                    <input class="w3-input w3-border" type="text" value="" name="nama_user" title="Masukkan nama pegawai (pegawai CSSD atau SIM) / nama ruangan (peminjam internal)" required="" placeholder="Masukkan nama pegawai (pegawai CSSD atau SIM) / nama ruangan (peminjam internal)">
                                 </div>
                             </div>
                             <div class="w3-row-padding w3-padding" style="margin:0 -16px;">
@@ -159,23 +173,24 @@
                                 </div>
                             </div>
                             <button class="w3-button w3-green" type="submit" name="ubah" value="yes"><h2><i class="fa fa-plus-square w3-margin-right"></i> TAMBAH</h2></button>
-
                         </div>
                     </form>
                     </th>
-                    <th class="w3-top">
+                    <th class="w3-top w3-opacity-min w3-hover-opacity-off">
                     <table class="w3-table w3-striped w3-bordered w3-card w3-margin-left w3-margin-top w3-margin-right" align="center" style="width:67%">
                         <thead class="w3-margin-top">
                             <tr>
-                                <th colspan="4" class="w3-green">
+                                <th colspan="6" class="w3-green">
                         <h3 class="w3-right w3-xxlarge"><i class="fa fa-users w3-margin-right"></i>DAFTAR USER</h3>
                         </th>
+
                         </tr>
-                        <tr class="w3-theme w3-margin-top">
+                        <tr class="w3-theme w3-margin-top ">
                             <th style="text-align: right;">USERNAME</th>
                             <th style="text-align: left;">NAMA</th>
-                            <th style="text-align: center;">NOMOR TELEPON</th>
+                            <th style="text-align: left;">NOMOR TELEPON</th>
                             <th style="text-align: center;">STATUS</th>
+                            <th style="text-align: center;color:" colspan="2">AKSI</th>
                         </tr>
                         </thead>
                         <tbody class="w3-animate-opacity">
@@ -194,13 +209,9 @@
                             }
 
                             function cekWarna($stat) {
-                                if ($stat == 0) {
-                                    return 'red';
-                                } else if ($stat == 2) {
-                                    return 'black';
-                                } else if ($stat == 3) {
+                                if ($stat == 3) {
                                     return '#006699';
-                                }  else {
+                                } else {
                                     return 'green';
                                 }
                             }
@@ -215,9 +226,20 @@
                                     <tr>
                                     <td style='text-align: right'>$r->id_user</td>
                                     <td style='text-align: left'><b>$r->nama_user</b></td>
-                                    <td style='text-align: center'>$r->no_telepon</td>
+                                    <td style='text-align: left'>$r->no_telepon</td>
                                     <td style='text-align: center;color:$warna'>$data_status_user</td>
-                                    </tr>";
+                                        <form method='post' action=";
+                                    echo base_url('/site/edit_user');
+                                    echo ">
+                                        <td style='text-align: center;'><button title='Ubah Data' class=\"btn btn-success\" name=\"id\" value=\"$r->id_user\" style='width:60%'><i class=\"fa fa-edit w3-text-black w3-large\"></i></button></td>
+                                        </form>";
+//                                    echo "<form action=";
+//                                    echo base_url('/site/hapus_user');
+//                                    echo ">
+//                                        <td style='text-align: left;'><button title='Hapus Data' class=\"btn btn-warning\" name=\"id\" value=\"$r->id_user\" style='width:60%'><i class=\"fa fa-trash w3-text-black w3-large\"></i></button></td>
+//                                            <input type='hidden' name='namauser' value='$r->nama_user'>
+//                                        </form>";
+                                    echo "</tr>";
                                 endforeach;
                             }
                             ?>

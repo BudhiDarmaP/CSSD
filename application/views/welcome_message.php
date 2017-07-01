@@ -9,9 +9,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
+        <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
         <script src="JavaScript.js"></script>
         <title>Login</title>
     </head>
+    <?php
+    if (isset($_SESSION["is_logged_in"])) {
+        $login = $_SESSION["is_logged_in"];
+        if ($login) {
+            redirect(base_url('site/halamanUtama'));
+        }
+    }
+    ?>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
         body, html {
@@ -117,7 +126,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             echo "<h5 class=\"w3-center\">Anda Tidak Berhak Login</i></h5>";
                             $this->session->unset_userdata('not_user');
                         } else {
-                            echo "<h5 class=\"w3-center\">Kombinasi Username dan Password Salah <i>Mohon Diulangi</i></h5>";
+                            if (isset($_SESSION["not_login"])) {
+                                echo "<h5 class=\"w3-center\">Maaf Anda Harus Login</i></h5>";
+                            } else {
+                                echo "<h5 class=\"w3-center\">Kombinasi Username dan Password Salah <i>Mohon Diulangi</i></h5>";
+                            }
+                        }
+
+                        if (isset($not_login)) {
+                            echo "<h5 class=\"w3-center\">Maaf Anda Harus Login</i></h5>";
                         }
                         echo "</div>
                             <div class = \"container w3-center\">
@@ -132,7 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     ?>
                 </div>
                 <div class="w3-container w3-white w3-padding-16">
-                    <form action="<?php echo base_url('LoginControl/cobaLogin') ?>">
+                    <form method="post" action="<?php echo base_url('LoginControl/cobaLogin') ?>">
                         <input type="text" name="username" id="username" placeholder="Username" required="required" style="width:100%;height:60px"/>
                         <input type="password" name="password" id="password" placeholder="Password" required="required" style="width:100%;height:60px"/>
                         <button class="w3-goldyellow"><h3>Login</h3></button>

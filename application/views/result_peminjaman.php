@@ -91,6 +91,16 @@
 
                 <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
                 <?php
+                if (isset($_SESSION["pinjam_instrumen"])) {
+                    $ubah = $_SESSION["pinjam_instrumen"];
+                    if ($ubah) {
+                        echo "<script>swal(\"Pinjam Instrumen Berhasil\", \"\", \"success\");</script>";
+                    } else {
+                        echo "<script>swal(\"Centang Checkbox Untuk Meminjam Instrumen\", \"\", \"error\");</script>";
+                    }
+                    $this->session->unset_userdata('pinjam_instrumen');
+                }
+                
                 if (isset($_SESSION["status_user"])) {
                     $status_user = $_SESSION["status_user"];
                     if ($status_user == 0 || $status_user == 1) {

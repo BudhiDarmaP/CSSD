@@ -1,18 +1,21 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Halaman Utama</title>
+    <title>Peminjaman</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
+    <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
+    <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
+    <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
         body, html {
@@ -37,13 +40,13 @@
 
         /* Second image (Portfolio) */
         .bgimg-2 {
-            min-height: 400px;
+            min-height: 1000%;
         }
 
         /* Third image (Contact) */
         .bgimg-3 {
             background-image: url("");
-            min-height: 400px;
+            min-height: 100%;
         }
 
         .w3-wide {letter-spacing: 10px;}
@@ -64,44 +67,10 @@
                 <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
                     <i class="fa fa-bars"></i>
                 </a>
-
                 <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <?php
-                if (isset($_SESSION["status_user"])) {
-                    $status_user = $_SESSION["status_user"];
-                    if ($status_user == 0) {
-                        echo "
-                            <a href=\"";
-                        echo base_url('/site/tambah_user/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-users\"></i> USER</a>
-                        ";
-                    } elseif ($status_user == 1) {
-                        echo "
-                            <a href=\"";
-                        echo base_url('/site/halamanInstrumen/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
-                            <a href=\"";
-                        echo base_url('/site/peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                            <a href=\"";
-                        echo base_url('/site/pengembalian/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
-                            <a href=\"";
-                        echo base_url('/site/laporan/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
-                        ";
-                    } elseif ($status_user == 2) {
-                        echo "
-                            <a href=\"";
-                        echo base_url('/site/tambah_peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        ";
-                    } else {
-                        redirect(base_url('/LoginControl/destroy_session/'));
-                    }
-                }
-                ?>
-                <a href="<?php echo base_url('/site/ubah_password_konfirmasi/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-user"></i> UBAH PASSWORD</a>
+                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-search"></i> CARI</a>
+                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-plus"></i> TAMBAH</a>
+                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-eraser"></i> HAPUS</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -113,18 +82,6 @@
         <!-- Container (About Section) -->
         <div class="w3-content w3-container w3-center" id="about">
             <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
-            <?php
-            $status_user = $_SESSION['status_user'];
-            $status_user_text;
-            if ($status_user == 0) {
-                $status_user_text = 'Super Administrator';
-            } elseif ($status_user == 1) {
-                $status_user_text = 'Pegawai CSSD';
-            } else {
-                $status_user_text = 'Peminjam';
-            }
-            echo "<br><span class='w3-large w3-animate-opacity'>Status User : <b class='w3-text-red '>$status_user_text<b> </span>";
-            ?>
         </div>
 
 
@@ -132,9 +89,12 @@
         <!-- Second Parallax Image with Portfolio Text -->
         <div class="bgimg-2 w3-display-container w3-opacity-min">
             <div class="w3-display-topmiddle w3-center w3-black w3-opacity w3-animate-fading w3-padding-small">
-                <span class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity">Central Sterile Supply Department</span>
+                <span class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity w3-margin-left"> Halaman Instrumen</span>
             </div>
-
+            
+        </div>
+        <div class="bgimg-3 w3-display-container w3-opacity-min">
+            
         </div>
 
         <footer class="w3-center w3-green w3-margin-bottom">

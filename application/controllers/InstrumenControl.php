@@ -15,6 +15,24 @@ class InstrumenControl extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->check_log_in();
+    }
+
+    function check_log_in() {
+        $is_logged_in_check = $this->session->userdata('is_logged_in');
+
+        if (!isset($is_logged_in_check) || $is_logged_in_check != TRUE) {
+            $data = array(
+                'is_logged_in' => false,
+                'not_login' => 'Maaf Anda Harus Login'
+            );
+            $this->session->set_userdata($data);
+            $this->load->view('welcome_message');
+            $this->CI = & get_instance();
+            $this->CI->output->_display();
+
+            die();
+        }
     }
 
     function tambah() {
@@ -69,7 +87,6 @@ class InstrumenControl extends CI_Controller {
             $this->session->set_userdata($data);
             redirect(base_url('site/hapus_instrument'));
         } else {
-//            $query = $this->Instrument->hapus_instrumen($id);
             $data = array(
                 'hapus_instrumen_confirm' => TRUE,
                 'listid' => $id
@@ -77,14 +94,6 @@ class InstrumenControl extends CI_Controller {
             $this->session->set_userdata($data);
             redirect(base_url('site/hapus_instrument'));
         }
-//        else {
-//            
-//            $data = array(
-//                'tambah_instrumen' => false
-//            );
-//            $this->session->set_userdata($data);
-//            $this->load->view('tambah_instrument');
-//        }
     }
 
     function hapusFix() {

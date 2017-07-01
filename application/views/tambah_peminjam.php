@@ -102,10 +102,10 @@ and open the template in the editor.
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i>HOME</a>
-                <a href="<?php echo base_url('/site/tambah_peminjam/'); ?>" class="w3-bar-item w3-button     w3-hide-small"><i class="fa fa-user"></i>TAMBAH PEMINJAM</a>
-                <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i>TAMBAH PEMINJAMAN</a>
-                <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-check"></i>CEK PEMINJAMAN</a>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <a href="<?php echo base_url('/site/tambah_peminjam/'); ?>" class="w3-bar-item w3-button     w3-hide-small"><i class="fa fa-user"></i> TAMBAH PEMINJAM</a>
+                <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i> TAMBAH PEMINJAMAN</a>
+                <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-check"></i> CEK PEMINJAMAN</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -132,7 +132,7 @@ and open the template in the editor.
         <div class="w3-container">
             <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">PENAMBAHAN PEMINJAM EKSTERNAL</b>
+                    <b style="color: green">TAMBAH PEMINJAM EKSTERNAL</b>
                 </div>
                 <table align="center"><tr><th>
                     <div class="w3-container w3-white w3-padding-16 w3-card w3-margin-bottom">
@@ -140,7 +140,7 @@ and open the template in the editor.
                             <div class="w3-row-padding">
                                 <div class=" w3-margin-bottom">
                                     <label>Masukkan Nama Peminjam</label>
-                                    <input class="w3-input w3-border" type="text" value="" name="nama_user" required="" placeholder="Nama Peminjam">
+                                    <input class="w3-input w3-border" type="text" value="" name="nama_user" required="" placeholder="Nama Peminjam / Nama Instansi Peminjam">
                                 </div>
 
                                 <div class=" w3-margin-bottom">
