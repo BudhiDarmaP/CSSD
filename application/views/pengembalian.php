@@ -79,13 +79,13 @@
                     <div class='container w3-center'>
                         <form style='width:57%' action='";
                 echo base_url('/PengembalianControl/pengembalian');
-                echo "'><input type='text' name='id_transaksi' placeholder='Masukkan ID Transaksi' value=''>
+                echo "'><input type='text' name='id_transaksi' placeholder='Masukkan ID Transaksi' required>
                     <button style='width:57%'><h4 style='color: white'>CARI</h4></button></form>
                     </div>
                     <div class='w3-center w3-margin-bottom'>
                         <a class='w3-xxlarge' href='";
                 echo base_url('/site/HalamanUtama');
-                echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-red\"></i></span></a>
+                echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-red\"></i>Kembali</span></a>
                     </div>
                     </div>";
                 $this->session->unset_userdata('konfirmasi');
