@@ -88,7 +88,7 @@
                 echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-red\"></i></span></a>
                     </div>
                     </div>";
-                $this->session->unset_userdata('');
+                $this->session->unset_userdata('konfirmasi');
             } else {
                 redirect(base_url('/site/halamanUtama/'));
             }

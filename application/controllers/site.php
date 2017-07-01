@@ -196,6 +196,7 @@ class Site extends CI_Controller {
 
     function pengembalian() {
         $this->check_log_in_admin_cssd();
+        $this->session->unset_userdata('konfirmasi');
         $this->load->view('pengembalian');
     }
 
