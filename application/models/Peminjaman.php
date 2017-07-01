@@ -146,5 +146,14 @@ class Peminjaman extends CI_Model {
         $this->db->query($update_instrumen);
         return TRUE;
     }
+    function konfirmasi_pengembalian($id, $inst, $tgl_kembali/*, $ket*/) {
+        //update peminjaman
+        $update_instrumen = "UPDATE PEMINJAMAN SET STATUS_PEMINJAMAN=2 , "
+                . "TANGGAL_KEMBALI=STR_TO_DATE('$tgl_kembali', '%m/%d/%Y')"
+                /*. ", KET='$ket' "*/
+                . "WHERE (ID_TRANSAKSI='$id' AND ID_INSTRUMEN='$inst')";
+        $this->db->query($update_instrumen);
+        return TRUE;
+    }
 
 }

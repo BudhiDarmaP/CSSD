@@ -107,32 +107,40 @@
 
                     <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
                     <?php
-                    if (isset($_SESSION["status_user"])) {
-                        $status_user = $_SESSION["status_user"];
-                        if ($status_user == 0 || $status_user == 1) {
-                            echo "
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjam/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
-                        <a href=\"";
-                            echo base_url('/site/cek_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
+                if (isset($_SESSION["status_user"])) {
+                    $status_user = $_SESSION["status_user"];
+                    if ($status_user == 0) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/tambah_user/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-users\"></i> USER</a>
                         ";
-                        } else {
-                            echo "
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        <a href=\"";
-                            echo base_url('/site/ubah_password/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
+                    } elseif ($status_user == 1) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/halamanInstrumen/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
+                            <a href=\"";
+                        echo base_url('/site/peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                            <a href=\"";
+                        echo base_url('/site/pengembalian/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
+                            <a href=\"";
+                        echo base_url('/site/laporan/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
                         ";
-                        }
+                    } elseif ($status_user == 2) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/tambah_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        ";
+                    } else {
+                        redirect(base_url('/LoginControl/destroy_session/'));
                     }
-                    ?>
+                }
+                ?>
 
                     <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
                 </div>
@@ -145,10 +153,8 @@
             <?php
             if (isset($_SESSION["konfirmasi"])) {
                 $ubah = $_SESSION["konfirmasi"];
-                if ($ubah) {
-                    echo "<script>swal(\"Konfirmasi Peminjaman Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
-                } else {
-                    echo "<script>swal(\"Konfirmasi Peminjaman Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
+                if (!$ubah) {
+                echo "<script>swal(\"Konfirmasi Pengembalian Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
                 }
             }
             ?>
@@ -164,24 +170,24 @@
                     if (isset($_SESSION["konfirmasi"])) {
                         $cek = $_SESSION["konfirmasi"];
                         if ($cek != NULL) {
-                            echo "<h4 style='color: red'>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN</h4>
+                            echo "<h4 style='color: red'>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN ATAU SUDAH DIKEMBALIKAN</h4>
                             </div>";
                         }
                     } else {
                         echo "<h4 style='color: green'>Konfirmasi Pengembalian <u><b>
                             </b></u></h4></div>
                         <form method='POST' action='";
-                        echo base_url('');
+                        echo base_url('PengembalianControl/konfirm');
                         echo "'>";
                         echo "<table><th>TANGGAL PENGEMBALIAN</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>
+                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi' required></td>
                             </table>
                             <table class='w3-table w3-striped w3-bordered' align='center'>
                             <thead>
                             <tr class='w3-theme'>
                             <th style='text-align: center;'>TANGGAL_PINJAM</th>
                             <th style='text-align: center;'>TANGGAL_KEMBALI</th>
-                            <th style=text-align: left;'>NAMA INSTRUMEN</th>
+                            <th style='text-align: left;'>NAMA INSTRUMEN</th>
                             <th style='text-align: center;'>JUMLAH PINJAM</th>
                             <th style='text-align: center;'>KETERANGAN</th>
                             <th style='text-align: left;'>CEK</th>
@@ -194,8 +200,8 @@
                             <td style='text-align: left'><b>$r->nama_instrumen</b></td>
                             <td style='text-align: center'>$r->jumlah_pinjam
                             <td style='text-align: center' class='inputKet'><input type='text' name='ket[]'>
-                            <td><input type='checkbox' value='$r->id_transaksi' name='transaksi[]'>
-                            <input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>
+                            <td><input type='checkbox' value='$r->id_instrumen' name='id_instrumen[]'>
+                            <input type='hidden' value='$r->id_transaksi' name='transaksi'>
                             </td>
                             </tr>";
                         endforeach;
@@ -204,8 +210,6 @@
                     <button class='buttonPinjam w3-goldyellow'><i class='fa fa-briefcase'></i>KONFIRMASI</button>
                     </form>";
                     }
-                    $this->session->unset_userdata('nama_instrumen');
-                    $this->session->unset_userdata('cari_instrumen');
                     $this->session->unset_userdata('konfirmasi');
                     ?>
                 </div>

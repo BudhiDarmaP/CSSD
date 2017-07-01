@@ -58,6 +58,16 @@
     </style>
     <body>
         <?php
+            if (isset($_SESSION["konfirmasi"])) {
+                $ubah = $_SESSION["konfirmasi"];
+                if ($ubah) {
+                    echo "<script>swal(\"Konfirmasi Pengembalian Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
+                } else {
+                    echo "<script>swal(\"ID Transaksi Kosong\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
+                }
+            }
+            ?>
+        <?php
         if (isset($_SESSION["status_user"])) {
             $status = $_SESSION["status_user"];
             if ($status == 0 || $status == 1) {
