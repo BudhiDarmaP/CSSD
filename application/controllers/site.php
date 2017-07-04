@@ -140,7 +140,9 @@ class Site extends CI_Controller {
     function tambah_peminjaman() {
         $this->check_log_in_to_peminjaman();
         $this->load->model('Instrument');
+        $this->load->model('Setting_Set');
         $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+        $data['set'] = $this->Setting_Set->panggil_set();
         $this->load->view('tambah_peminjaman', $data);
     }
 
@@ -161,10 +163,41 @@ class Site extends CI_Controller {
     function lihat_peminjaman() {
         $this->check_log_in_admin_cssd();
         $this->load->model('Peminjaman');
-        $tgl = date('d/m/Y');
-        $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
-        $data['tanggal'] = $tgl;
-        $this->load->view('lihat_peminjaman', $data);
+        if (isset($_POST['kembali'])) {
+            $tgl = $_POST['tgl_pinjam'];
+            list($thn, $bln, $tgl, ) = explode('-', $tgl);
+            $tgl = $tgl . '/' . $bln . '/' . $thn;
+            $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+            $data['tanggal'] = $tgl;
+            $this->load->view('lihat_peminjaman', $data);
+        } else {
+            $tgl = date('d/m/Y');
+            $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+            $data['tanggal'] = $tgl;
+            $this->load->view('lihat_peminjaman', $data);
+        }
+    }
+
+    function lihat_peminjamanan_detail() {
+        $this->check_log_in_admin_cssd();
+        $this->load->model('Peminjaman');
+        $this->load->model('Users');
+        //panggil tgl
+        $id = $_POST['id'];
+        $transaksi = $_POST['transaksi'];
+        //masukkan tanggal sebagai pencarian peminjaman
+        $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman_detail($transaksi);
+        //manggil data peminjam
+        $query = $this->Users->panggil_data_user_by_id($id);
+        $data['peminjam'] = $query->nama_user;
+        //manggil data tanggal pinjam
+        $tanggal;
+        foreach ($data['pinjam_instrumen'] as $r):
+            $tanggal = $r->tanggal_pinjam;
+        endforeach;
+        $data['id_transaksi'] = $transaksi;
+        //panggil view
+        $this->load->view('lihat_peminjaman_detail', $data);
     }
 
     function laporan() {
@@ -193,7 +226,7 @@ class Site extends CI_Controller {
         $this->check_log_in_admin_cssd();
         $this->load->view('tambah_peminjam');
     }
-
+    
     function pengembalian() {
         $this->check_log_in_admin_cssd();
         $this->session->unset_userdata('konfirmasi');

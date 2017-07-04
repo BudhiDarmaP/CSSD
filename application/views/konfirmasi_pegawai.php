@@ -12,7 +12,17 @@
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
     <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
-    <script src="JavaScript.js"></script>
+    <script>
+        function validasi_input(form) {
+            if (form.peminjam.value == "") {
+                alert("Anda belum memilih peminjam!");
+                form.peminjam.focus();
+                return (false);
+            }
+
+            return (true);
+        }
+    </script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
         body, html {
@@ -108,7 +118,7 @@
                             echo base_url('/site/tambah_peminjaman/');
                             echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
                         <a href=\"";
-                            echo base_url('/site/ubah_password/');
+                            echo base_url('/site/ubah_password_konfirmasi/');
                             echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
                         ";
                         }
@@ -128,31 +138,42 @@
                 <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
             </div>
 
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
-                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">Konfirmasi Peminjaman</b>
+            <div class="w3-responsive w3-card-4 w3-padding-16" >
+                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left w3-large w3-green">
+                    <b class='w3-padding '>Konfirmasi Peminjaman </b>
                 </div>
 
-                <form action='<?php echo base_url('PeminjamanControl/peminjam_belum_konfirmasi'); ?>'>
-                    <table><tr style='text-align: center'>
+                <form action='<?php echo base_url('PeminjamanControl/peminjam_belum_konfirmasi'); ?>' onsubmit="return validasi_input(this)">
+                    <table align="center" style="width:70%;margin-bottom:3%">
+                        <tr>
+                            <th colspan="4" class="w3-small">
+                                Pilih Peminjam Untuk Melihat Daftar Peminjaman Berdasarkan Peminjam
+                            </th>
+                        </tr>
+                        <tr style='text-align:'>
                             <?php
                             if ($status_user == 0 || $status_user == 1) {
-                                echo "<th>ID PEMINJAM</th>
-                                <td><select name='peminjam'>";
+                                echo "<th></th>
+                                    <td style='text-align:center;color:red'><select class='w3-input w3-border w3-padding' name='peminjam' style='width:95%;text-align:center;margin-top:2%' placeholder='Masukkan'>";
+                                echo "
+                                    <option value='' required='' disabled='disabled' selected>-- Pilih Peminjam --</option>
+                                    ";
+//                                <td><select name='peminjam'>";
                                 foreach ($id_peminjam as $r):
                                     echo "
-                                    <option value='$r->id_user'>$r->nama_user</option>
+                                    <option value='$r->id_user' style='color:black'>$r->nama_user</option>
                                     ";
                                 endforeach;
                                 echo "</select></td>
-                            <th><button class='btn btn-success' name='cari' value='CARI' style='color: orange'>
-                            <i class='fa fa-search'></i>&nbsp;</button></th>";
+                            <th><button class='btn btn-success w3-hover-text-black' name='cari' value='CARI' style=''>
+                            <i class='fa fa-search'></i>&nbsp;</button></th>
+                            <td style='width:60%'></td>";
                             }else {
                                 redirect(base_url('/site/home/'));
                             }
                             ?>
-                        </tr></table></form>
-                <table class="w3-table w3-striped w3-bordered" align="center">
+                        </tr>></table></form>
+                <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:70%;margin-bottom:10%">
                     <?php
                     if ($peminjam == NULL) {
                         echo "<td style='text-align: center'>"
@@ -160,26 +181,38 @@
                     } else {
                         echo "<thead>
                                     <tr class='w3-theme'>
-                                    <th style='text-align: center;'>ID TRANSAKSI</th>
-                                    <th style='text-align: center;'>PEMINJAM</th>
-                                    <th style='text-align: center;'>STATUS</th>
+                                    <th style='text-align: left;'>ID TRANSAKSI</th>
+                                    <th style='text-align: left;'>PEMINJAM</th>
+                                    <th style='text-align: center;'></th>
                                     </tr>";
                         foreach ($peminjam as $r):
                             echo "<form action='";
                             echo base_url('PeminjamanControl/konfirmasi_peminjaman');
                             echo "' method='POST'><tbody><tr>
-                                    <td style='text-align: center'><h4>$r->id_transaksi</h4></td>
+                                    <td style='text-align: left;width:30%;'>$r->id_transaksi</td>
                                     <input type='hidden' name='id' value='$r->id_peminjam'>
                                     <input type='hidden' name='transaksi' value='$r->id_transaksi'>
-                                    <td style='text-align: center'><h4>$r->nama_user</h4></td>
-                                    <td style='text-align: center'>
-                                    <button class='buttonKonfirmasi w3-goldyellow'>
-                                    <i class='fa fa-check-circle'></i>KONFIRMASI</button>
+                                    <td style='text-align: left;width:60%;'><b>$r->nama_user</b></td>
+                                    <td style='text-align: center;width:10%;'>
+                                    <button class='btn btn-warning w3-large w3-hover-text-black'>
+                                    <i class='fa fa-check-circle'></i> KONFIRMASI</button>
                                     </td>
                                     </tr></tbody></form>";
                         endforeach;
                     }
                     $this->session->unset_userdata('konfirmasi_pegawai');
+
+                    if (isset($cari)) {
+                        echo "
+                            <form action='";
+                        echo base_url('site/konfirmasi_pegawai');
+                        echo "'>
+                            <tr>
+                            <td colspan='3' style='text-align: center'>
+                                <button class='btn btn-success w3-xlarge w3-hover-text-black' style='width:15%'><i class='fa fa-backward'></i> Kembali</button>
+                            </td>
+                        </tr>";
+                    }
                     ?>
                 </table>
             </div>
@@ -215,7 +248,7 @@
                 // Get the modal
                 var modal = document.getElementById('id01');
                 // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function (event) {
+                window.onclick = function(event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
                     }
@@ -223,7 +256,7 @@
                 var modal2 = document.getElementById('id02');
                 // When the user clicks anywhere outside of the modal, close it
                 modal2.style.display = "block";
-                window.onclick = function (event) {
+                window.onclick = function(event) {
                     if (event.target == modal2) {
                         modal2.style.display = "none";
                     }

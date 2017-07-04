@@ -17,11 +17,11 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {
+        $(function() {
             $("#datepicker").datepicker({minDate: 0});
             $("#datepicker").datepicker({dateformat: 'dd-MM-yy HH:mi'});
         });
-        $(function () {
+        $(function() {
             $("#datepicker2").datepicker({minDate: 0});
             $("#datepicker2").datepicker({dateformat: 'dd-MM-yy HH:mi'});
         });
@@ -89,24 +89,24 @@
             width:200px; border:1px dotted #CI_Unit_test; 
             border-radius:4px; -moz-border-radius:4px; 
             height:38px; margin-left:3px;
-            }
+        }
         .inputKet input{
             width:300px; border:1px dotted #CI_Unit_test; 
             border-radius:4px; -moz-border-radius:4px; 
             height:38px; margin-left:3px;
-            }
-        </style>
-        <body>
+        }
+    </style>
+    <body>
 
-            <!-- Navbar (sit on top) -->
-            <div class="w3-top">
-                <div class="w3-bar w3-card w3-white" id="myNavbar">
-                    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                        <i class="fa fa-bars"></i>
-                    </a>
+        <!-- Navbar (sit on top) -->
+        <div class="w3-top">
+            <div class="w3-bar w3-card w3-white" id="myNavbar">
+                <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+                    <i class="fa fa-bars"></i>
+                </a>
 
-                    <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                    <?php
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <?php
                 if (isset($_SESSION["status_user"])) {
                     $status_user = $_SESSION["status_user"];
                     if ($status_user == 0) {
@@ -141,124 +141,124 @@
                     }
                 }
                 ?>
-
-                    <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
-                </div>
+                <a href="<?php echo base_url('/site/ubah_password_konfirmasi/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-user"></i> UBAH PASSWORD</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
+        </div>
 
-            <!-- First Parallax Image with Logo Text -->
-            <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
-            </div>
+        <!-- First Parallax Image with Logo Text -->
+        <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
+        </div>
 
-            <?php
-            if (isset($_SESSION["konfirmasi"])) {
-                $ubah = $_SESSION["konfirmasi"];
-                if (!$ubah) {
+        <?php
+        if (isset($_SESSION["konfirmasi"])) {
+            $ubah = $_SESSION["konfirmasi"];
+            if (!$ubah) {
                 echo "<script>swal(\"Konfirmasi Pengembalian Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
-                }
             }
-            ?>
+        }
+        ?>
 
-            <!-- Container (About Section) -->
-            <div class="w3-content w3-container w3-center" id="about">
-                <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
-            </div>
+        <!-- Container (About Section) -->
+        <div class="w3-content w3-container w3-center" id="about">
+            <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
+        </div>
 
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
-                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <?php
-                    if (isset($_SESSION["konfirmasi"])) {
-                        $cek = $_SESSION["konfirmasi"];
-                        if ($cek != NULL) {
-                            echo "<h4 style='color: red'>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN ATAU SUDAH DIKEMBALIKAN</h4>
+        <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
+            <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
+                <?php
+                if (isset($_SESSION["konfirmasi"])) {
+                    $cek = $_SESSION["konfirmasi"];
+                    if ($cek != NULL) {
+                        echo "<h4 style='color: red'>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN ATAU SUDAH DIKEMBALIKAN</h4>
                             </div>";
-                        }
-                    } else {
-                        echo "<h4 style='color: green'>Konfirmasi Pengembalian <u><b>
+                    }
+                } else {
+                    echo "<h4 style='color: green'>Konfirmasi Pengembalian <u><b>
                             </b></u></h4></div>
                         <form method='POST' action='";
-                        echo base_url('PengembalianControl/konfirm');
-                        echo "'>";
-                        echo "<table><th>TANGGAL PENGEMBALIAN</th>
+                    echo base_url('PengembalianControl/konfirm');
+                    echo "'>";
+                    echo "<table><th>TANGGAL PENGEMBALIAN</th>
                             <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi' required></td>
                             </table>
                             <table class='w3-table w3-striped w3-bordered' align='center'>
                             <thead>
                             <tr class='w3-theme'>
-                            <th style='text-align: center;'>TANGGAL_PINJAM</th>
-                            <th style='text-align: center;'>TANGGAL_KEMBALI</th>
+                            <th style='text-align: center;'>TANGGAL PINJAM</th>
+                            <th style='text-align: center;'>TANGGAL KEMBALI</th>
                             <th style='text-align: left;'>NAMA INSTRUMEN</th>
                             <th style='text-align: center;'>JUMLAH PINJAM</th>
                             <th style='text-align: center;'>KETERANGAN</th>
                             <th style='text-align: left;'>CEK</th>
                             </tr>";
-                        foreach ($pengembalian as $r):
-                            echo "<tbody>
+                    foreach ($pengembalian as $r):
+                        echo "<tbody>
                              <tr>
                             <td style='text-align: center'><h5>$r->tanggal_pinjam</h5></td>
                             <td style='text-align: center'><h5>$r->tanggal_kembali</h5></td>
-                            <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                            <td style='text-align: center'>$r->jumlah_pinjam
+                            <td style='text-align: left'><h5><b>$r->nama_instrumen</b></h5></td>
+                            <td style='text-align: center'><h5>$r->jumlah_pinjam</h5>
                             <td style='text-align: center' class='inputKet'><input type='text' name='ket[]'>
                             <td><input type='checkbox' value='$r->id_instrumen' name='id_instrumen[]'>
                             <input type='hidden' value='$r->id_transaksi' name='transaksi'>
                             </td>
                             </tr>";
-                        endforeach;
-                        echo "</tbody>
+                    endforeach;
+                    echo "</tbody>
                     </table>
                     <button class='buttonPinjam w3-goldyellow'><i class='fa fa-briefcase'></i>KONFIRMASI</button>
                     </form>";
-                    }
-                    $this->session->unset_userdata('konfirmasi');
-                    ?>
-                </div>
+                }
+                $this->session->unset_userdata('konfirmasi');
+                ?>
             </div>
+        </div>
 
-            <footer class="w3-center w3-green w3-margin-bottom">
-                <div class="w3-section w3-padding-small"></div>
-                <div class="w3-xlarge w3-section">
-                    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        <footer class="w3-center w3-green w3-margin-bottom">
+            <div class="w3-section w3-padding-small"></div>
+            <div class="w3-xlarge w3-section">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
 
-                </div>
-                <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-                <div class="w3-section w3-padding-small"></div>
-                <script>
-                    function myFunction() {
-                        var navbar = document.getElementById("myNavbar");
-                        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                            navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                        } else {
-                            navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                        }
+            </div>
+            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
+            <div class="w3-section w3-padding-small"></div>
+            <script>
+                function myFunction() {
+                    var navbar = document.getElementById("myNavbar");
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                    } else {
+                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
                     }
-                    function toggleFunction() {
-                        var x = document.getElementById("navDemo");
-                        if (x.className.indexOf("w3-show") == -1) {
-                            x.className += " w3-show";
-                        } else {
-                            x.className = x.className.replace(" w3-show", "");
-                        }
+                }
+                function toggleFunction() {
+                    var x = document.getElementById("navDemo");
+                    if (x.className.indexOf("w3-show") == -1) {
+                        x.className += " w3-show";
+                    } else {
+                        x.className = x.className.replace(" w3-show", "");
                     }
-                </script>
-                <script>
-                    // Get the modal
-                    var modal = document.getElementById('id01');
-                    // When the user clicks anywhere outside of the modal, close it
-                    window.onclick = function (event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
+                }
+            </script>
+            <script>
+                // Get the modal
+                var modal = document.getElementById('id01');
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
                     }
-                    var modal2 = document.getElementById('id02');
-                    // When the user clicks anywhere outside of the modal, close it
-                    modal2.style.display = "block";
-                    window.onclick = function (event) {
-                        if (event.target == modal2) {
-                            modal2.style.display = "none";
-                        }
+                }
+                var modal2 = document.getElementById('id02');
+                // When the user clicks anywhere outside of the modal, close it
+                modal2.style.display = "block";
+                window.onclick = function(event) {
+                    if (event.target == modal2) {
+                        modal2.style.display = "none";
                     }
-                </script>
-            </footer>
-        </body>
-    </html>
+                }
+            </script>
+        </footer>
+    </body>
+</html>

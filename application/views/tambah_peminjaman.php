@@ -133,20 +133,37 @@
 
         <div class="w3-container">
             <div class="w3-container w3-responsive w3-padding-24">
-                <form action="<?php echo base_url('/PeminjamanControl/cari'); ?>">
-                    <div class="col-xs-12">
-                        <table style="width:30%">
-                            <tr>
-                                <th style="width: 90%">
-                                    <input style="height: 40px;width:95%;margin-top:15px" type="text" class="form-control" name="namainstrumen" placeholder="Masukkan Nama Instrumen" required="">
-                                </th>
-                                <th style="width: 10%;margin-left:1px">
-                                    <button class="btn btn-success" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
-                                </th>
-                            </tr>
-                        </table>
-                    </div>
-                </form>
+                <div class="col-xs-12">
+                    <table style="width:55%" align='center'>
+                        <tr>
+                        <form action="<?php echo base_url('/PeminjamanControl/cari'); ?>">
+                            <th style="width: 50%">
+                                <div>
+                                    <input style="height: 40px;width:60%;margin-top:15px" type="text" class="form-control" name="namainstrumen" placeholder="Masukkan Nama Instrumen" required="">
+                                    <button class="btn btn-success" name="cari" value="CARI" style="width: 15%"><i class="fa fa-search"></i>&nbsp;</button>
+                                </div>
+                            </th>
+                        </form>
+                        <form action="<?php echo base_url('/PeminjamanControl/pinjam_setting'); ?>">
+                            <th style="width: 70%;">
+                                <div>
+                                    <select name='set' required="" style="width: 60%">
+                                        <option value='' required='' disabled='disabled' selected>-- Pilih Setting Set --</option>
+                                        <?php
+                                        foreach ($set as $s):
+                                            echo "
+                                            <option value='$s->id_set' style='color:black'>$s->nama_set</option>";
+                                        endforeach;
+                                        ?>
+                                    </select>
+                                    <input type='number' name='banyak_set' min='0' style='width:12.5%' required="">
+                                    <button class="btn btn-success" value="CARI" style="width: 15%"><i class="fa fa-check"></i>&nbsp;</button>
+                                </div>
+                            </th>
+                        </form>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
             <div class="w3-responsive w3-card-4 w3-padding-16" >
@@ -274,7 +291,7 @@
                 var modal = document.getElementById('id01');
 
                 // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
+                window.onclick = function (event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
                     }

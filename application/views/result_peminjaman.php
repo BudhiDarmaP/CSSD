@@ -12,7 +12,7 @@
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
-    <link href="<?php echo base_url('images/Logo.png');?>" rel="icon" type="image/png"/>
+    <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
     <script src="JavaScript.js"></script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -99,25 +99,36 @@
                         echo "<script>swal(\"Centang Checkbox Untuk Meminjam Instrumen\", \"\", \"error\");</script>";
                     }
                     $this->session->unset_userdata('pinjam_instrumen');
+                    $this->session->unset_userdata('setting_set');
                 }
-                
+
                 if (isset($_SESSION["status_user"])) {
                     $status_user = $_SESSION["status_user"];
                     if ($status_user == 0 || $status_user == 1) {
                         echo "
-                        <a href=\""; echo base_url('/site/tambah_peminjam/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
-                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
-                        <a href=\""; echo base_url('/site/cek_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
+                        <a href=\"";
+                        echo base_url('/site/tambah_peminjam/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
+                        <a href=\"";
+                        echo base_url('/site/tambah_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
+                        <a href=\"";
+                        echo base_url('/site/cek_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
                         ";
                     } else {
                         echo "
-                        <a href=\""; echo base_url('/site/tambah_peminjaman/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        <a href=\""; echo base_url('/site/ubah_password/'); echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
+                        <a href=\"";
+                        echo base_url('/site/tambah_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        <a href=\"";
+                        echo base_url('/site/ubah_password_konfirmasi/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
                         ";
                     }
                 }
                 ?>
-                
+
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -130,103 +141,79 @@
         <div class="w3-content w3-container w3-center" id="about">
             <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
         </div>
+        <table style="width:70%" align='center'><tr><th>
+            <div class="w3-responsive w3-card-4 w3-padding-16">
+                <div class="w3-container w3-responsive w3-margin-bottom w3-center">
 
-        <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
-            <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                <?php
-                if ($pinjam_instrumen == NULL) {
-                    echo "<h2 style='text-align: center; color: red'>PEMINJAMAN GAGAL</h2></div>";
-                } else {
-                    echo "<b style='color: green'>Daftar Amprah</b></div>
-                    <table class = 'w3-table w3-striped w3-bordered' align = 'center'>
-                <thead><tr class = 'w3-theme'>
-                <th style = 'text-align: center;'>ID PEMINJAM</th>
-                <th style = 'text-align: center;'>NAMA INSTRUMEN</th>
-                <th style = 'text-align: center;'>TANGGAL PINJAM</th>
-                <th style = 'text-align: center;'>TANGGAL KEMBALI</th>
-                <th style = 'text-align: center;'>JUMLAH</th>
-                <th style = 'text-align: center;'>STATUS</th>
-                </tr>
-                <tbody>";
-                    foreach ($pinjam_instrumen as $r):
+                    <?php
+                    $status_user = $_SESSION["status_user"];
+                    if ($pinjam_intrumen && $status_user!=1) {
                         echo "
-                <tr>
-                <td style='text-align: center'>$r->id_peminjam</td>
-                <td style='text-align: center'><b>$r->nama_instrumen</b></td>
-                <td style='text-align: center'>$r->tanggal_pinjam</td>
-                <td style='text-align: center'>$r->tanggal_kembali</td>
-                <td style='text-align: center'>$r->jumlah_pinjam</td>";
-                        if ($r->status_peminjaman == 0) {
-                        echo "
-                <td style='text-align: center'><h5 style='color:orange'>MENUNGGU APPROVE</h5></td>
-                </tr>";
-                        }
-                        else if ($r->status_peminjaman == 1) {
-                        echo "
-                <td style='text-align: center'><h5 style='color:red'>BELUM DIKEMBALIKAN</h5></td>
-                </tr>";
-                        }
-                        else if ($r->status_peminjaman == 2) {
-                        echo "
-                <td style='text-align: center'><h5 style='color:green'>SUDAH DIKEMBALIKAN</h5></td>
-                </tr>";
-                        }
-                    endforeach;
-                    $this->session->unset_userdata('pinjam_instrumen');
-                }
-                ?>
-                </tbody>
-                </table>
-            </div>
-
-            <footer class="w3-center w3-green w3-margin-bottom">
-                <div class="w3-section w3-padding-small"></div>
-                <div class="w3-xlarge w3-section">
-                    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+                    <h4 style='text-align: center;margin-bottom:10%;' class='w3-theme w3-padding w3-large'>
+                    <br><br><b style='color:red' class='w3-animate-fading'>Catat ID Transaksi Peminjaman Instrumen !</b><br>
+                    <br>ID Transaksi : <br>
+                    <b class='w3-padding-16 w3-xxxlarge w3-hover-text-black' title='Serahkan kepada CSSD agar segera di Approve'>$id_transaksi</b>
+                    <br><br><img src='";
+                        echo base_url('images/note.png');
+                        echo "' class='w3-center w3-margin-top w3-margin-bottom'><br>Serahkan kepada CSSD agar segera di Approve</h4>";
+                    } else {
+                        
+                    }
+                    $this->session->unset_userdata('setting_set');
+                    ?>
 
                 </div>
-                <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-                <div class="w3-section w3-padding-small"></div>
-                <script>
-                    function myFunction() {
-                        var navbar = document.getElementById("myNavbar");
-                        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                            navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                        } else {
-                            navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                        }
-                    }
-                    function toggleFunction() {
-                        var x = document.getElementById("navDemo");
-                        if (x.className.indexOf("w3-show") == -1) {
-                            x.className += " w3-show";
-                        } else {
-                            x.className = x.className.replace(" w3-show", "");
-                        }
-                    }
-                </script>
-                <script>
-                    // Get the modal
-                    var modal = document.getElementById('id01');
+            </div>
+        </th></tr></table>
+        
+<footer class="w3-center w3-green w3-margin-bottom">
+    <div class="w3-section w3-padding-small"></div>
+    <div class="w3-xlarge w3-section">
+        <i class="fa fa-facebook-official w3-hover-opacity"></i>
 
-                    // When the user clicks anywhere outside of the modal, close it
-                    window.onclick = function (event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    }
+    </div>
+    <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
+    <div class="w3-section w3-padding-small"></div>
+    <script>
+        function myFunction() {
+            var navbar = document.getElementById("myNavbar");
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+            } else {
+                navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+            }
+        }
+        function toggleFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
 
-                    var modal2 = document.getElementById('id02');
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
-                    // When the user clicks anywhere outside of the modal, close it
+        var modal2 = document.getElementById('id02');
 
-                    modal2.style.display = "block";
-                    window.onclick = function (event) {
-                        if (event.target == modal2) {
-                            modal2.style.display = "none";
-                        }
-                    }
-                </script>
-            </footer>
-    </body>
+        // When the user clicks anywhere outside of the modal, close it
+
+        modal2.style.display = "block";
+        window.onclick = function(event) {
+            if (event.target == modal2) {
+                modal2.style.display = "none";
+            }
+        }
+    </script>
+</footer>
+</body>
 </html>

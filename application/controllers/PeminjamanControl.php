@@ -34,8 +34,10 @@ class PeminjamanControl extends CI_Controller {
 
     function cari() {
         $this->load->model('Instrument');
+        $this->load->model('Setting_Set');
         $nama = $_GET["namainstrumen"];
         $data['cari_instrumen'] = $this->Instrument->cari_data_instrument($nama);
+        $data['set'] = $this->Setting_Set->panggil_set();
         $data['nama_instrumen'] = $nama;
         $this->load->view('tambah_peminjaman', $data);
     }
@@ -65,6 +67,25 @@ class PeminjamanControl extends CI_Controller {
         }
     }
 
+    function pinjam_setting() {
+        //panggil model
+        $this->load->model('Setting_Set');
+        $this->load->model('Users');
+        //get data
+        $id = $_GET['set'];
+        $jumlah = $_GET['banyak_set'];
+        //set session
+        $kode = array(
+            'kode_set' => $id . ":" . $_GET['banyak_set']
+        );
+        $this->session->set_userdata($kode);
+        //input ke function
+        $data['cari_instrumen'] = $this->Setting_Set->panggil_set_id($id, $jumlah);
+        $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
+        //view halaman
+        $this->load->view('konfirmasi_peminjaman_setting', $data);
+    }
+
     function konfirmasi() {
         //panggil model
         $this->load->model('Peminjaman');
@@ -87,41 +108,105 @@ class PeminjamanControl extends CI_Controller {
         $tgl_pinjam = $_GET['tgl_pinjam'];
         //generate id
         $tgl = date('YmdHis');
-        $id_transaksi = $user . $tgl;
+        $id_transaksi = 'ORD' . $tgl;
         //cek ketersediaan
         if ($tgl_pinjam != NULL) {
             //deklarasi array
             $data[count($id)] = null;
-            $index = 1;
-            //deklarasi input
-            $input1;
-            $input2;
-            $cssd = 'CSSD';
+            $input1 = 0;
             //melooping array input
-            foreach ($jumlah as $input1) {
-                
-            }
-            foreach ($steril as $input2) {
-                
-            }
             //looping array id
+
             foreach ($id as $key) {
                 //simpan peminjaman
                 if ($status == 1) {
-                    $data[$index] = $this->Peminjaman->pinjam_pegawai($id_transaksi, $user, $key, $input1, $input2, $tgl_pinjam, $tgl_kembali, $status);
+                    $data[$input1 + 1] = $this->Peminjaman->pinjam_pegawai($id_transaksi, $user, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status);
                 } else {
-                    $data[$index] = $this->Peminjaman->pinjam_user($id_transaksi, $user, $key, $input1, $tgl_pinjam, $status);
+                    $data[$input1 + 1] = $this->Peminjaman->pinjam_user($id_transaksi, $user, $key, $jumlah[$input1], $tgl_pinjam, $status);
                 }
-                $index++;
+                $input1++;
             }
+
+            //panggil view
+            $data['pinjam_intrumen'] = true;
+            $data['id_transaksi'] = $id_transaksi;
+
+            if ($status == 1) {
+                $tgl = $tgl_pinjam;
+                list($bln, $tgl, $thn) = explode('/', $tgl);
+                $tgl = $tgl . '/' . $bln . '/' . $thn;
+                $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+                $data['pinjam_intrumen'] = true;
+                $data['tanggal'] = $tgl;
+                $this->load->view('lihat_peminjaman', $data);
+            } else {
+                $this->load->view('result_peminjaman', $data);
+            }
+        } else {
             //simpan hasil ke dalam array
             $tampil['pinjam_instrumen'] = $this->Peminjaman->panggil_pinjam($id_transaksi);
             //panggil view
-            $data = array(
-                'pinjam_instrumen' => true
-            );
-            $this->session->set_userdata($data);
             $this->load->view('result_peminjaman', $tampil);
+        }
+    }
+
+    function konfirmasi_set() {
+        //panggil model
+        $this->load->model('Peminjaman');
+        //cek user
+        $user;
+        $status;
+        if ($_GET['peminjam'] != NULL) {
+            $user = $_GET['peminjam'];
+            $tgl_kembali = $_GET['tgl_kembali'];
+            $status = 1;
+        } else {
+            $user = $_SESSION['username'];
+            $status = 0;
+            $tgl_kembali = NULL;
+        }
+        //get parameter
+        $id = $_GET['id_instrumen'];
+        $kode = $_SESSION['kode_set'];
+        $jumlah = $_GET['jumlah'];
+        $steril = $_GET['steril'];
+        $tgl_pinjam = $_GET['tgl_pinjam'];
+        //generate id
+        $tgl = date('YmdHis');
+        $id_transaksi = 'ORD' . $tgl;
+        //cek ketersediaan
+        if ($tgl_pinjam != NULL) {
+            //deklarasi array
+            $data[count($id)] = null;
+            $input1 = 0;
+            //melooping array input
+            //looping array id
+
+            foreach ($id as $key) {
+                //simpan peminjaman
+                if ($status == 1) {
+                    $data[$input1 + 1] = $this->Peminjaman->pinjam_set_pegawai($id_transaksi, $user, $kode, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status);
+                } else {
+                    $data[$input1 + 1] = $this->Peminjaman->pinjam_set_user($id_transaksi, $user, $kode, $key, $jumlah[$input1], $tgl_pinjam, $status);
+                }
+                $input1++;
+            }
+
+            //panggil view
+            $data['pinjam_intrumen'] = true;
+            $data['id_transaksi'] = $id_transaksi;
+
+            if ($status == 1) {
+                $tgl = $tgl_pinjam;
+                list($bln, $tgl, $thn) = explode('/', $tgl);
+                $tgl = $tgl . '/' . $bln . '/' . $thn;
+                $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+                $data['pinjam_intrumen'] = true;
+                $data['tanggal'] = $tgl;
+                $this->load->view('lihat_peminjaman', $data);
+            } else {
+                $this->load->view('result_peminjaman', $data);
+            }
         } else {
             //simpan hasil ke dalam array
             $tampil['pinjam_instrumen'] = $this->Peminjaman->panggil_pinjam($id_transaksi);
@@ -137,11 +222,10 @@ class PeminjamanControl extends CI_Controller {
         $tgl = $_GET['tgl'];
         //masukkan tanggal sebagai pencarian peminjaman
         $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
-        
+
         $data['tanggal'] = $tgl;
         //panggil view
         $this->load->view('lihat_peminjaman', $data);
-        
     }
 
     function peminjam_belum_konfirmasi() {
@@ -153,6 +237,9 @@ class PeminjamanControl extends CI_Controller {
         //masukkan id sebagai pencarian peminjaman
         $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
         $data['peminjam'] = $this->Peminjaman->panggil_peminjam_id($peminjam);
+        if (isset($_GET['cari'])) {
+            $data['cari'] = true;
+        }
         //panggil view
         $this->load->view('konfirmasi_pegawai', $data);
     }
@@ -160,15 +247,34 @@ class PeminjamanControl extends CI_Controller {
     function konfirmasi_peminjaman() {
         //load model
         $this->load->model('Peminjaman');
+        $this->load->model('Setting_Set');
         $this->load->model('Users');
-        //panggil id
+        //panggil tgl
         $id = $_POST['id'];
         $transaksi = $_POST['transaksi'];
         //masukkan tanggal sebagai pencarian peminjaman
         $data['pinjam_instrumen'] = $this->Peminjaman->panggil_konfirmasi_id($id, $transaksi);
+        //panggil data setting peminjaman
+        $query1 = $this->Peminjaman->panggil_kode_setting_set($transaksi);
+        $set = $query1->setting_set;
+        //jika set tidak NULL
+        if ($set != NULL) {
+            //explode menjadi xxx<kode> x<jumlah>
+            $split=explode(":", $set);
+            //panggil nama set
+            $queryX = $this->Setting_Set->panggil_nama($split[0]);
+            $data['nama_set'] = $queryX->nama_set;
+            $data['jumlah_set'] = $split[1];
+        }
         //manggil data peminjam
-        $query = $this->Users->panggil_data_user_by_id($id);
-        $data['peminjam'] = $query->nama_user;
+        $query2 = $this->Users->panggil_data_user_by_id($id);
+        $data['peminjam'] = $query2->nama_user;
+        //manggil data tanggal pinjam
+        $tanggal;
+        foreach ($data['pinjam_instrumen'] as $r):
+            $tanggal = $r->tanggal_pinjam;
+        endforeach;
+        $data['tanggal_pinjam'] = $tanggal;
         //panggil view
         $this->load->view('konfirmasi_halaman', $data);
     }
@@ -182,31 +288,28 @@ class PeminjamanControl extends CI_Controller {
         $jumlah = $_POST['jumlah'];
         $steril = $_POST['steril'];
         $tgl_kembali = $_POST['tgl_kembali'];
-        //deklarasi input
-        $input1;
-        $input2;
-        $input3;
+        //deklarasi input untuk index tiap array(instrumen, jumlah alat pinjam, steril)
+        $input1 = 0;
         //melooping array input
-        foreach ($instrumen as $input1) {
-            
-        }
-        foreach ($jumlah as $input2) {
-            
-        }
-        foreach ($steril as $input3) {
-            
-        }
         //looping array id
         foreach ($id as $key) {
             //simpan peminjaman
-            $data['result'] = $this->Peminjaman->konfirmasi_update($key, $input1, $input2, $input3, $tgl_kembali);
+            $data['result'] = $this->Peminjaman->konfirmasi_update($key, $instrumen[$input1], $jumlah[$input1], $steril[$input1], $tgl_kembali);
+            $input1++;
         }
         if ($data) {
             $hasil = array(
                 'konfirmasi' => true
             );
             $this->session->set_userdata($hasil);
-            $this->load->view('konfirmasi_halaman');
+//            redirect(base_url('site/lihat_peminjaman'));
+            $tgl = $_POST['tgl_pinjam'];
+            list($thn, $bln, $tgl, ) = explode('-', $tgl);
+            $tgl = $tgl . '/' . $bln . '/' . $thn;
+            $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+            $data['pinjam_intrumen'] = true;
+            $data['tanggal'] = $tgl;
+            $this->load->view('lihat_peminjaman', $data);
         } else {
             $hasil = array(
                 'konfirmasi' => false

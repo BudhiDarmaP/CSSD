@@ -11,20 +11,58 @@
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
     <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {
+        $(function() {
             $("#datepicker").datepicker({minDate: 0});
             $("#datepicker").datepicker({dateformat: 'dd-MM-yy HH:mi'});
         });
-        $(function () {
-            $("#datepicker2").datepicker({minDate: 0});
+        $(function() {
+            //ambil tanggal pinjam
+            var tanggalDisable = '<?php echo "$tanggal_pinjam"; ?>';
+            //objek tanggal untuk konversi string ke date
+            var date = new Date();
+            //deklarasi tanggal hari ini
+            var month = date.getMonth() + 1;
+            var tanggalHariIni = date.getFullYear() + '-' + month + '-' + date.getDate();
+            //memecah tanggal menjadi array[tahun, bulan, tanggal]
+            var tanggal1 = tanggalHariIni.split('-');
+            var tanggal2 = tanggalDisable.split('-');
+            //setting tanggal dalam hitungan hari dalam tahun
+            var tanggal_awal = date.setFullYear(tanggal1[0], tanggal1[1], tanggal1[2]);
+            var tanggal_akhir = date.setFullYear(tanggal2[0], tanggal2[1], tanggal2[2]);
+            //deklarasi banyaknya detik dalam 1 hari
+            var miliday = 24 * 60 * 60 * 1000;
+            //mencari selisih hari.
+            //selisih antara 2 tanggal menghasilkan nilai detik. hasil tersebut dibagi dengan banyak nya detik setiap 1 hari
+            var selisih = (tanggal_akhir - tanggal_awal) / miliday;
+            //setting tanggal yang disable
+            $("#datepicker2").datepicker({minDate: selisih});
             $("#datepicker2").datepicker({dateformat: 'dd-MM-yy HH:mi'});
         });
+
+        $(function() {
+            $("#datepicker3").datepicker({minDate: 0});
+            $("#datepicker3").datepicker({dateformat: 'dd-MM-yy HH:mi'});
+        });
+
+        function displayAlert(frm) {
+            var total = frm.transaksi.length;
+
+            if (total==0) {
+                alert("Silahkan pilih buah favoritmu !");
+                frm.transaksi.focus();
+                return (false);
+            }
+
+            return (true);
+
+        }
     </script>
     <script src="JavaScript.js"></script>
     <style>
@@ -122,7 +160,7 @@
                             echo base_url('/site/tambah_peminjaman/');
                             echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
                         <a href=\"";
-                            echo base_url('/site/ubah_password/');
+                            echo base_url('/site/ubah_password_konfirmasi/');
                             echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
                         ";
                         }
@@ -153,8 +191,8 @@
                 <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
             </div>
 
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
-                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
+            <div class="w3-responsive w3-card-4 w3-padding-16" >
+                <div class="w3-container w3-responsive w3-margin-bottom w3-center">
                     <?php
                     if (isset($_SESSION["konfirmasi"])) {
                         $cek = $_SESSION["konfirmasi"];
@@ -163,19 +201,34 @@
                             </div>";
                         }
                     } else {
-                        echo "<h4 style='color: green'>Konfirmasi Peminjaman <u><b>$peminjam</b></u></h4></div>";
+                        echo "<h4 class='w3-padding w3-container w3-responsive w3-center w3-large w3-green'>
+                            <b class='w3-animate-left'>Konfirmasi Peminjaman <u class='w3-hover-text-black'>$peminjam</b></u>
+                            </h4></div>";
                         echo "
                         <form method='POST' action='";
                         echo base_url('PeminjamanControl/Approved');
                         echo "'>";
-                        echo "<table><th>TANGGAL KEMBALI</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi'></td>
-                            </table>
-                            <table class='w3-table w3-striped w3-bordered' align='center'>
+                        echo "<table align='center' style='width:70%;margin-bottom:3%'>
+                            <tr>
+                            <th style='text-align:center;'>TANGGAL KEMBALI</th>
+                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi tanggal kembali' title='Klik untuk isi tanggal kembali' required=''></td>
+                            <td style='width:60%'></td>
+                            </tr>
+                            <tr>
+                            <th colspan='3' style='color:red;'>Apabila tidak approve instrumen, set jumlah pinjam menjadi <u><b>0</b></u> lalu centang <u><b>CEK</b></u></th>
+                            </tr>";
+                        if ($jumlah_set!=NULL) {
+                            echo "<tr>
+                            <th colspan='3' style='color:black'><h4>Persiapkan Setting Set  
+                            <b style='color:green'>$nama_set</b> Sejumlah <b style='color:red'><u>$jumlah_set</u></b> Set</h4></th>
+                            </tr>";
+                        }
+                        echo "</table>
+                            <table class='w3-table w3-striped w3-bordered w3-animate-opacity w3-card' align='center' style='width:70%;margin-bottom:10%'>
                             <thead>
                             <tr class='w3-theme'>
-                            <th style='text-align: center;'>TANGGAL_PINJAM</th>
-                            <th style='text-align: center;'>TANGGAL_KEMBALI</th>
+                            <th style='text-align: center;'>TANGGAL PINJAM</th>
+                            <th style='text-align: center;'>TANGGAL KEMBALI</th>
                             <th style=text-align: left;'>NAMA INSTRUMEN</th>
                             <th style='text-align: center;'>JUMLAH INSTRUMEN STERIL</th>
                             <th style='text-align: center;'>JUMLAH PINJAM</th>
@@ -188,16 +241,22 @@
                             <td style='text-align: left'><b>$r->nama_instrumen</b></td>
                             <td style='text-align: center'>$r->steril</td>
                             <td style='text-align: center'>
-                            <input type='number' name='jumlah[]' value='$r->jumlah_pinjam' max='$r->steril' min='0'>
+                            <input type='number' name='jumlah[]' value='$r->jumlah_pinjam' max='$r->steril' min='0' required='' onkeypress=\"return isNumber(event)\">
                             <input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>    
                             <input type='hidden' value='$r->steril' name='steril[]'>    
-                            <td><input type='checkbox' value='$r->id_transaksi' name='transaksi[]'>
+                            <input type='hidden' value='$r->tanggal_pinjam' name='tgl_pinjam'>    
+                            <td style='text-align: center;'><input type='checkbox' value='$r->id_transaksi' name='transaksi[]' required='required'>
                             </td>
                             </tr>";
                         endforeach;
-                        echo "</tbody>
+                        echo "
+                            <tr>
+                            <td colspan='6' style='text-align:center'>
+                            <button class='btn btn-warning w3-xlarge w3-hover-text-black' style='width:20%' onclick=\"displayAlert(this.form)\"><i class='fa fa-briefcase'></i> APPROVE</button>
+                            </td>
+                            </tr>
+                            </tbody>
                     </table>
-                    <button class='buttonPinjam w3-goldyellow'><i class='fa fa-briefcase'></i>KONFIRMASI</button>
                     </form>";
                     }
                     $this->session->unset_userdata('nama_instrumen');
@@ -237,7 +296,7 @@
                     // Get the modal
                     var modal = document.getElementById('id01');
                     // When the user clicks anywhere outside of the modal, close it
-                    window.onclick = function (event) {
+                    window.onclick = function(event) {
                         if (event.target == modal) {
                             modal.style.display = "none";
                         }
@@ -245,7 +304,7 @@
                     var modal2 = document.getElementById('id02');
                     // When the user clicks anywhere outside of the modal, close it
                     modal2.style.display = "block";
-                    window.onclick = function (event) {
+                    window.onclick = function(event) {
                         if (event.target == modal2) {
                             modal2.style.display = "none";
                         }

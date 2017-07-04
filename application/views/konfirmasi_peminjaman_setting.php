@@ -177,10 +177,10 @@
 
             <div class="w3-responsive w3-card-4 w3-padding-16" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left w3-large w3-green">
-                    <b class='w3-padding '>Konfirmasi Peminjaman </b>
+                    <b class='w3-padding '>Konfirmasi Peminjaman Setting Set </b>
                 </div>
 
-                <form action='<?php echo base_url('/PeminjamanControl/konfirmasi'); ?>' onsubmit="return validasi_input(this)">
+                <form action='<?php echo base_url('/PeminjamanControl/konfirmasi_set'); ?>' onsubmit="return validasi_input(this)">
                     <table  align="center" style="width:60%;margin-bottom:3%">
                         <tr style='text-align: center'>
                             <?php
@@ -234,9 +234,13 @@
                                     <td style='text-align: center'>$r->id_instrumen</td>
                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
                                     <td style='text-align: center'>$r->steril</td>
-                                    <td style='text-align: center'>
-                                    <input type='number' name='jumlah[]' value='' max='$r->steril' min='0' placeholder='0' required='' onkeypress=\"return isNumber(event)\">
-                                    <input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>    
+                                    <td style='text-align: center'>";
+                                if ($r->jumlah > $r->steril) {
+                                    echo "<input type='number' name='jumlah[]' value='$r->steril' max='$r->steril' min='0' placeholder='0' required='' onkeypress=\"return isNumber(event)\">";
+                                }  else {
+                                    echo "<input type='number' name='jumlah[]' value='$r->jumlah' max='$r->steril' min='0' placeholder='0' required='' onkeypress=\"return isNumber(event)\">";
+                                }
+                                echo "<input type='hidden' value='$r->id_instrumen' name='id_instrumen[]'>    
                                     <input type='hidden' value='$r->steril' name='steril[]'>    
                                     </td>
                                     </tr>";
