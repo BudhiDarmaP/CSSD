@@ -36,7 +36,7 @@ class PeminjamanControl extends CI_Controller {
         $this->load->model('Instrument');
         $this->load->model('Setting_Set');
         $nama = $_GET["namainstrumen"];
-        $data['cari_instrumen'] = $this->Instrument->cari_data_instrument($nama);
+        $data['cari_instrumen'] = $this->Instrument->cari_data_instrument_peminjaman($nama);
         $data['set'] = $this->Setting_Set->panggil_set();
         $data['nama_instrumen'] = $nama;
         $this->load->view('tambah_peminjaman', $data);
@@ -66,7 +66,7 @@ class PeminjamanControl extends CI_Controller {
             $this->load->view('konfirmasi_peminjaman', $data);
         }
     }
-
+    
     function pinjam_setting() {
         //panggil model
         $this->load->model('Setting_Set');
@@ -92,9 +92,10 @@ class PeminjamanControl extends CI_Controller {
         //cek user
         $user;
         $status;
-        if ($_GET['peminjam'] != NULL) {
-            $user = $_GET['peminjam'];
-            $tgl_kembali = $_GET['tgl_kembali'];
+        if ($_POST['peminjam'] != NULL) {
+            $user = $_POST['peminjam'];
+            $tgl_kembali = $_POST['tgl_kembali'];
+            $pegawai_cssd = $_SESSION['username'];
             $status = 1;
         } else {
             $user = $_SESSION['username'];
@@ -102,10 +103,10 @@ class PeminjamanControl extends CI_Controller {
             $tgl_kembali = NULL;
         }
         //get parameter
-        $id = $_GET['id_instrumen'];
-        $jumlah = $_GET['jumlah'];
-        $steril = $_GET['steril'];
-        $tgl_pinjam = $_GET['tgl_pinjam'];
+        $id = $_POST['id_instrumen'];
+        $jumlah = $_POST['jumlah'];
+        $steril = $_POST['steril'];
+        $tgl_pinjam = $_POST['tgl_pinjam'];
         //generate id
         $tgl = date('YmdHis');
         $id_transaksi = 'ORD' . $tgl;
@@ -120,7 +121,7 @@ class PeminjamanControl extends CI_Controller {
             foreach ($id as $key) {
                 //simpan peminjaman
                 if ($status == 1) {
-                    $data[$input1 + 1] = $this->Peminjaman->pinjam_pegawai($id_transaksi, $user, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status);
+                    $data[$input1 + 1] = $this->Peminjaman->pinjam_pegawai($id_transaksi, $user, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status, $pegawai_cssd);
                 } else {
                     $data[$input1 + 1] = $this->Peminjaman->pinjam_user($id_transaksi, $user, $key, $jumlah[$input1], $tgl_pinjam, $status);
                 }
@@ -149,7 +150,7 @@ class PeminjamanControl extends CI_Controller {
             $this->load->view('result_peminjaman', $tampil);
         }
     }
-
+    
     function konfirmasi_set() {
         //panggil model
         $this->load->model('Peminjaman');
@@ -159,6 +160,7 @@ class PeminjamanControl extends CI_Controller {
         if ($_GET['peminjam'] != NULL) {
             $user = $_GET['peminjam'];
             $tgl_kembali = $_GET['tgl_kembali'];
+            $pegawai_cssd = $_SESSION['username'];
             $status = 1;
         } else {
             $user = $_SESSION['username'];
@@ -185,7 +187,7 @@ class PeminjamanControl extends CI_Controller {
             foreach ($id as $key) {
                 //simpan peminjaman
                 if ($status == 1) {
-                    $data[$input1 + 1] = $this->Peminjaman->pinjam_set_pegawai($id_transaksi, $user, $kode, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status);
+                    $data[$input1 + 1] = $this->Peminjaman->pinjam_set_pegawai($id_transaksi, $user, $kode, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status, $pegawai_cssd);
                 } else {
                     $data[$input1 + 1] = $this->Peminjaman->pinjam_set_user($id_transaksi, $user, $kode, $key, $jumlah[$input1], $tgl_pinjam, $status);
                 }
@@ -288,13 +290,14 @@ class PeminjamanControl extends CI_Controller {
         $jumlah = $_POST['jumlah'];
         $steril = $_POST['steril'];
         $tgl_kembali = $_POST['tgl_kembali'];
+        $pegawai_cssd = $_SESSION['username'];
         //deklarasi input untuk index tiap array(instrumen, jumlah alat pinjam, steril)
         $input1 = 0;
         //melooping array input
         //looping array id
         foreach ($id as $key) {
             //simpan peminjaman
-            $data['result'] = $this->Peminjaman->konfirmasi_update($key, $instrumen[$input1], $jumlah[$input1], $steril[$input1], $tgl_kembali);
+            $data['result'] = $this->Peminjaman->konfirmasi_update($key, $instrumen[$input1], $jumlah[$input1], $steril[$input1], $tgl_kembali, $pegawai_cssd);
             $input1++;
         }
         if ($data) {

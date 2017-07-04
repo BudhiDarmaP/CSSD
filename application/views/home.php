@@ -124,19 +124,31 @@
                 $status_user_text = 'Peminjam';
             }
             echo "<br><span class='w3-large w3-animate-opacity'>Status User : <b class='w3-text-red '>$status_user_text<b> </span>";
+            
+            if ($status_user == 0 || $status_user == 1) {
+                    echo "
+                <table align='center' style='width:20%' class='w3-margin-bottom w3-animate-zoom'>
+                    <tr>
+                        <th>";
+                    echo "
+                            <form action='";
+                    echo base_url('site/aktivitas_inventaris');
+                    echo "'>
+                                <button class='btn btn-success w3-large w3-hover-text-black' style=''><i class='fa'></i><b>Aktivitas Inventaris</b></button>
+                        </th>
+                    </tr>
+                </table>";
+                }
             ?>
         </div>
-
-
 
         <!-- Second Parallax Image with Portfolio Text -->
         <div class="bgimg-2 w3-display-container w3-opacity-min">
             <div class="w3-display-topmiddle w3-center w3-black w3-opacity w3-animate-fading w3-padding-small">
                 <span class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity">Central Sterile Supply Department</span>
             </div>
-
         </div>
-
+     
         <footer class="w3-center w3-green w3-margin-bottom">
             <div class="w3-section w3-padding-small"></div>
             <div class="w3-xlarge w3-section">

@@ -181,37 +181,38 @@ and open the template in the editor.
                     <b style="color: green">Hapus Instrumen Di CSSD</b>
                 </div>
                 <form action="<?php echo base_url('/InstrumenControl/hapus'); ?>">
-                    <table class="w3-table w3-striped w3-bordered w3-card" align="center" style="width:60%">
+                    <table class="w3-table w3-striped w3-bordered w3-card" align="center" style="width:60%;margin-bottom:15%">
                         <thead>
-                            <tr class="w3-theme">
-                                <th style="text-align: center;">ID INSTRUMEN</th>
-                                <th style="text-align: center;">NAMA INSTRUMEN</th>
-                                <th style="text-align: center;">JUMLAH TOTAL INSTRUMEN</th>
-                                <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
-                                <th style="text-align: center;">PILIH</th>
-                            </tr>
                         </thead>
                         <tbody>
                             <?php
-                            if (isset($cari_instrumen)) {
-                                foreach ($cari_instrumen as $r):
-                                    if ($r->jumlah > 0) {
-                                        echo "
-                                    <tr>
-                                    <td style='text-align: center'>$r->id_instrumen</td>
-                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                                    <td style='text-align: center'>$r->jumlah</td>
-                                    <td style='text-align: center'>$r->steril</td>
-                                    <td style='text-align: center'><input type='checkbox' name='id[]' value='$r->id_instrumen'></td>
-                                    </tr>";
-                                    }
-                                endforeach;
-                                $this->session->unset_userdata('nama_instrumen');
-                                $this->session->unset_userdata('cari_instrumen');
-                            } else {
-                                if (isset($ada_instrumen)) {
+                            if (isset($ada_instrumen) || isset($cari_instrumen)) {
+                                $total = 0;
+                                if (isset($cari_instrumen)) {
+                                    $total = count($cari_instrumen);
+                                } else {
+                                    $total = count($ada_instrumen);
+                                }
+                            }
 
-                                    foreach ($ada_instrumen as $r):
+                            if ($total == 0) {
+                                echo "<td style='text-align: center'>"
+                                . "<h3 style='color: red' class='w3-padding-24'>DATA INSTRUMEN KOSONG</h3></td>";
+                            } else {
+                                echo "<tr class='w3-theme'>
+                                    <th style='text-align: center;
+                                    '>ID INSTRUMEN</th>
+                                    <th style='text-align: left;
+                                    '>NAMA INSTRUMEN</th>
+                                    <th style='text-align: center;
+                                    '>JUMLAH TOTAL INSTRUMEN</th>
+                                    <th style='text-align: center;
+                                    '>JUMLAH INSTRUMEN STERIL</th>
+                                    <th style='text-align: center;
+                                    '>PILIH</th>
+                                </tr>";
+                                if (isset($cari_instrumen)) {
+                                    foreach ($cari_instrumen as $r):
                                         if ($r->jumlah > 0) {
                                             echo "
                                     <tr>
@@ -223,14 +224,33 @@ and open the template in the editor.
                                     </tr>";
                                         }
                                     endforeach;
+                                    $this->session->unset_userdata('nama_instrumen');
+                                    $this->session->unset_userdata('cari_instrumen');
+                                } else {
+                                    if (isset($ada_instrumen)) {
+
+                                        foreach ($ada_instrumen as $r):
+                                            if ($r->jumlah > 0) {
+                                                echo "
+                                    <tr>
+                                    <td style='text-align: center'>$r->id_instrumen</td>
+                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                    <td style='text-align: center'>$r->jumlah</td>
+                                    <td style='text-align: center'>$r->steril</td>
+                                    <td style='text-align: center'><input type='checkbox' name='id[]' value='$r->id_instrumen'></td>
+                                    </tr>";
+                                            }
+                                        endforeach;
+                                    }
                                 }
+                                echo "<tr>
+                                <td colspan='5' style='text-align: right'>
+                                    <button class='buttonTambah w3-center' style='width: 20%' type='submit' name='ubah' value='yes'><i class='fa fa-warning'></i>HAPUS</button>
+                                </td>
+                            </tr>";
                             }
                             ?>
-                            <tr>
-                                <td colspan="5" style="text-align: right">
-                                    <button class="buttonTambah w3-center" style="width: 20%" type="submit" name="ubah" value="yes"><i class="fa fa-warning"></i>HAPUS</button>
-                                </td>
-                            </tr>
+                            
                         </tbody>
                     </table>
 

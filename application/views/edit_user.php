@@ -120,17 +120,15 @@
                         </table>
                     </div>
                     <?php
-                    $id_user_edit;
-                    $nama_user_edit;
-                    $no_telp_user_edit;
-                    $status_user_edit;
+                    $id_user_edit = '';
+                    $nama_user_edit = '';
+                    $no_telp_user_edit = '';
+                    $status_user_edit = '';
                     if (isset($edit_user)) {
-                        foreach ($edit_user as $r):
-                            $id_user_edit = $r->id_user;
-                            $nama_user_edit = $r->nama_user;
-                            $no_telp_user_edit = $r->no_telepon;
-                            $status_user_edit = $r->status_user;
-                        endforeach;
+                        $id_user_edit = $edit_user->id_user;
+                        $nama_user_edit = $edit_user->nama_user;
+                        $no_telp_user_edit = $edit_user->no_telepon;
+                        $status_user_edit = $edit_user->status_user;
                     }
 
 //                    $nama_user_edit = 'Imam';
@@ -186,8 +184,7 @@
             }
             function toggleFunction() {
                 var x = document.getElementById("navDemo");
-                if (x.className.indexOf("w3-show") == -1) {
-                    x.className += " w3-show";
+                    if (x.className.indexOf("w3-show") == -1) {                     x.className += " w3-show";
                 } else {
                     x.className = x.className.replace(" w3-show", "");
                 }
@@ -205,6 +202,6 @@
             var modal2 = document.getElementById('id02');
 
             // When the user clicks anywhere outside of the modal, close it      modal2.style.display = "block";
-        </script>
+      </script>
     </body>
 </html>

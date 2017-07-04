@@ -174,7 +174,7 @@
                     . "<br><img src='";
                     echo base_url('images/note.png');
                     echo "' class='w3-center w3-margin-top w3-margin-bottom w3-animate-top'></h4></div>";
-                    echo "<script>swal(\"Peminjaman Kosong\", \"\", \"error\");</script>";
+                    echo "<script>swal(\"Peminjaman Kosong\", \"Pencarian tanggal $tanggal\", \"error\");</script>";
                 } else {
                     echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Daftar Amprah Tanggal $tanggal</b></div>
                 <table class = 'w3-table w3-striped w3-bordered w3-animate-opacity w3-card' align = 'center' style='margin-bottom:10%'>

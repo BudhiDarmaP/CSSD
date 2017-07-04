@@ -109,7 +109,7 @@ and open the template in the editor.
                             echo ": $total</b>";
                         }
 
-                        if ($total == 0) {
+                        if (isset($cari_instrumen) && $total == 0) {
                             echo "<div id='id02' class='modal w3-responsive'>
                                     <div class='modal-content w3-animate-opacity w3-black' style='margin-top:15%;width:100%'>
                                         <div class='container'>
@@ -126,33 +126,24 @@ and open the template in the editor.
                         ?>
                         </div>
 
-                        <table class="w3-table w3-striped w3-bordered w3-card" align="center" style="width:60%">
+                        <table class="w3-table w3-striped w3-bordered w3-card" align="center" style="width:60%;margin-bottom:20%">
                             <thead>
-                                <tr class="w3-theme">
-                                    <th style="text-align: center;">ID INSTRUMEN</th>
-                                    <th style="text-align: left;">NAMA INSTRUMEN</th>
-                                    <th style="text-align: center;">JUMLAH TOTAL INSTRUMEN</th>
-                                    <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
-                                </tr>
+
                             <tbody>
                                 <?php
-                                if (isset($cari_instrumen)) {
-                                    foreach ($cari_instrumen as $r):
-                                        if ($r->jumlah > 0) {
-                                            echo "
-                                    <tr>
-                                    <td style='text-align: center'>$r->id_instrumen</td>
-                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                                    <td style='text-align: center'>$r->jumlah</td>
-                                    <td style='text-align: center'>$r->steril</td>
-                                    </tr>";
-                                        }
-                                    endforeach;
-                                    $this->session->unset_userdata('nama_instrumen');
-                                    $this->session->unset_userdata('cari_instrumen');
-                                } else {
-                                    if (isset($ada_instrumen)) {
-                                        foreach ($ada_instrumen as $r):
+                                if ($total > 0) {
+                                    echo "<tr class='w3-theme'>
+                                    <th style='text-align: center;
+                                    '>ID INSTRUMEN</th>
+                                    <th style='text-align: left;
+                                    '>NAMA INSTRUMEN</th>
+                                    <th style='text-align: center;
+                                    '>JUMLAH TOTAL INSTRUMEN</th>
+                                    <th style='text-align: center;
+                                    '>JUMLAH INSTRUMEN STERIL</th>
+                                </tr>";
+                                    if (isset($cari_instrumen)) {
+                                        foreach ($cari_instrumen as $r):
                                             if ($r->jumlah > 0) {
                                                 echo "
                                     <tr>
@@ -163,6 +154,22 @@ and open the template in the editor.
                                     </tr>";
                                             }
                                         endforeach;
+                                        $this->session->unset_userdata('nama_instrumen');
+                                        $this->session->unset_userdata('cari_instrumen');
+                                    } else {
+                                        if (isset($ada_instrumen)) {
+                                            foreach ($ada_instrumen as $r):
+                                                if ($r->jumlah > 0) {
+                                                    echo "
+                                    <tr>
+                                    <td style='text-align: center'>$r->id_instrumen</td>
+                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                    <td style='text-align: center'>$r->jumlah</td>
+                                    <td style='text-align: center'>$r->steril</td>
+                                    </tr>";
+                                                }
+                                            endforeach;
+                                        }
                                     }
                                 }
                                 ?>

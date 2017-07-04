@@ -232,7 +232,7 @@
                 </table>
             </div>
         </th></tr></table>
-    <footer class="w3-center w3-green w3-margin-bottom w3-margin-top" style="margin-top:20%">
+    <footer class="w3-center w3-green w3-margin-bottom" style="margin-top:20%">
         <div class="w3-section w3-padding-small"></div>
         <div class="w3-xlarge w3-section">
             <i class="fa fa-facebook-official w3-hover-opacity"></i>

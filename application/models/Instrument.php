@@ -13,8 +13,8 @@ class Instrument extends CI_Model {
     }
 
     function panggil_data_instrument() {
-        $q = $this->db->query("SELECT * FROM instrumen WHERE STERIL > 0");
-        return $q->result;
+        $q = $this->db->query("SELECT * FROM instrumen WHERE jumlah > 0");
+        return $q->result();
     }
 
     function panggil_jumlah_instrument_sejenis($key) {
@@ -26,13 +26,20 @@ class Instrument extends CI_Model {
     function cari_data_instrument($key) {
         $q = $this->db->query("SELECT * FROM `instrumen` "
                 . "WHERE (ID_INSTRUMEN like '%$key%' OR NAMA_INSTRUMEN like '%$key%') AND "
+                . "jumlah > 0");
+        return $q->result();
+    }
+
+    function cari_data_instrument_peminjaman($key) {
+        $q = $this->db->query("SELECT * FROM `instrumen` "
+                . "WHERE (ID_INSTRUMEN like '%$key%' OR NAMA_INSTRUMEN like '%$key%') AND "
                 . "STERIL > 0");
         return $q->result();
     }
-    
+
     function panggil_data_id($id) {
-            $q = $this->db->query("SELECT * FROM `instrumen` WHERE id_instrumen = '$id'");
-            return $q->row();        
+        $q = $this->db->query("SELECT * FROM `instrumen` WHERE id_instrumen = '$id'");
+        return $q->row();
     }
 
     function panggil_data_steril($id) {
@@ -70,6 +77,25 @@ class Instrument extends CI_Model {
             $cek = $this->db->query($q);
             //jika berhasil
             if ($cek->num_rows() == 1) {
+                $user = $_SESSION['username'];
+                $tambahInventaris = $this->inventaris_tambah_barang($id, $user, $jumlah);
+                if ($tambahInventaris) {
+                    return TRUE;
+                } else {
+                    return FALSE;
+                }
+                //jika tidak berhasil
+            } else {
+                return FALSE;
+            }
+        } else if ($cek->row()->jumlah == 0) {
+            $q = "UPDATE `instrumen` set `jumlah` = $jumlah, `steril` = $jumlah where `nama_instrumen` = '$nama'";
+            $this->db->query($q);
+
+            $q = "SELECT * FROM `instrumen` WHERE nama_instrumen = '$nama'";
+            $cek = $this->db->query($q);
+            //jika berhasil
+            if ($cek->num_rows() == 1) {
                 return TRUE;
                 //jika tidak berhasil
             } else {
@@ -81,10 +107,65 @@ class Instrument extends CI_Model {
     }
 
     function hapus_instrumen($id) {
-        foreach ($id as $index){
+        $user = $_SESSION['username'];
+        foreach ($id as $index) {
             $this->db->query("UPDATE `instrumen` set jumlah = 0, steril = 0 where id_instrumen = '$index'");
+            $this->inventaris_hapus_barang($index, $user);
         }
         return TRUE;
+    }
+
+    function panggil_jumlah_nomor_inventaris() {
+        $q = $this->db->query("SELECT * FROM INVENTARIS");
+        return $q->num_rows();
+    }
+
+    function inventaris_tambah_barang($id_instrumen, $id_user, $jumlah) {
+        $nomor_riwayat = 'INVT';
+        $setNomor = $this->panggil_jumlah_nomor_inventaris() + 1;
+
+        if ($setNomor < 10) {
+            $nomor_riwayat = $nomor_riwayat . '000' . $setNomor;
+        } else if ($setNomor > 9 || $setNomor < 100) {
+            $nomor_riwayat = $nomor_riwayat . '00' . $setNomor;
+        } else if ($setNomor > 99 || $setNomor < 1000) {
+            $nomor_riwayat = $nomor_riwayat . '0' . $setNomor;
+        } else {
+            $nomor_riwayat = $nomor_riwayat . $setNomor;
+        }
+
+        $q = $this->db->query("INSERT INTO `inventaris` VALUES ('$nomor_riwayat','$id_instrumen','$id_user','Menambah Sejumlah $jumlah', sysdate())");
+
+        $test = $this->db->query("select * from inventaris where nomor_riwayat = '$nomor_riwayat'");
+        if ($test->num_rows() > 0) {
+            return true;
+        } else {
+            return FALSE;
+        }
+    }
+    
+    function inventaris_hapus_barang($id_instrumen, $id_user) {
+        $nomor_riwayat = 'INVT';
+        $setNomor = $this->panggil_jumlah_nomor_inventaris() + 1;
+
+        if ($setNomor < 10) {
+            $nomor_riwayat = $nomor_riwayat . '000' . $setNomor;
+        } else if ($setNomor > 9 || $setNomor < 100) {
+            $nomor_riwayat = $nomor_riwayat . '00' . $setNomor;
+        } else if ($setNomor > 99 || $setNomor < 1000) {
+            $nomor_riwayat = $nomor_riwayat . '0' . $setNomor;
+        } else {
+            $nomor_riwayat = $nomor_riwayat . $setNomor;
+        }
+
+        $q = $this->db->query("INSERT INTO `inventaris` VALUES ('$nomor_riwayat','$id_instrumen','$id_user','Menghapus', sysdate())");
+
+        $test = $this->db->query("select * from inventaris where nomor_riwayat = '$nomor_riwayat'");
+        if ($test->num_rows() > 0) {
+            return true;
+        } else {
+            return FALSE;
+        }
     }
 
 }

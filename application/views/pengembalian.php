@@ -57,42 +57,129 @@
         }
     </style>
     <body>
-        <?php
-            if (isset($_SESSION["konfirmasi"])) {
-                $ubah = $_SESSION["konfirmasi"];
-                if ($ubah) {
-                    echo "<script>swal(\"Konfirmasi Pengembalian Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
-                } else {
-                    echo "<script>swal(\"ID Transaksi Kosong\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
+        <div class="w3-top">
+            <div class="w3-bar w3-card w3-white" id="myNavbar">
+                <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+                    <i class="fa fa-bars"></i>
+                </a>
+
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
+                <?php
+                if (isset($_SESSION["status_user"])) {
+                    $status_user = $_SESSION["status_user"];
+                    if ($status_user == 0) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/tambah_user/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-users\"></i> USER</a>
+                        ";
+                    } elseif ($status_user == 1) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/halamanInstrumen/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
+                            <a href=\"";
+                        echo base_url('/site/peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                            <a href=\"";
+                        echo base_url('/site/pengembalian/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
+                            <a href=\"";
+                        echo base_url('/site/laporan/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
+                        ";
+                    } elseif ($status_user == 2) {
+                        echo "
+                            <a href=\"";
+                        echo base_url('/site/tambah_peminjaman/');
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        ";
+                    } else {
+                        redirect(base_url('/LoginControl/destroy_session/'));
+                    }
                 }
-            }
-            ?>
+                ?>
+                <a href="<?php echo base_url('/site/ubah_password_konfirmasi/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-user"></i> UBAH PASSWORD</a>
+                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
+            </div>
+        </div>
         <?php
-        if (isset($_SESSION["status_user"])) {
-            $status = $_SESSION["status_user"];
-            if ($status == 0 || $status == 1) {
-                echo "<div id='id02' class='modal w3-responsive'>
-                <div class='modal-content w3-animate-opacity' style='margin-top:15%;width:50%'>
-                    <div class='container' style='width:70%'>
-                        <h2 class='w3-center'>Pengembalian</h2>
-                        </div>
-                    <div class='container w3-center'>
-                        <form style='width:57%' action='";
-                echo base_url('/PengembalianControl/pengembalian');
-                echo "'><input type='text' name='id_transaksi' placeholder='Masukkan ID Transaksi' required>
-                    <button style='width:57%'><h4 style='color: white'>CARI</h4></button></form>
-                    </div>
-                    <div class='w3-center w3-margin-bottom'>
-                        <a class='w3-xxlarge' href='";
-                echo base_url('/site/HalamanUtama');
-                echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-red\"></i>Kembali</span></a>
-                    </div>
-                    </div>";
-                $this->session->unset_userdata('konfirmasi');
+        if (isset($_SESSION["konfirmasi"])) {
+            $ubah = $_SESSION["konfirmasi"];
+            if ($ubah) {
+                echo "<script>swal(\"Konfirmasi Pengembalian Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
             } else {
-                redirect(base_url('/site/halamanUtama/'));
+                echo "<script>swal(\"Tak Ada Pengembalian\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
             }
         }
+        ?>
+        <div class="bgimg-2 w3-display-container w3-animate-top">
+            <div  class="w3-display-topmiddle w3-col l6 m8">
+                <form action="<?php echo base_url('/PengembalianControl/pengembalian') ?>">
+                    <?php
+                    if (isset($_SESSION["status_user"])) {
+                        $status = $_SESSION["status_user"];
+                        if ($status == 0 || $status == 1) {
+                            echo "<div class=\"w3-container w3-theme w3-opacity-min\">
+                                
+                                <table class=\"w3-animate-opacity\" style='text-align:center;width:100%;margin-bottom:5%;margin-top:1%;'>
+                                <tr><th style='text-align:center;'><img src=";
+                            echo base_url('images/LogoCSSD.png');
+                            echo " class='w3-center w3-opacity-min'></th></tr>
+                                    <tr><th style='text-align:center;' class='w3-xxlarge w3-text-black w3-animate-fading'>Pengembalian Amprah</th></tr>
+                                    <tr><th style='text-align:center;' class='w3-animate-zoom'>Halaman ini digunakan untuk melakukan <br>pengecekan terhadap instrumen yang dikembalikan oleh peminjam.<br>Silakan masukkan ID Transaksi pada field dibawah ini</th></tr>
+                                </table>
+                            </div>
+                            <div class=\"w3-container w3-white w3-padding-16 w3-card\">
+                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
+                                    <div>
+                                        <label><i class=\"fa fa-paperclip\"></i> ID Transaksi</label>
+                                        <input class=\"w3-input w3-border\" type='text' name='id_transaksi' placeholder='Masukkan ID Transaksi' required='Silakan Masukkan ID Transaksi'>
+                                    </div>
+                                    </div>
+                                    <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
+                                    <div>
+                                    <table align='center' style='width:20%'><tr><th>
+                                    <button class='btn btn-success w3-xlarge w3-hover-text-black' type=\"submit\" name=\"ubah\" value=\"yes\"><i class=\"fa fa-search w3-margin-right\"></i> Cari</button>
+                                    </th></tr>
+                                    </table>
+                                    </div>
+                                    </div>";
+                            $this->session->unset_userdata('konfirmasi');
+                        } else {
+                            redirect(base_url('/site/halamanUtama/'));
+                        }
+                    }
+                    ?>
+                </form>
+            </div>
+        </div>
+        <?php
+//        if (isset($_SESSION["status_user"])) {
+//            $status = $_SESSION["status_user"];
+//            if ($status == 0 || $status == 1) {
+//                echo "<div id='id02' class='modal w3-responsive'>
+//                <div class='modal-content w3-animate-opacity' style='margin-top:15%;width:50%'>
+//                    <div class='container' style='width:70%'>
+//                        <h2 class='w3-center'>Pengembalian</h2>
+//                        </div>
+//                    <div class='container w3-center'>
+//                        <form style='width:57%' action='";
+//                echo base_url('/PengembalianControl/pengembalian');
+//                echo "'><input type='text' name='id_transaksi' placeholder='Masukkan ID Transaksi' required>
+//                    <button style='width:57%'><h4 style='color: white'>CARI</h4></button></form>
+//                    </div>
+//                    <div class='w3-center w3-margin-bottom'>
+//                        <a class='w3-xxlarge' href='";
+//                echo base_url('/site/HalamanUtama');
+//                echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-red\"></i>Kembali</span></a>
+//                    </div>
+//                    </div>";
+//                $this->session->unset_userdata('konfirmasi');
+//            } else {
+//                redirect(base_url('/site/halamanUtama/'));
+//            }
+//        }
         ?>
         <script>
             function myFunction() {

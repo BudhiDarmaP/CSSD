@@ -130,11 +130,11 @@ and open the template in the editor.
         </div>
 
         <div class="w3-container">
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
+            <div class="w3-responsive w3-card-4 w3-padding-16" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                     <b style="color: green">PENAMBAHAN INSTRUMEN BARU</b>
                 </div>
-                <table align="center"><tr><th>
+                <table align="center" class="w3-animate-opacity"><tr><th>
                     <div class="w3-container w3-white w3-padding-16 w3-card w3-margin-bottom">
                         <form action="<?php echo base_url('/InstrumenControl/tambah'); ?>">
                             <div class="w3-row-padding">
@@ -145,7 +145,7 @@ and open the template in the editor.
 
                                 <div class=" w3-margin-bottom">
                                     <label>Masukkan Jumlah Instrumen</label>
-                                    <input class="w3-input w3-border" type="number" value="" name="jumlah_instrumen" required="" placeholder="0" onkeypress="return isNumber(event)">
+                                    <input class="w3-input w3-border" type="number" value="" name="jumlah_instrumen" required="" placeholder="0" min='1' onkeypress="return isNumber(event)">
                                 </div>
                                 <div class="w3-margin-bottom w3-center">
                                     <button class="buttonTambah" type="submit" name="ubah" value="yes"><i class="fa fa-plus"></i> TAMBAH</button>

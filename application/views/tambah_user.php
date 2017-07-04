@@ -16,6 +16,16 @@
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
     <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
+    <script>
+        function validasi_input(form) {
+            if (form.status_user.value == "") {
+                swal("Anda belum memilih Status User!", "", "error");
+//                form.status_user.focus();
+                return (false);
+            }
+            return (true);
+        }
+    </script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
         body, html {
@@ -141,7 +151,7 @@
                 <table style="width: 100%;vertical-align:text-top;margin-bottom:10%">
                     <tr>
                         <th class="w3-animate-top w3-top w3-opacity-min w3-hover-opacity-off" style="width:30%">
-                    <form action="<?php echo base_url('UserControl/tambahUser') ?>">
+                    <form action="<?php echo base_url('UserControl/tambahUser') ?>" onsubmit="return validasi_input(this)">
                         <div class="w3-container w3-theme">
                             <h3><i class="fa fa-user-circle-o w3-margin-right w3-margin-top"></i>TAMBAHKAN USER INTERNAL</h3>
                             <table class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity">
@@ -165,7 +175,8 @@
                             <div class="w3-row-padding w3-padding w3-margin-bottom" style="margin:0 -16px;">
                                 <div>
                                     <label><i class="fa fa-check"></i> Status User</label>
-                                    <select class="w3-input w3-border w3-padding-16" name="status_user">
+                                    <select class="w3-input w3-border w3-padding-16" name="status_user" style="color:red">
+                                        <option value="" disabled='disabled' selected>-- Pilih Status User --</option>
                                         <option value="0">Super Administrator</option>
                                         <option value="1">Administrator CSSD</option>
                                         <option value="2">Peminjam Internal</option>

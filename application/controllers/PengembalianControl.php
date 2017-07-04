@@ -46,21 +46,24 @@ class PengembalianControl extends CI_Controller {
         if ($transaksi != NULL) {
             //lakukan transaksi
             $data['pengembalian'] = $this->Peminjaman->panggil_transaksi($transaksi);
+            $data['id_transaksi'] = $transaksi;
             //jika kembalian NULL
-            if ($data['pengembalian']==NULL) {
+            if ($data['pengembalian'] == NULL) {
                 $data = array(
-                'konfirmasi' => true,
-            );
-            //set settion gagal
-            $this->session->set_userdata($data);
+                    'konfirmasi' => true,
+                    'transaksi' => $transaksi
+                );
+                //set settion gagal
+                $this->session->set_userdata($data);
             }
             //panggil view
-        $this->load->view('konfirmasi_pengembalian', $data);
-        //jika kosong maka
+            $this->load->view('konfirmasi_pengembalian', $data);
+            //jika kosong maka
         } else {
             $data = array(
                 'konfirmasi' => false,
             );
+            $data['id_transaksi'] = $transaksi;
             $this->session->set_userdata($data);
             //panggil view
             $this->load->view('pengembalian', $data);
@@ -70,24 +73,36 @@ class PengembalianControl extends CI_Controller {
     function konfirm() {
         //panggil model
         $this->load->model('Peminjaman');
-        $tgl_kembali = $_POST['tgl_kembali'];
+        $tgl_kembali = $tgl = date('m/d/Y');
+        ;
         //transaksi single
         $id_transaksi = $_POST['transaksi'];
         //instrumen array
-        $id = $_POST['id_instrumen'];
+        $id = null;
+        if (isset($_POST['id_instrumen'])) {
+            $id = $_POST['id_instrumen'];
+        }
         //keterangan array
         //$ket = $_POST['ket'];
         //panggil index untuk array
         $index = 0;
         //looping array instrumen
-        foreach ($id as $instrumen) {
-            $data['pengembalian'] = $this->Peminjaman->konfirmasi_pengembalian($id_transaksi, $instrumen, $tgl_kembali/*, $ket[$index]*/);
-            $index++;
+        $data;
+        if ($id != null) {
+            foreach ($id as $instrumen) {
+                $data['pengembalian'] = $this->Peminjaman->konfirmasi_pengembalian($id_transaksi, $instrumen, $tgl_kembali/* , $ket[$index] */);
+                $index++;
+            }
+            $data = array(
+                'konfirmasi' => TRUE,
+            );
+        } else {
+            $data = array(
+            'konfirmasi' => FALSE,
+        );
         }
         //set session true
-        $data = array(
-            'konfirmasi' => TRUE,
-        );
+
         $this->session->set_userdata($data);
         //panggil view
         $this->load->view('pengembalian', $data);

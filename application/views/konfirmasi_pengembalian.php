@@ -164,25 +164,38 @@
             <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
         </div>
 
-        <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-bottom" >
+        <div class="w3-responsive w3-card-4 w3-padding-16" >
             <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                 <?php
                 if (isset($_SESSION["konfirmasi"])) {
                     $cek = $_SESSION["konfirmasi"];
+                    $id_transaksi = $_SESSION["transaksi"];
                     if ($cek != NULL) {
-                        echo "<h4 style='color: red'>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN ATAU SUDAH DIKEMBALIKAN</h4>
+                        echo "<h4 style='color: red;margin-bottom:25%'><b>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN ATAU SUDAH DIKEMBALIKAN</b><br>ID Transaksi : $id_transaksi</h4>
                             </div>";
                     }
+                    $this->session->unset_userdata('konfirmasi');
+                    $this->session->unset_userdata('transaksi');
                 } else {
-                    echo "<h4 style='color: green'>Konfirmasi Pengembalian <u><b>
-                            </b></u></h4></div>
+                    $nama_user;
+                    foreach ($pengembalian as $r):
+                        $nama_user = $r->nama_user;
+                    endforeach;
+                    echo "
+                        <div class='w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left w3-xlarge w3-green'>
+                            <b class='w3-padding'>Konfirmasi Pengembalian <u class='w3-hover-text-black'>$nama_user</u></b>
+                            <br><span class='w3-large'>ID Transaksi : $id_transaksi</span>
+                        </div></div>
                         <form method='POST' action='";
                     echo base_url('PengembalianControl/konfirm');
                     echo "'>";
-                    echo "<table><th>TANGGAL PENGEMBALIAN</th>
-                            <td class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi' required></td>
-                            </table>
-                            <table class='w3-table w3-striped w3-bordered' align='center'>
+                    echo "
+                        <table class='w3-table w3-striped w3-bordered' align='center' style='width:70%;color:red'>
+                        <tr><th>
+                        <b>Jangan centang <u>CEK</u>, jika ada 1 instrumen yang belum dikembalikan. Isi keterangan jika instrumen hilang.</b>
+                        </th></tr>
+                        </table>
+                            <table class='w3-table w3-striped w3-bordered w3-card w3-animate-opacity' align='center' style='width:70%;margin-bottom:15%'>
                             <thead>
                             <tr class='w3-theme'>
                             <th style='text-align: center;'>TANGGAL PINJAM</th>
@@ -195,19 +208,22 @@
                     foreach ($pengembalian as $r):
                         echo "<tbody>
                              <tr>
-                            <td style='text-align: center'><h5>$r->tanggal_pinjam</h5></td>
-                            <td style='text-align: center'><h5>$r->tanggal_kembali</h5></td>
-                            <td style='text-align: left'><h5><b>$r->nama_instrumen</b></h5></td>
-                            <td style='text-align: center'><h5>$r->jumlah_pinjam</h5>
-                            <td style='text-align: center' class='inputKet'><input type='text' name='ket[]'>
-                            <td><input type='checkbox' value='$r->id_instrumen' name='id_instrumen[]'>
+                            <td style='text-align: center'>$r->tanggal_pinjam</td>
+                            <td style='text-align: center'>$r->tanggal_kembali</td>
+                            <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                            <td style='text-align: center'>$r->jumlah_pinjam</td>
+                            <td style='text-align: center' class='inputKet'><input type='text' name='ket[]' placeholder='Beri Keterangan jika terjadi sesuatu'></td>
+                            <td><input type='checkbox' value='$r->id_instrumen' name='id_instrumen[]'></td>
                             <input type='hidden' value='$r->id_transaksi' name='transaksi'>
                             </td>
                             </tr>";
                     endforeach;
-                    echo "</tbody>
+                    echo "<tr>
+                            <td colspan='6' style='text-align: center'>
+                                <button class='btn btn-warning w3-xlarge w3-hover-text-black' style='width:20%'><i class='fa fa-briefcase'></i> KONFIRMASI</button>
+                            </td>
+                        </tr></tbody>
                     </table>
-                    <button class='buttonPinjam w3-goldyellow'><i class='fa fa-briefcase'></i>KONFIRMASI</button>
                     </form>";
                 }
                 $this->session->unset_userdata('konfirmasi');

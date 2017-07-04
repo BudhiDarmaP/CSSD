@@ -167,8 +167,8 @@
             </div>
 
             <div class="w3-responsive w3-card-4 w3-padding-16" >
-                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                    <b style="color: green">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
+                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left w3-large w3-green">
+                    <b style="">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
                 </div>
                 <?php
                 if (isset($_SESSION["pinjam_instrumen"])) {
@@ -185,56 +185,50 @@
                     $total = 0;
                     if (isset($cari_instrumen)) {
                         $total = count($cari_instrumen);
-                    } else {
-                        $total = count($ada_instrumen);
-                    }
-                }
-
-                if ($total == 0) {
-                    echo "<div id='id02' class='modal w3-responsive'>
+                        if ($total == 0) {
+                            echo "<div id='id02' class='modal w3-responsive'>
                                     <div class='modal-content w3-animate-opacity w3-black' style='margin-top:15%;width:100%'>
                                         <div class='container'>
                                             <h3 class='w3-center'>Instrumen <a style='color:red'>$nama_instrumen</a> Tidak Ditemukan</h3>
                                         </div>
                                         <div class='w3-center w3-margin-bottom'>
                                     <a class='w3-xxlarge' href='";
-                    echo base_url('/site/tambah_peminjaman/');
-                    echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-green\"></i></span></a>
+                            echo base_url('/site/tambah_peminjaman/');
+                            echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-green\"></i></span></a>
                                         </div>
                                     </div>
                                   </div>";
+                        }
+                    }
                 }
                 ?>
 
                 <form action="<?php echo base_url('/PeminjamanControl/pinjam'); ?>">
                     <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:60%;margin-bottom:5%">
                         <thead>
-                            <tr class="w3-theme">
-                                <th style="text-align: center;">ID INSTRUMEN</th>
-                                <th style="text-align: left;">NAMA INSTRUMEN</th>
-                                <th style="text-align: center;">JUMLAH INSTRUMEN STERIL</th>
-                                <th style="text-align: center;">PILIH</th>
-                            </tr>
+
                         <tbody>
                             <?php
-                            if (isset($cari_instrumen)) {
-                                foreach ($cari_instrumen as $r):
-                                    echo "
-                                    <tr>
-                                    <td style='text-align: center'>$r->id_instrumen</td>
-                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                                    <td style='text-align: center'>$r->steril</td>
-                                    <td style='text-align: center'>
-                                    <input type='checkbox' name='id[]' value='$r->id_instrumen'>
-                                    </td>
-                                    </tr>";
-                                endforeach;
-                                $this->session->unset_userdata('nama_instrumen');
-                                $this->session->unset_userdata('cari_instrumen');
+                            $tampil = 0;
+                            if(isset($ada_instrumen)){
+                                $tampil = count($ada_instrumen);
+                            } elseif (isset ($cari_instrumen)){
+                                $tampil = count($cari_instrumen);
+                            }
+                            
+                            if ( $tampil == 0 ) {
+                                echo "<tr><td style='text-align: center;' colspan='4'>"
+                                . "<h3 style='color: red' class='w3-padding-64'>TIDAK ADA INSTRUMEN</h3></td></tr>
+                                  ";
                             } else {
-                                if (isset($ada_instrumen)) {
-                                    foreach ($ada_instrumen as $r):
-
+                                echo "<tr class='w3-theme'>
+                                <th style='text-align: center;'>ID INSTRUMEN</th>
+                                <th style='text-align: left;'>NAMA INSTRUMEN</th>
+                                <th style='text-align: center;'>JUMLAH INSTRUMEN STERIL</th>
+                                <th style='text-align: center;'>PILIH</th>
+                            </tr>";
+                                if (isset($cari_instrumen)) {
+                                    foreach ($cari_instrumen as $r):
                                         echo "
                                     <tr>
                                     <td style='text-align: center'>$r->id_instrumen</td>
@@ -245,14 +239,31 @@
                                     </td>
                                     </tr>";
                                     endforeach;
+                                    $this->session->unset_userdata('nama_instrumen');
+                                    $this->session->unset_userdata('cari_instrumen');
+                                } else {
+                                    if (isset($ada_instrumen)) {
+                                        foreach ($ada_instrumen as $r):
+                                            echo "
+                                    <tr>
+                                    <td style='text-align: center'>$r->id_instrumen</td>
+                                    <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                    <td style='text-align: center'>$r->steril</td>
+                                    <td style='text-align: center'>
+                                    <input type='checkbox' name='id[]' value='$r->id_instrumen'>
+                                    </td>
+                                    </tr>";
+                                        endforeach;
+                                    }
                                 }
+                                echo "<tr>
+                                <td colspan='4' style='text-align: center'>
+                                    <button class='btn btn-warning w3-xlarge w3-hover-text-black' style='width:40%'><i class='fa fa-briefcase'></i> KONFIRMASI</button>
+                                </td>
+                            </tr>";
                             }
                             ?>
-                            <tr>
-                                <td colspan="4" style="text-align: center">
-                                    <button class="btn btn-warning w3-xlarge w3-hover-text-black" style="width:40%"><i class="fa fa-briefcase"></i> KONFIRMASI</button>
-                                </td>
-                            </tr>
+
                         </tbody>
                     </table>
 
@@ -291,7 +302,7 @@
                 var modal = document.getElementById('id01');
 
                 // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function (event) {
+                window.onclick = function(event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
                     }

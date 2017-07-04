@@ -37,6 +37,7 @@ class InstrumenControl extends CI_Controller {
 
     function tambah() {
         $this->load->model('Instrument');
+        
         $nama = $_GET["nama_instrumen"];
         $jumlah = $_GET["jumlah_instrumen"];
 //        $steril = $_GET["steril"];

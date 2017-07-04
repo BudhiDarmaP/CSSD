@@ -180,7 +180,7 @@
                     <b class='w3-padding '>Konfirmasi Peminjaman </b>
                 </div>
 
-                <form action='<?php echo base_url('/PeminjamanControl/konfirmasi'); ?>' onsubmit="return validasi_input(this)">
+                <form method="post" action='<?php echo base_url('/PeminjamanControl/konfirmasi'); ?>' onsubmit="return validasi_input(this)">
                     <table  align="center" style="width:60%;margin-bottom:3%">
                         <tr style='text-align: center'>
                             <?php

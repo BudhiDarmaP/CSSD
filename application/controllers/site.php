@@ -84,6 +84,17 @@ class Site extends CI_Controller {
     function halamanUtama() {
         $this->load->view('home');
     }
+    
+    function aktivitas_inventaris() {
+        $status_user = $_SESSION['status_user'];
+        if($status_user != 0 || $status_user !=1){
+            $this->check_log_in_admin_cssd();
+        }
+        $this->load->model('Inventaris');
+        $data['instrumen'] = $this->Inventaris->panggil_semua_data_inventaris_instrumen();
+        $data['peminjaman'] = $this->Inventaris->panggil_semua_data_inventaris_peminjaman();
+        $this->load->view('aktivitas_inventaris', $data);
+    }
 
     function halamanLogin() {
         $this->load->view('welcome_message');
@@ -97,7 +108,7 @@ class Site extends CI_Controller {
     function instrumen() {
         $this->check_log_in_admin_cssd();
         $this->load->model('Instrument');
-        $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+        $data['ada_instrumen'] = $this->Instrument->panggil_data_instrument();
         $this->load->view('data_instrumen', $data);
     }
 
@@ -213,7 +224,7 @@ class Site extends CI_Controller {
     function hapus_instrument() {
         $this->check_log_in_admin_cssd();
         $this->load->model('Instrument');
-        $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+        $data['ada_instrumen'] = $this->Instrument->panggil_data_instrument();
         $this->load->view('hapus_instrument', $data);
     }
 

@@ -88,7 +88,7 @@
                         echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
                             <a href=\"";
                         echo base_url('/site/pengembalian/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
                             <a href=\"";
                         echo base_url('/site/laporan/');
                         echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
