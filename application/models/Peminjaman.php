@@ -49,7 +49,7 @@ class Peminjaman extends CI_Model {
             return NULL;
         }
     }
-    
+
     //belum tracking
     function pinjam_set_pegawai($trans, $id_pem, $set, $id_ins, $jum, $steril, $tgl_pin, $tgl_kem, $status, $pegawai_cssd) {
         //cek ketersedian barang
@@ -164,9 +164,6 @@ class Peminjaman extends CI_Model {
                 . "FROM peminjaman a join user b on (a.id_peminjam = b.id_user) "
                 . "WHERE a.tanggal_pinjam = STR_TO_DATE('$tgl', '%d/%m/%Y') "
                 . "GROUP BY a.id_transaksi ORDER BY a.id_transaksi desc";
-//        $select = "SELECT a.*, b.nama_instrumen FROM peminjaman a JOIN instrumen b "
-//                . "on (a.id_instrumen = b.id_instrumen) "
-//                . "WHERE a.tanggal_pinjam = STR_TO_DATE('$tgl', '%d/%m/%Y')";
         $hasil = $this->db->query($select);
         return $hasil->result();
     }
@@ -178,16 +175,16 @@ class Peminjaman extends CI_Model {
         $hasil = $this->db->query($select);
         return $hasil->result();
     }
-    
+
     function panggil_kode_setting_set($id_transaksi) {
-        
+
         $select = "SELECT setting_set FROM peminjaman "
                 . "WHERE id_transaksi = '$id_transaksi' "
                 . "GROUP BY id_transaksi";
         $hasil = $this->db->query($select);
         return $hasil->row();
     }
-    
+
     function panggil_peminjam() {
         $select = "SELECT a.id_transaksi, a.id_peminjam, b.nama_user, a.tanggal_pinjam "
                 . "FROM peminjaman a join user b on (a.id_peminjam = b.id_user) "
@@ -236,7 +233,7 @@ class Peminjaman extends CI_Model {
         $this->db->query($update_instrumen);
         return TRUE;
     }
-    
+
     function panggil_transaksi($transaksi) {
         $select = "SELECT a.*, b.nama_user, c.nama_instrumen FROM peminjaman a "
                 . "JOIN USER b on (a.id_peminjam = b.id_user) "
@@ -246,15 +243,41 @@ class Peminjaman extends CI_Model {
         $hasil = $this->db->query($select);
         return $hasil->result();
     }
-    
-    function konfirmasi_pengembalian($id, $inst, $tgl_kembali/*, $ket*/) {
+
+    function konfirmasi_pengembalian($id, $inst, $tgl_kembali/* , $ket */) {
         //update peminjaman
         $update_instrumen = "UPDATE PEMINJAMAN SET STATUS_PEMINJAMAN=2 , "
                 . "TANGGAL_KEMBALI=STR_TO_DATE('$tgl_kembali', '%m/%d/%Y') "
-                /*. ", KET='$ket' "*/
+                /* . ", KET='$ket' " */
                 . "WHERE (ID_TRANSAKSI='$id' AND ID_INSTRUMEN='$inst')";
         $this->db->query($update_instrumen);
         return TRUE;
+    }
+
+//-----------------LAPORAN---------------------//
+    function laporan_harian_peminjaman($tgl) {
+        $select = "SELECT a.id_transaksi, b.nama_instrumen, a.jumlah_pinjam, "
+                . "c.nama_user, a.tanggal_pinjam, a.tanggal_kembali, "
+                . "a.waktu_approve, a.id_cssd "
+                . "FROM peminjaman a JOIN instrumen b "
+                . "ON (a.id_instrumen=b.id_instrumen) "
+                . "JOIN user c ON (a.id_peminjam = c.id_user) "
+                . "WHERE a.tanggal_kembali="
+                . "STR_TO_DATE('$tgl','%m/%d/%Y')";
+        $hasil = $this->db->query($select);
+        return $hasil->result();
+    }
+    function laporan_harian_peminjaman_sort_by_instrumen($tgl) {
+        $select = "SELECT a.id_transaksi, b.nama_instrumen, a.jumlah_pinjam, "
+                . "c.nama_user, a.tanggal_pinjam, a.tanggal_kembali, "
+                . "a.waktu_approve, a.id_cssd "
+                . "FROM peminjaman a JOIN instrumen b "
+                . "ON (a.id_instrumen=b.id_instrumen) "
+                . "JOIN user c ON (a.id_peminjam = c.id_user) "
+                . "WHERE a.tanggal_kembali="
+                . "STR_TO_DATE('$tgl','%m/%d/%Y')";
+        $hasil = $this->db->query($select);
+        return $hasil->result();
     }
 
 }
