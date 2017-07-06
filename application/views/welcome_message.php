@@ -110,7 +110,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
 
         <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
-
             <div class="w3-display-middle w3-animate-opacity w3-card-4">
                 <!--                <div class="w3-display-middle w3-padding w3-col m3">-->
                 <div class="w3-container w3-green w3-center">
@@ -161,8 +160,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
-        <footer class="w3-padding-32 w3-green w3-center w3-margin-top">
-            <p>Powered by : <a title="" target="_blank" class="w3-hover-text-black">SIM RSUD Karangasem</a></p>
+        <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
+            <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
+            <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
+            <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
+            <br class="w3-large"><b>© 2017</b>
         </footer>
         <script>
             function myFunction() {

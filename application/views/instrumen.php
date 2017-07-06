@@ -68,8 +68,9 @@
                     <i class="fa fa-bars"></i>
                 </a>
                 <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-search"></i> CARI</a>
                 <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-plus"></i> TAMBAH</a>
+                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-search"></i> CARI</a>
+                <a href="<?php echo base_url('/site/perbarui_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-edit"></i> PERBARUI</a>
                 <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-eraser"></i> HAPUS</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
@@ -91,60 +92,55 @@
             <div class="w3-display-topmiddle w3-center w3-black w3-opacity w3-animate-fading w3-padding-small">
                 <span class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity w3-margin-left"> Halaman Instrumen</span>
             </div>
-            
+
         </div>
         <div class="bgimg-3 w3-display-container w3-opacity-min">
-            
+
         </div>
 
-        <footer class="w3-center w3-green w3-margin-bottom">
-            <div class="w3-section w3-padding-small"></div>
-            <div class="w3-xlarge w3-section">
-                <i class="fa fa-facebook-official w3-hover-opacity"></i>
-
-            </div>
-            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-            <div class="w3-section w3-padding-small"></div>
-            <script>
-                function myFunction() {
-                    var navbar = document.getElementById("myNavbar");
-                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                    } else {
-                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                    }
-                }
-                function toggleFunction() {
-                    var x = document.getElementById("navDemo");
-                    if (x.className.indexOf("w3-show") == -1) {
-                        x.className += " w3-show";
-                    } else {
-                        x.className = x.className.replace(" w3-show", "");
-                    }
-                }
-            </script>
-            <script>
-                // Get the modal
-                var modal = document.getElementById('id01');
-
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-
-                var modal2 = document.getElementById('id02');
-
-                // When the user clicks anywhere outside of the modal, close it
-
-                modal2.style.display = "block";
-                window.onclick = function(event) {
-                    if (event.target == modal2) {
-                        modal2.style.display = "none";
-                    }
-                }
-            </script>
+        <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
+            <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
+            <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
+            <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
+            <br class="w3-large"><b>© 2017</b>
         </footer>
+        <script>
+            function myFunction() {
+                var navbar = document.getElementById("myNavbar");
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                } else {
+                    navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+                }
+            }
+            function toggleFunction() {
+                var x = document.getElementById("navDemo");
+                if (x.className.indexOf("w3-show") == -1) {
+                    x.className += " w3-show";
+                } else {
+                    x.className = x.className.replace(" w3-show", "");
+                }
+            }
+            // Get the modal
+            var modal = document.getElementById('id01');
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            var modal2 = document.getElementById('id02');
+
+            // When the user clicks anywhere outside of the modal, close it
+
+            modal2.style.display = "block";
+            window.onclick = function(event) {
+                if (event.target == modal2) {
+                    modal2.style.display = "none";
+                }
+            }
+        </script>
     </body>
 </html>

@@ -248,30 +248,15 @@
                     . "<br><img src='";
                     echo base_url('images/note.png');
                     echo "' class='w3-center w3-margin-top w3-margin-bottom w3-animate-top'></h4></div>";
-                    if (isset($tanggal)) {
-                        echo "<script>swal(\"Peminjaman Kosong\", \"Pencarian tanggal : $tanggal\", \"error\");</script>";
-                    }
-                    if (isset($peminjam)) {
-                        echo "<script>swal(\"Peminjaman Kosong\", \"Pencarian peminjam : $peminjam\", \"error\");</script>";
-                    }
-                    if (isset($transaksi)) {
-                        echo "<script>swal(\"Peminjaman Kosong\", \"Pencarian ID Transaksi : $transaksi\", \"error\");</script>";
-                    }
+
+                    echo "<script>swal(\"Peminjaman Kosong\", \"\", \"error\");</script>";
                 } else {
-                    if (isset($tanggal)) {
-                        $tgl = date('d/m/Y');
-                        if ($tgl == $tanggal){
-                            echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Daftar Amprah Hari Ini</b></div>";
-                        } else {
-                            echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Daftar Amprah Tanggal $tanggal</b></div>";
-                        }
+                    if ($statusApprove == 0) {
+                        echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Daftar Amprah Belum Approve</b></div>";
+                    } else {
+                        echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Daftar Amprah Sudah Approve</b></div>";
                     }
-                    if (isset($peminjam)) {
-                        echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Daftar Amprah $peminjam</b></div>";
-                    }
-                    if (isset($transaksi)) {
-                        echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Amprah ID Transaksi $transaksi</b></div>";
-                    }
+
                     echo "
                 <table class = 'w3-table w3-striped w3-bordered w3-animate-opacity w3-card' align = 'center' style='margin-bottom:10%'>
                 <thead><tr class = 'w3-theme'>
@@ -310,24 +295,6 @@
                 </table>
             </div>
         </th></tr></table>
-    <?php
-    if (isset($_SESSION["konfirmasi"])) {
-        $ubah = $_SESSION["konfirmasi"];
-        if ($ubah) {
-            echo "<script>swal(\"Konfirmasi Peminjaman Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
-        } else {
-            echo "<script>swal(\"Konfirmasi Peminjaman Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
-        }
-        $this->session->unset_userdata('konfirmasi');
-    }
-    if (isset($pinjam_intrumen)) {
-        echo "<script>swal(\"Peminjaman Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
-    }
-    $this->session->unset_userdata('nama_instrumen');
-    $this->session->unset_userdata('cari_instrumen');
-    $this->session->unset_userdata('konfirmasi');
-    ?>
-
     <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
         <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
         <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>

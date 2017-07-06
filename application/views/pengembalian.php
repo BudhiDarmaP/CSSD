@@ -71,35 +71,35 @@
                         echo "
                             <a href=\"";
                         echo base_url('/site/tambah_user/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-users\"></i> USER</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-users\"></i> USER</a>
                         ";
                     } elseif ($status_user == 1) {
                         echo "
                             <a href=\"";
                         echo base_url('/site/halamanInstrumen/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
                             <a href=\"";
                         echo base_url('/site/peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
                             <a href=\"";
                         echo base_url('/site/pengembalian/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
                             <a href=\"";
                         echo base_url('/site/laporan/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
                         ";
                     } elseif ($status_user == 2) {
                         echo "
                             <a href=\"";
                         echo base_url('/site/tambah_peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
                         ";
                     } else {
                         redirect(base_url('/LoginControl/destroy_session/'));
                     }
                 }
                 ?>
-                <a href="<?php echo base_url('/site/ubah_password_konfirmasi/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-user"></i> UBAH PASSWORD</a>
+                <a href="<?php echo base_url('/site/ubah_password_konfirmasi/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> UBAH PASSWORD</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -154,33 +154,7 @@
                 </form>
             </div>
         </div>
-        <?php
-//        if (isset($_SESSION["status_user"])) {
-//            $status = $_SESSION["status_user"];
-//            if ($status == 0 || $status == 1) {
-//                echo "<div id='id02' class='modal w3-responsive'>
-//                <div class='modal-content w3-animate-opacity' style='margin-top:15%;width:50%'>
-//                    <div class='container' style='width:70%'>
-//                        <h2 class='w3-center'>Pengembalian</h2>
-//                        </div>
-//                    <div class='container w3-center'>
-//                        <form style='width:57%' action='";
-//                echo base_url('/PengembalianControl/pengembalian');
-//                echo "'><input type='text' name='id_transaksi' placeholder='Masukkan ID Transaksi' required>
-//                    <button style='width:57%'><h4 style='color: white'>CARI</h4></button></form>
-//                    </div>
-//                    <div class='w3-center w3-margin-bottom'>
-//                        <a class='w3-xxlarge' href='";
-//                echo base_url('/site/HalamanUtama');
-//                echo "' style='vertical-align:middle;'><span><i class=\"fa fa-backward w3-margin w3-hover-text-red\"></i>Kembali</span></a>
-//                    </div>
-//                    </div>";
-//                $this->session->unset_userdata('konfirmasi');
-//            } else {
-//                redirect(base_url('/site/halamanUtama/'));
-//            }
-//        }
-        ?>
+
         <script>
             function myFunction() {
                 var navbar = document.getElementById("myNavbar");

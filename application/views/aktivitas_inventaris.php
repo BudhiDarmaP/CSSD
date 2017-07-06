@@ -28,11 +28,6 @@
             var curr_minute = today.getMinutes();
             var curr_second = today.getSeconds();
             var curr_bulan;
-//            if (curr_hour < 12) {
-//                a_p = "AM";
-//            } else {
-//                a_p = "PM";
-//            }
             if (curr_hour == 0) {
                 curr_hour = 24;
             }
@@ -110,8 +105,9 @@
                     <i class="fa fa-bars"></i>
                 </a>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <i class='fa fa-clock-o w3-right w3-xxlarge w3-margin-right' style="margin-top:4px"></i><b id='clock' class="w3-bar-item w3-button w3-right w3-animate-right"></b>
+                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-button w3-display-topmiddle w3-animate-top"><i class="fa fa-home"></i> HOME</a>
+                <i class='fa fa-clock-o w3-right w3-xxlarge' style="margin-top:4px;margin-left:5px;margin-right:5px"></i>
+                <b id='clock' class="w3-bar-item w3-button w3-right w3-animate-right"></b>
 
             </div>
         </div>
@@ -124,10 +120,10 @@
             <div  class="w3-display-topmiddle" style="width: 95%;">
                 <table align="center" style="width:100%" class="w3-margin-right"><tr>
                         <th class="w3-top" style="width:50%">
-                    <table class="w3-table w3-striped w3-bordered w3-card w3-margin-right w3-opacity-min w3-hover-opacity-off w3-animate-top" align="center">
+                    <table class="w3-table w3-striped w3-bordered w3-card w3-margin-right w3-opacity-min w3-hover-opacity-off" align="center">
                         <tbody class="w3-margin-top">
                             <tr>
-                                <th colspan="6" class="w3-green">
+                                <th colspan="6" class="w3-green w3-animate-opacity">
                         <h3 class="w3-left w3-xlarge"><i class='fa fa-briefcase w3-xxlarge'></i> <b>Aktivitas Peminjaman</b></h3>
 
                         </th>
@@ -159,10 +155,10 @@
                         <!--<div ></div>-->
                     </th>
                     <th class="w3-top" style="width:49%">
-                    <table class="w3-table w3-striped w3-bordered w3-card w3-margin-left w3-margin-right w3-opacity-min w3-hover-opacity-off w3-animate-top" align="center">
+                    <table class="w3-table w3-striped w3-bordered w3-card w3-margin-left w3-margin-right w3-opacity-min w3-hover-opacity-off" align="center">
                         <tbody class="w3-margin-top">
                             <tr>
-                                <th colspan="6" class="w3-theme">
+                                <th colspan="6" class="w3-theme w3-animate-opacity">
                         <h3 class="w3-left w3-xlarge"><i class='fa fa-scissors w3-xxlarge'></i> <b>Aktivitas Inventaris Instrumen</b></h3>
 
 

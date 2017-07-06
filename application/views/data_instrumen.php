@@ -10,6 +10,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
+        <link href="<?php echo base_url('bootstrap-3.3.6/css/scroll.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
@@ -52,6 +53,10 @@ and open the template in the editor.
                 background-attachment: scroll;
             }
         }
+        
+        .scroll {
+            height:600px;
+        }
     </style>
     <body>
 
@@ -62,8 +67,9 @@ and open the template in the editor.
                     <i class="fa fa-bars"></i>
                 </a>
                 <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i> CARI</a>
                 <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i> TAMBAH</a>
+                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i> CARI</a>
+                <a href="<?php echo base_url('/site/perbarui_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-edit"></i> PERBARUI</a>
                 <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i> HAPUS</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
@@ -72,9 +78,9 @@ and open the template in the editor.
         <div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
         </div>
 
-        <div class="w3-content w3-container w3-center" id="about">
-            <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
-        </div>
+        <!--        <div class="w3-content w3-container w3-center" id="about">
+                    <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
+                </div>-->
 
         <div class="w3-container">
             <div class="w3-container w3-responsive w3-padding-24">
@@ -94,7 +100,7 @@ and open the template in the editor.
                 </form>
             </div>
 
-            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-opacity" >
+            <div class="w3-responsive w3-card-4 w3-padding-16 w3-animate-opacity scroll" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                     <b class="w3-xlarge"style="color: green">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
                     <b style="color: black"><br>Total Instrumen 
@@ -126,7 +132,7 @@ and open the template in the editor.
                         ?>
                         </div>
 
-                        <table class="w3-table w3-striped w3-bordered w3-card" align="center" style="width:60%;margin-bottom:20%">
+                        <table class="w3-table w3-striped w3-bordered w3-card" align="center" style="width:60%;margin-bottom:5%">
                             <thead>
 
                             <tbody>
@@ -191,49 +197,44 @@ and open the template in the editor.
 
         </div>
 
-        <footer class="w3-center w3-green w3-margin-bottom">
-            <div class="w3-section w3-padding-small"></div>
-            <div class="w3-xlarge w3-section">
-                <i class="fa fa-facebook-official w3-hover-opacity"></i>
-
-            </div>
-            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-            <div class="w3-section w3-padding-small"></div>
-            <script>
-                function myFunction() {
-                    var navbar = document.getElementById("myNavbar");
-                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                    } else {
-                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                    }
-                }
-                function toggleFunction() {
-                    var x = document.getElementById("navDemo");
-                    if (x.className.indexOf("w3-show") == -1) {
-                        x.className += " w3-show";
-                    } else {
-                        x.className = x.className.replace(" w3-show", "");
-                    }
-                }
-            </script>
-            <script>
-                // Get the modal
-                var modal = document.getElementById('id01');
-
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-
-                var modal2 = document.getElementById('id02');
-
-                // When the user clicks anywhere outside of the modal, close it
-
-                modal2.style.display = "block";
-            </script>
+        <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
+            <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
+            <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
+            <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
+            <br class="w3-large"><b>© 2017</b>
         </footer>
+        <script>
+            function myFunction() {
+                var navbar = document.getElementById("myNavbar");
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                } else {
+                    navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+                }
+            }
+            function toggleFunction() {
+                var x = document.getElementById("navDemo");
+                if (x.className.indexOf("w3-show") == -1) {
+                    x.className += " w3-show";
+                } else {
+                    x.className = x.className.replace(" w3-show", "");
+                }
+            }
+            // Get the modal
+            var modal = document.getElementById('id01');
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            var modal2 = document.getElementById('id02');
+
+            // When the user clicks anywhere outside of the modal, close it
+
+            modal2.style.display = "block";
+        </script>
     </body>
 </html>

@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Peminjaman</title>
+    <title>Riwayat Peminjaman</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
@@ -18,9 +18,25 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function() {
-            $("#datepicker").datepicker({dateFormat: 'dd/mm/yy'});
-        });
+//        $(function() {
+//            $("#datepicker").datepicker({dateFormat: 'dd/mm/yy'});
+//        });
+//
+//        function validasi_input(form) {
+//            if (form.peminjam.value == "") {
+//                swal("Anda belum memilih peminjam!", "", "error");
+//                form.peminjam.focus();
+//                return (false);
+//            }
+//        }
+//
+//        function validasi_input2(form) {
+//            if (form.id_transaksi.value == "") {
+//                swal("Anda belum memasukkan ID Transaksi!", "", "error");
+//                form.id_transaksi.focus();
+//                return (false);
+//            }
+//        }
     </script>
     <script src="JavaScript.js"></script>
     <style>
@@ -41,7 +57,9 @@
 
         /* First image (Logo. Full height) */
         .bgimg-1 {
+            background-image: url(<?php echo base_url('images/RSUD.jpg'); ?>);
             min-height: 100%;
+
         }
 
         .w3-wide {letter-spacing: 10px;}
@@ -138,96 +156,61 @@
             <!-- First Parallax Image with Logo Text -->
             <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
             </div>
-
-            <!-- Container (About Section) -->
-
-            <table style="width:70%;margin-bottom:10%" align='center'>
+            
+            <table style="width:70%" align='center'>
                 <tr><th>
                 <div class="w3-content w3-container w3-center w3-margin-top" id="about">
-                    <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
+                    <div class="w3-container w3-responsive w3-margin-bottom w3-center">
                         <?php
                         if ($pinjam_instrumen == NULL) {
-                            echo "<h4 style='text-align: center;margin-bottom:10%' class='w3-theme w3-padding w3-large'><b class='w3-padding-16 w3-xxlarge'>Halaman Untuk Melihat Peminjaman</b><br>Pilih Tanggal Untuk Melihat Daftar Peminjaman"
-                            . "<br><img src='";
-                            echo base_url('images/note.png');
-                            echo "' class='w3-center w3-margin-top w3-margin-bottom w3-animate-top'></h4></div>";
-                            echo "<script>swal(\"Peminjaman Kosong\", \"\", \"error\");</script>";
-                        } else {
-                            echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity w3-left'>Daftar Peminjaman <u>$peminjam->nama_user</u></b>
-                                    <br> 
-                                    <table style='text-align:left;width:50%'>
-                                    <tr><td>ID Transaksi</td> 
-                                    <td>: </td>
-                                    <td>$id_transaksi</td>
-                                    <tr><td>No. Telepon </td>
-                                    <td>: </td>
-                                    <td>$peminjam->no_telepon</td></tr></table>
-                                    </div>
+                                echo "<h4 style='text-align: center;margin-bottom:10%' class='w3-theme w3-padding w3-large'>"
+                                . "<b class='w3-padding-16 w3-xxlarge'>Halaman Untuk Melihat Peminjaman</b><br>Pilih Opsi Pencarian Di atas Untuk Melihat Daftar Peminjaman"
+                                . "<br><img src='";
+                                echo base_url('images/note.png');
+                                echo "' class='w3-center w3-margin-top w3-margin-bottom w3-animate-top'></h4>";
+                            } else {
+                                echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity w3-animate-left'>Daftar Amprah $peminjam->nama_user</b>";
+                                echo "
                 <table class = 'w3-table w3-striped w3-bordered w3-card' align = 'center' style='margin-bottom:10%'>
                 <thead><tr class = 'w3-theme'>
-                <th style = 'text-align: left;'></th>
-                <th style = 'text-align: left;'>NAMA INSTRUMEN</th>
+                <th></th>
+                <th style = 'text-align: left;'>ID TRANSAKSI</th>
+                <th style = 'text-align: left;'>PEMINJAM</th>
                 <th style = 'text-align: center;'>TANGGAL PINJAM</th>
                 <th style = 'text-align: center;'>TANGGAL KEMBALI</th>
-                <th style = 'text-align: center;'>JUMLAH</th>
-                <th style = 'text-align: center;'>STATUS</th>
+                <th style = 'text-align: center;'></th>
                 </tr>
                 <tbody>";
-                            $tanggal;
-                            $nomor = 1;
-                            foreach ($pinjam_instrumen as $r):
-                                echo "
+
+                                $nomor = 1;
+                                foreach ($pinjam_instrumen as $r):
+                                    echo "<form action='";
+                                    echo base_url('site/lihat_peminjamanan_detail');
+                                    echo "' method='POST'>";
+                                    echo "
                 <tr>
-                <td style='text-align: left'><b>$nomor</b></td>
-                <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                <td>$nomor</td>
+                <td style='text-align: left'>$r->id_transaksi</td>
+                <td style='text-align: left;width:25%'><b>$r->nama_user</b></td>
                 <td style='text-align: center'>$r->tanggal_pinjam</td>
                 <td style='text-align: center'>$r->tanggal_kembali</td>
-                <td style='text-align: center'>$r->jumlah_pinjam</td>";
-                                if ($r->status_peminjaman == 0) {
-                                    echo "
-                <td style='text-align: center'><span style='color:orange'>Menunggu Approve</span></td>
-                </tr>";
-                                } else if ($r->status_peminjaman == 1) {
-                                    echo "
-                <td style='text-align: center'><span style='color:red'><b>Belum Dikembalikan</b></span></td>
-                </tr>";
-                                } else if ($r->status_peminjaman == 2) {
-                                    echo "
-                <td style='text-align: center'><span style='color:green'>Sudah Dikembalikan</span></td>
-                </tr>";
-                                } else if ($r->status_peminjaman == 3) {
-                                    echo "
-                <td style='text-align: center'><span style='color:blue'><b>Tidak Approve<b></span></td>
-                </tr>";
-                                }
-                                $tanggal = $r->tanggal_pinjam;
-                                $nomor++;
-                            endforeach;
-                            echo "
-                            <form action='";
-                            if ($_SESSION['status_user'] == 1) {
-                                echo base_url('site/lihat_peminjaman');
-                            } else if ($_SESSION['status_user'] == 2) {
-                                echo base_url('site/riwayat_pinjam');
-                            } else {
-                                echo base_url('site/check_log_in_to_peminjaman');
+                <td style='text-align: center'><input type='submit' value='LIHAT' class='btn btn-success w3-hover-text-black'> <i class='w3-text-green fa fa-check-circle'></i></input></td>
+                <input type='hidden' name='id' value='$r->id_peminjam'>
+                <input type='hidden' name='transaksi' value='$r->id_transaksi'>";
+                                    echo "</form>";
+                                    $nomor++;
+                                endforeach;
+                                $this->session->unset_userdata('pinjam_instrumen');
                             }
-                            echo "' method='POST'>
-                            <tr>
-                            <td colspan='6' style='text-align: center'>
-                                <button class='btn btn-success w3-xlarge w3-hover-text-black' style='width:15%'><i class='fa fa-backward'></i> Kembali</button>
-                                <input type='hidden' name='kembali' value='yes'>
-                                <input type='hidden' name='tgl_pinjam' value='$tanggal'>
-                            </td>
-                        </tr>";
-                            $this->session->unset_userdata('pinjam_instrumen');
-                        }
                         ?>
                         </tbody>
                         </table>
                     </div>
                 </th></tr></table>
-            <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
+                
+
+
+            <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom w3-bottom">
                 <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
                 <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
                 <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
@@ -271,5 +254,6 @@
                     }
                 }
             </script>
+
         </body>
     </html>

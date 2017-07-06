@@ -113,35 +113,35 @@
                         echo "
                             <a href=\"";
                         echo base_url('/site/tambah_user/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-users\"></i> USER</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-users\"></i> USER</a>
                         ";
                     } elseif ($status_user == 1) {
                         echo "
                             <a href=\"";
                         echo base_url('/site/halamanInstrumen/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
                             <a href=\"";
                         echo base_url('/site/peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
                             <a href=\"";
                         echo base_url('/site/pengembalian/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
                             <a href=\"";
                         echo base_url('/site/laporan/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
                         ";
                     } elseif ($status_user == 2) {
                         echo "
                             <a href=\"";
                         echo base_url('/site/tambah_peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
+                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
                         ";
                     } else {
                         redirect(base_url('/LoginControl/destroy_session/'));
                     }
                 }
                 ?>
-                <a href="<?php echo base_url('/site/ubah_password_konfirmasi/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-user"></i> UBAH PASSWORD</a>
+                <a href="<?php echo base_url('/site/ubah_password_konfirmasi/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> UBAH PASSWORD</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -156,40 +156,45 @@
             if (!$ubah) {
                 echo "<script>swal(\"Konfirmasi Pengembalian Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
             }
+            if ($ubah != NULL) {
+                echo "
+            <div class='w3-content w3-container w3-center' id='about'>
+                <img src='";
+                echo base_url('images/LogoCSSD.png');
+                echo "' class='w3-center w3-margin-top w3-margin-bottom w3-animate-top'>
+            </div>";
+            }
         }
         ?>
 
-        <!-- Container (About Section) -->
-        <div class="w3-content w3-container w3-center" id="about">
-            <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
-        </div>
-
         <div class="w3-responsive w3-card-4 w3-padding-16" >
-            <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
-                <?php
-                if (isset($_SESSION["konfirmasi"])) {
-                    $cek = $_SESSION["konfirmasi"];
-                    $id_transaksi = $_SESSION["transaksi"];
-                    if ($cek != NULL) {
-                        echo "<h4 style='color: red;margin-bottom:25%'><b>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN ATAU SUDAH DIKEMBALIKAN</b><br>ID Transaksi : $id_transaksi</h4>
-                            </div>";
-                    }
-                    $this->session->unset_userdata('konfirmasi');
-                    $this->session->unset_userdata('transaksi');
-                } else {
-                    $nama_user;
-                    foreach ($pengembalian as $r):
-                        $nama_user = $r->nama_user;
-                    endforeach;
+
+            <?php
+            if (isset($_SESSION["konfirmasi"])) {
+                $cek = $_SESSION["konfirmasi"];
+                $id_transaksi = $_SESSION["transaksi"];
+                if ($cek != NULL) {
                     echo "
-                        <div class='w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left w3-xlarge w3-green'>
-                            <b class='w3-padding'>Konfirmasi Pengembalian <u class='w3-hover-text-black'>$nama_user</u></b>
+                        <div class='w3-container w3-responsive w3-margin-bottom w3-center'>
+                        <h4 style='color: red;margin-bottom:20%'><b>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN ATAU SUDAH DIKEMBALIKAN</b><br>ID Transaksi : $id_transaksi</h4>
+                        </div>";
+                }
+                $this->session->unset_userdata('konfirmasi');
+                $this->session->unset_userdata('transaksi');
+            } else {
+                $nama_user;
+                foreach ($pengembalian as $r):
+                    $nama_user = $r->nama_user;
+                endforeach;
+                echo "
+                        <div class='w3-container w3-responsive w3-margin-bottom w3-center w3-card w3-green'>
+                            <b class='w3-padding w3-animate-left w3-xlarge'>Konfirmasi Pengembalian <u class='w3-hover-text-black'>$nama_user</u></b>
                             <br><span class='w3-large'>ID Transaksi : $id_transaksi</span>
-                        </div></div>
+                        </div>
                         <form method='POST' action='";
-                    echo base_url('PengembalianControl/konfirm');
-                    echo "'>";
-                    echo "
+                echo base_url('PengembalianControl/konfirm');
+                echo "'>";
+                echo "
                         <table class='w3-table w3-striped w3-bordered' align='center' style='width:70%;color:red'>
                         <tr><th>
                         <b>Jangan centang <u>CEK</u>, jika ada 1 instrumen yang belum dikembalikan. Isi keterangan jika instrumen hilang.</b>
@@ -205,8 +210,8 @@
                             <th style='text-align: center;'>KETERANGAN</th>
                             <th style='text-align: left;'>CEK</th>
                             </tr>";
-                    foreach ($pengembalian as $r):
-                        echo "<tbody>
+                foreach ($pengembalian as $r):
+                    echo "<tbody>
                              <tr>
                             <td style='text-align: center'>$r->tanggal_pinjam</td>
                             <td style='text-align: center'>$r->tanggal_kembali</td>
@@ -217,64 +222,59 @@
                             <input type='hidden' value='$r->id_transaksi' name='transaksi'>
                             </td>
                             </tr>";
-                    endforeach;
-                    echo "<tr>
+                endforeach;
+                echo "<tr>
                             <td colspan='6' style='text-align: center'>
                                 <button class='btn btn-warning w3-xlarge w3-hover-text-black' style='width:20%'><i class='fa fa-briefcase'></i> KONFIRMASI</button>
                             </td>
                         </tr></tbody>
                     </table>
                     </form>";
-                }
-                $this->session->unset_userdata('konfirmasi');
-                ?>
-            </div>
+            }
+            $this->session->unset_userdata('konfirmasi');
+            ?>
         </div>
+    </div>
 
-        <footer class="w3-center w3-green w3-margin-bottom">
-            <div class="w3-section w3-padding-small"></div>
-            <div class="w3-xlarge w3-section">
-                <i class="fa fa-facebook-official w3-hover-opacity"></i>
-
-            </div>
-            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-            <div class="w3-section w3-padding-small"></div>
-            <script>
-                function myFunction() {
-                    var navbar = document.getElementById("myNavbar");
-                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                    } else {
-                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                    }
-                }
-                function toggleFunction() {
-                    var x = document.getElementById("navDemo");
-                    if (x.className.indexOf("w3-show") == -1) {
-                        x.className += " w3-show";
-                    } else {
-                        x.className = x.className.replace(" w3-show", "");
-                    }
-                }
-            </script>
-            <script>
-                // Get the modal
-                var modal = document.getElementById('id01');
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-                var modal2 = document.getElementById('id02');
-                // When the user clicks anywhere outside of the modal, close it
-                modal2.style.display = "block";
-                window.onclick = function(event) {
-                    if (event.target == modal2) {
-                        modal2.style.display = "none";
-                    }
-                }
-            </script>
-        </footer>
-    </body>
+    <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
+        <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
+        <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
+        <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
+        <br class="w3-large"><b>© 2017</b>
+    </footer>
+    <script>
+        function myFunction() {
+            var navbar = document.getElementById("myNavbar");
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+            } else {
+                navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+            }
+        }
+        function toggleFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+        // Get the modal
+        var modal = document.getElementById('id01');
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        var modal2 = document.getElementById('id02');
+        // When the user clicks anywhere outside of the modal, close it
+        modal2.style.display = "block";
+        window.onclick = function(event) {
+            if (event.target == modal2) {
+                modal2.style.display = "none";
+            }
+        }
+    </script>
+</body>
 </html>

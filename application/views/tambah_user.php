@@ -20,7 +20,6 @@
         function validasi_input(form) {
             if (form.status_user.value == "") {
                 swal("Anda belum memilih Status User!", "", "error");
-//                form.status_user.focus();
                 return (false);
             }
             return (true);

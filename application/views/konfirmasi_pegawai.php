@@ -22,6 +22,14 @@
 
             return (true);
         }
+
+        function validasi_input2(form) {
+            if (form.id_transaksi.value == "") {
+                swal("Anda belum memasukkan ID Transaksi!", "", "error");
+                form.id_transaksi.focus();
+                return (false);
+            }
+        }
     </script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -134,46 +142,70 @@
             </div>
 
             <!-- Container (About Section) -->
-            <div class="w3-content w3-container w3-center" id="about">
-                <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
-            </div>
+            <!--            <div class="w3-content w3-container w3-center" id="about">
+                            <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
+                        </div>-->
 
             <div class="w3-responsive w3-card-4 w3-padding-16" >
                 <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left w3-large w3-green">
                     <b class='w3-padding '>Konfirmasi Peminjaman </b>
                 </div>
 
-                <form action='<?php echo base_url('PeminjamanControl/peminjam_belum_konfirmasi'); ?>' onsubmit="return validasi_input(this)">
-                    <table align="center" style="width:70%;margin-bottom:3%">
-                        <tr>
-                            <th colspan="4" class="w3-small">
-                                Pilih Peminjam Untuk Melihat Daftar Peminjaman Berdasarkan Peminjam
-                            </th>
-                        </tr>
-                        <tr style='text-align:'>
-                            <?php
-                            if ($status_user == 0 || $status_user == 1) {
-                                echo "<th></th>
-                                    <td style='text-align:center;color:red'><select class='w3-input w3-border w3-padding' name='peminjam' style='width:95%;text-align:center;margin-top:2%' placeholder='Masukkan'>";
-                                echo "
+
+                <table align="center" style="width:70%;margin-bottom:3%">
+                    <tr>
+                        <th colspan="4" class="w3-small">
+                            Pilih Peminjam Untuk Melihat Daftar Peminjaman Berdasarkan Peminjam
+                        </th>
+                        <th colspan="2" class="w3-small" style="text-align:right">
+                            Peminjaman Berdasarkan ID Transaksi
+                        </th>
+                    </tr>
+                    <tr style='text-align:'>
+                        <?php
+                        if ($status_user == 0 || $status_user == 1) {
+                            echo "
+                                    <form action='";
+                            echo base_url('PeminjamanControl/peminjam_belum_konfirmasi');
+                            echo "' onsubmit='return validasi_input(this)'>
+                                    <th></th>
+                                    <td style='text-align:center;color:red;width:30%'>
+                                    <select class='w3-input w3-border w3-padding' name='peminjam' style='width:95%;text-align:center;margin-top:2%' placeholder='Masukkan'>";
+                            echo "
                                     <option value='' required='' disabled='disabled' selected>-- Pilih Peminjam --</option>
                                     ";
 //                                <td><select name='peminjam'>";
-                                foreach ($id_peminjam as $r):
-                                    echo "
+                            foreach ($id_peminjam as $r):
+                                echo "
                                     <option value='$r->id_user' style='color:black'>$r->nama_user</option>
                                     ";
-                                endforeach;
-                                echo "</select></td>
+                            endforeach;
+                            echo "</select></td>
                             <th><button class='btn btn-success w3-hover-text-black' name='cari' value='CARI' style=''>
                             <i class='fa fa-search'></i>&nbsp;</button></th>
-                            <td style='width:60%'></td>";
-                            }else {
-                                redirect(base_url('/site/home/'));
-                            }
-                            ?>
-                        </tr>></table></form>
-                <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:70%;margin-bottom:10%">
+                            </form>
+                            <td style='width:40%'></td>
+                            <form action='";
+                            echo base_url('PeminjamanControl/peminjam_belum_konfirmasi');
+                            echo "' onsubmit='return validasi_input2(this)'>
+                            <td style='width:30%'>
+                                <input class='inputTanggal form-control' style='height: 40px;width:95%;margin-top:15px' type='text' name='id_transaksi' placeholder='Masukkan ID Transaksi'>
+                            </td>
+                            <td>
+                                <button class='btn btn-success w3-hover-text-black' name='cari' value='CARI'><i class='fa fa-search'></i>&nbsp;</button>
+                            </td>
+                            </form>";
+                        }else {
+                            redirect(base_url('/site/home/'));
+                        }
+                        ?>
+                    </tr>></table>
+
+                <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:70%;<?php if ($peminjam == NULL or count($peminjam) == 1) {
+                            echo "margin-bottom:20%";
+                        } else {
+                            echo "margin-bottom:10%";
+                        } ?>">
                     <?php
                     if ($peminjam == NULL) {
                         echo "<td style='text-align: center'>"
@@ -218,50 +250,45 @@
             </div>
         </div>
 
-        <footer class="w3-center w3-green w3-margin-bottom">
-            <div class="w3-section w3-padding-small"></div>
-            <div class="w3-xlarge w3-section">
-                <i class="fa fa-facebook-official w3-hover-opacity"></i>
-
-            </div>
-            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-            <div class="w3-section w3-padding-small"></div>
-            <script>
-                function myFunction() {
-                    var navbar = document.getElementById("myNavbar");
-                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                    } else {
-                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                    }
-                }
-                function toggleFunction() {
-                    var x = document.getElementById("navDemo");
-                    if (x.className.indexOf("w3-show") == -1) {
-                        x.className += " w3-show";
-                    } else {
-                        x.className = x.className.replace(" w3-show", "");
-                    }
-                }
-            </script>
-            <script>
-                // Get the modal
-                var modal = document.getElementById('id01');
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-                var modal2 = document.getElementById('id02');
-                // When the user clicks anywhere outside of the modal, close it
-                modal2.style.display = "block";
-                window.onclick = function(event) {
-                    if (event.target == modal2) {
-                        modal2.style.display = "none";
-                    }
-                }
-            </script>
+        <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
+            <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
+            <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
+            <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
+            <br class="w3-large"><b>© 2017</b>
         </footer>
+        <script>
+            function myFunction() {
+                var navbar = document.getElementById("myNavbar");
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                } else {
+                    navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+                }
+            }
+            function toggleFunction() {
+                var x = document.getElementById("navDemo");
+                if (x.className.indexOf("w3-show") == -1) {
+                    x.className += " w3-show";
+                } else {
+                    x.className = x.className.replace(" w3-show", "");
+                }
+            }
+            // Get the modal
+            var modal = document.getElementById('id01');
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            var modal2 = document.getElementById('id02');
+            // When the user clicks anywhere outside of the modal, close it
+            modal2.style.display = "block";
+            window.onclick = function(event) {
+                if (event.target == modal2) {
+                    modal2.style.display = "none";
+                }
+            }
+        </script>
     </body>
 </html>

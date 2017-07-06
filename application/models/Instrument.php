@@ -115,6 +115,17 @@ class Instrument extends CI_Model {
         return TRUE;
     }
 
+    function tambah_stok_instrumen($id, $jumlah, $id_cssd) {
+        $this->db->query("UPDATE `instrumen` set jumlah = jumlah + $jumlah where id_instrumen = '$id'");
+        $this->inventaris_tambah_stok_barang($id, $id_cssd, $jumlah);
+        return TRUE;
+    }
+    function tambah_stok_steril_instrumen($id, $jumlah, $id_cssd) {
+        $this->db->query("UPDATE `instrumen` set steril = steril + $jumlah where id_instrumen = '$id'");
+        $this->inventaris_tambah_stok_steril_barang($id, $id_cssd, $jumlah);
+        return TRUE;
+    }
+
     function panggil_jumlah_nomor_inventaris() {
         $q = $this->db->query("SELECT * FROM INVENTARIS");
         return $q->num_rows();
@@ -143,7 +154,59 @@ class Instrument extends CI_Model {
             return FALSE;
         }
     }
-    
+
+    function inventaris_tambah_stok_barang($id_instrumen, $id_user, $jumlah) {
+        $nomor_riwayat = 'INVT';
+        $setNomor = $this->panggil_jumlah_nomor_inventaris() + 1;
+
+        if ($setNomor < 10) {
+            $nomor_riwayat = $nomor_riwayat . '000' . $setNomor;
+        } else if ($setNomor > 9 || $setNomor < 100) {
+            $nomor_riwayat = $nomor_riwayat . '00' . $setNomor;
+        } else if ($setNomor > 99 || $setNomor < 1000) {
+            $nomor_riwayat = $nomor_riwayat . '0' . $setNomor;
+        } else {
+            $nomor_riwayat = $nomor_riwayat . $setNomor;
+        }
+
+        if ($jumlah > 0) {
+            $this->db->query("INSERT INTO `inventaris` VALUES ('$nomor_riwayat','$id_instrumen','$id_user','Menambah Stok Sejumlah $jumlah', sysdate())");
+        } else {
+            $jumlahKurang = substr($jumlah, 1);
+            $this->db->query("INSERT INTO `inventaris` VALUES ('$nomor_riwayat','$id_instrumen','$id_user','Mengurangi Stok Sejumlah $jumlahKurang', sysdate())");
+        }
+        $test = $this->db->query("select * from inventaris where nomor_riwayat = '$nomor_riwayat'");
+        if ($test->num_rows() > 0) {
+            return true;
+        } else {
+            return FALSE;
+        }
+    }
+
+    function inventaris_tambah_stok_steril_barang($id_instrumen, $id_user, $jumlah) {
+        $nomor_riwayat = 'INVT';
+        $setNomor = $this->panggil_jumlah_nomor_inventaris() + 1;
+
+        if ($setNomor < 10) {
+            $nomor_riwayat = $nomor_riwayat . '000' . $setNomor;
+        } else if ($setNomor > 9 || $setNomor < 100) {
+            $nomor_riwayat = $nomor_riwayat . '00' . $setNomor;
+        } else if ($setNomor > 99 || $setNomor < 1000) {
+            $nomor_riwayat = $nomor_riwayat . '0' . $setNomor;
+        } else {
+            $nomor_riwayat = $nomor_riwayat . $setNomor;
+        }
+
+        $q = $this->db->query("INSERT INTO `inventaris` VALUES ('$nomor_riwayat','$id_instrumen','$id_user','Menambah Stok Steril Sejumlah $jumlah', sysdate())");
+
+        $test = $this->db->query("select * from inventaris where nomor_riwayat = '$nomor_riwayat'");
+        if ($test->num_rows() > 0) {
+            return true;
+        } else {
+            return FALSE;
+        }
+    }
+
     function inventaris_hapus_barang($id_instrumen, $id_user) {
         $nomor_riwayat = 'INVT';
         $setNomor = $this->panggil_jumlah_nomor_inventaris() + 1;

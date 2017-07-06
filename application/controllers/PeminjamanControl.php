@@ -66,7 +66,7 @@ class PeminjamanControl extends CI_Controller {
             $this->load->view('konfirmasi_peminjaman', $data);
         }
     }
-    
+
     function pinjam_setting() {
         //panggil model
         $this->load->model('Setting_Set');
@@ -137,6 +137,8 @@ class PeminjamanControl extends CI_Controller {
                 list($bln, $tgl, $thn) = explode('/', $tgl);
                 $tgl = $tgl . '/' . $bln . '/' . $thn;
                 $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+                $this->load->model('Users');
+                $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
                 $data['pinjam_intrumen'] = true;
                 $data['tanggal'] = $tgl;
                 $this->load->view('lihat_peminjaman', $data);
@@ -150,7 +152,7 @@ class PeminjamanControl extends CI_Controller {
             $this->load->view('result_peminjaman', $tampil);
         }
     }
-    
+
     function konfirmasi_set() {
         //panggil model
         $this->load->model('Peminjaman');
@@ -203,6 +205,8 @@ class PeminjamanControl extends CI_Controller {
                 list($bln, $tgl, $thn) = explode('/', $tgl);
                 $tgl = $tgl . '/' . $bln . '/' . $thn;
                 $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+                $this->load->model('Users');
+                $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
                 $data['pinjam_intrumen'] = true;
                 $data['tanggal'] = $tgl;
                 $this->load->view('lihat_peminjaman', $data);
@@ -221,11 +225,33 @@ class PeminjamanControl extends CI_Controller {
         //load model
         $this->load->model('Peminjaman');
         //panggil tgl
-        $tgl = $_GET['tgl'];
-        //masukkan tanggal sebagai pencarian peminjaman
-        $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+        $cari;
+        $headerKirim;
+        if (isset($_GET['tgl'])) {
+            $cari = $_GET['tgl'];
+            $headerKirim = 1;
+        }
+        if (isset($_GET['peminjam'])) {
+            $cari = $_GET['peminjam'];
+            $headerKirim = 2;
+        }
+        if (isset($_GET['id_transaksi'])) {
+            $cari = $_GET['id_transaksi'];
+            $headerKirim = 3;
+        }
 
-        $data['tanggal'] = $tgl;
+        //masukkan tanggal sebagai pencarian peminjaman
+        $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($cari);
+        $this->load->model('Users');
+        if ($headerKirim == 1) {
+            $data['tanggal'] = $cari;
+        } else if ($headerKirim == 2) {
+            $peminjam = $this->Users->panggil_data_user_by_id($cari);
+            $data['peminjam'] = $peminjam->nama_user;
+        } else if ($headerKirim == 3) {
+            $data['transaksi'] = $cari;
+        }
+        $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
         //panggil view
         $this->load->view('lihat_peminjaman', $data);
     }
@@ -235,7 +261,14 @@ class PeminjamanControl extends CI_Controller {
         $this->load->model('Peminjaman');
         $this->load->model('Users');
         //panggil peminjam
-        $peminjam = $_GET['peminjam'];
+        $peminjam;
+        if (isset($_GET['peminjam'])) {
+            $peminjam = $_GET['peminjam'];
+        }
+        if (isset($_GET['id_transaksi'])) {
+            $peminjam = $_GET['id_transaksi'];
+        }
+        
         //masukkan id sebagai pencarian peminjaman
         $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
         $data['peminjam'] = $this->Peminjaman->panggil_peminjam_id($peminjam);
@@ -262,7 +295,7 @@ class PeminjamanControl extends CI_Controller {
         //jika set tidak NULL
         if ($set != NULL) {
             //explode menjadi xxx<kode> x<jumlah>
-            $split=explode(":", $set);
+            $split = explode(":", $set);
             //panggil nama set
             $queryX = $this->Setting_Set->panggil_nama($split[0]);
             $data['nama_set'] = $queryX->nama_set;
@@ -307,9 +340,11 @@ class PeminjamanControl extends CI_Controller {
             $this->session->set_userdata($hasil);
 //            redirect(base_url('site/lihat_peminjaman'));
             $tgl = $_POST['tgl_pinjam'];
-            list($thn, $bln, $tgl, ) = explode('-', $tgl);
+            list($tgl, $bln, $thn) = explode('-', $tgl);
             $tgl = $tgl . '/' . $bln . '/' . $thn;
             $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+            $this->load->model('Users');
+            $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
             $data['pinjam_intrumen'] = true;
             $data['tanggal'] = $tgl;
             $this->load->view('lihat_peminjaman', $data);

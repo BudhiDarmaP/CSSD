@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('bootstrap-3.3.6/css/scroll.css'); ?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
@@ -79,6 +80,7 @@
         .buttonPinjam:hover span {
             padding-right: 25px;
         }
+
     </style>
     <body>
 
@@ -127,38 +129,54 @@
         </div>
 
         <!-- Container (About Section) -->
-        <div class="w3-content w3-container w3-center" id="about">
-            <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
-        </div>
+        <!--        <div class="w3-content w3-container w3-center" id="about">
+                    <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
+                </div>-->
 
         <div class="w3-container">
             <div class="w3-container w3-responsive w3-padding-24">
                 <div class="col-xs-12">
-                    <table style="width:55%" align='center'>
+                    <table style="width:60%" align='center'>
+                        <tr>
+                            <th>
+                                <?php
+                                if ($status_user == 2) {
+                                    echo "<a href = '";
+                                    echo base_url('/site/riwayat_pinjam');
+                                    echo "' class = 'btn btn-success w3-green w3-card-2 w3-hover-text-black w3-large' name = 'cari' value = 'CARI' style = 'width:60%;height:40px;'><i class = 'fa fa-search'></i> Riwayat Peminjaman</a>";
+                                }
+                                ?>
+                            </th>
+                            <th colspan="3" style="text-align:left" class="w3-small">
+                                <b style="color:red" class="w3-large">Peminjaman untuk setting set: </b><br>1. Pilih setting set yang sudah tersedia<br>2. Masukkan jumlah setting set yang akan dipinjam
+                            </th>
+                        </tr>
                         <tr>
                         <form action="<?php echo base_url('/PeminjamanControl/cari'); ?>">
                             <th style="width: 50%">
-                                <div>
-                                    <input style="height: 40px;width:60%;margin-top:15px" type="text" class="form-control" name="namainstrumen" placeholder="Masukkan Nama Instrumen" required="">
-                                    <button class="btn btn-success" name="cari" value="CARI" style="width: 15%"><i class="fa fa-search"></i>&nbsp;</button>
-                                </div>
+                            <div>
+                                <input style="height: 40px;width:50%;margin-top:15px" type="text" class="form-control" name="namainstrumen" title="Masukkan Nama / ID instrumen yang dicari" placeholder="Pencarian Instrumen" required="">
+                                <button class="btn btn-success w3-hover-text-black" name="cari" value="CARI" style="height:40px;width: 50px;margin-left:5px;margin-bottom:10px"><i class="fa fa-search"></i>&nbsp;</button>
+                            </div>
                             </th>
                         </form>
                         <form action="<?php echo base_url('/PeminjamanControl/pinjam_setting'); ?>">
-                            <th style="width: 70%;">
-                                <div>
-                                    <select name='set' required="" style="width: 60%">
-                                        <option value='' required='' disabled='disabled' selected>-- Pilih Setting Set --</option>
-                                        <?php
-                                        foreach ($set as $s):
-                                            echo "
+                            <th style="width: 35%;text-align:right">
+                                <select class='form-control w3-input w3-border w3-padding w3-bordered' name='set' required="" style="height:40px;width:98%;text-align: center">
+                                    <option value='' required='' disabled='disabled' selected>-- Pilih Setting Set --</option>
+                                    <?php
+                                    foreach ($set as $s):
+                                        echo "
                                             <option value='$s->id_set' style='color:black'>$s->nama_set</option>";
-                                        endforeach;
-                                        ?>
-                                    </select>
-                                    <input type='number' name='banyak_set' min='0' style='width:12.5%' required="">
-                                    <button class="btn btn-success" value="CARI" style="width: 15%"><i class="fa fa-check"></i>&nbsp;</button>
-                                </div>
+                                    endforeach;
+                                    ?>
+                                </select>
+                            </th>
+                            <th style="text-align:right;width:10%;">
+                                <input type='number' name='banyak_set' min="1" required='' placeholder="0" title="Jumlah Set" class="form-control w3-input w3-border w3-border-grey" style="height:40px;">
+                            </th>
+                            <th style="text-align:right;width:5%;">
+                                <button class="btn btn-success  w3-hover-text-black" value="CARI" style="width:50px;margin-left:5px;margin-bottom:10px;height:40px;"><i class="fa fa-check"></i>&nbsp;</button>
                             </th>
                         </form>
                         </tr>
@@ -167,8 +185,19 @@
             </div>
 
             <div class="w3-responsive w3-card-4 w3-padding-16" >
-                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left w3-large w3-green">
-                    <b style="">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
+                <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left w3-xlarge w3-green">
+                    <table style="width:100%">
+                        <tr>
+                            <th style="text-align:center">
+                                <b style="">Daftar Instrumen <?php if (isset($nama_instrumen)) echo "<a style='color:red'>$nama_instrumen</a>"; ?> Di CSSD</b>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="text-align:center">
+                                <span class="w3-small"><b>Peminjaman Instrumen di CSSD : Centang baris instrumen lalu klik tombol <u class="w3-hover-text-black">"Konfirmasi"</u></b></span>
+                            </th>
+                        </tr>
+                    </table>
                 </div>
                 <?php
                 if (isset($_SESSION["pinjam_instrumen"])) {
@@ -203,20 +232,20 @@
                 }
                 ?>
 
-                <form action="<?php echo base_url('/PeminjamanControl/pinjam'); ?>">
-                    <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:60%;margin-bottom:5%">
+                <form action="<?php echo base_url('/PeminjamanControl/pinjam'); ?>" class="scroll">
+                    <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:60%;margin-bottom:10%">
                         <thead>
 
                         <tbody>
                             <?php
                             $tampil = 0;
-                            if(isset($ada_instrumen)){
+                            if (isset($ada_instrumen)) {
                                 $tampil = count($ada_instrumen);
-                            } elseif (isset ($cari_instrumen)){
+                            } elseif (isset($cari_instrumen)) {
                                 $tampil = count($cari_instrumen);
                             }
-                            
-                            if ( $tampil == 0 ) {
+
+                            if ($tampil == 0) {
                                 echo "<tr><td style='text-align: center;' colspan='4'>"
                                 . "<h3 style='color: red' class='w3-padding-64'>TIDAK ADA INSTRUMEN</h3></td></tr>
                                   ";
@@ -271,50 +300,47 @@
             </div>
         </div>
 
-        <footer class="w3-center w3-green w3-margin-bottom">
-            <div class="w3-section w3-padding-small"></div>
-            <div class="w3-xlarge w3-section">
-                <i class="fa fa-facebook-official w3-hover-opacity"></i>
-
-            </div>
-            <p>Powered by <a title="" target="_blank" class="w3-hover-text-black">CSSD RSUD Karangasem</a></p>
-            <div class="w3-section w3-padding-small"></div>
-            <script>
-                function myFunction() {
-                    var navbar = document.getElementById("myNavbar");
-                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                        navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                    } else {
-                        navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                    }
-                }
-                function toggleFunction() {
-                    var x = document.getElementById("navDemo");
-                    if (x.className.indexOf("w3-show") == -1) {
-                        x.className += " w3-show";
-                    } else {
-                        x.className = x.className.replace(" w3-show", "");
-                    }
-                }
-            </script>
-            <script>
-                // Get the modal
-                var modal = document.getElementById('id01');
-
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-
-                var modal2 = document.getElementById('id02');
-
-                // When the user clicks anywhere outside of the modal, close it
-
-                modal2.style.display = "block";
-
-            </script>
+        <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
+            <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
+            <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
+            <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
+            <br class="w3-large"><b>© 2017</b>
         </footer>
+        <script>
+            function myFunction() {
+                var navbar = document.getElementById("myNavbar");
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+                } else {
+                    navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
+                }
+            }
+            function toggleFunction() {
+                var x = document.getElementById("navDemo");
+                if (x.className.indexOf("w3-show") == -1) {
+                    x.className += " w3-show";
+                } else {
+                    x.className = x.className.replace(" w3-show", "");
+                }
+            }
+        </script>
+        <script>
+            // Get the modal
+            var modal = document.getElementById('id01');
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            var modal2 = document.getElementById('id02');
+
+            // When the user clicks anywhere outside of the modal, close it
+
+            modal2.style.display = "block";
+
+        </script>
     </body>
 </html>

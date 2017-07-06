@@ -37,7 +37,7 @@ class InstrumenControl extends CI_Controller {
 
     function tambah() {
         $this->load->model('Instrument');
-        
+
         $nama = $_GET["nama_instrumen"];
         $jumlah = $_GET["jumlah_instrumen"];
 //        $steril = $_GET["steril"];
@@ -120,4 +120,74 @@ class InstrumenControl extends CI_Controller {
         redirect(base_url('site/hapus_instrument'));
     }
 
+    function tambahStok() {
+        $this->load->model('Instrument');
+        $id_instrumen = $_POST["nama_instrumen"];
+        $jumlah = $_POST["jumlah_instrumen"];
+        $id_cssd = $_SESSION['username'];
+//        $steril = $_GET["steril"];
+        $this->Instrument->tambah_stok_instrumen($id_instrumen, $jumlah, $id_cssd);
+
+        $instrumen = $this->Instrument->panggil_data_id($id_instrumen);
+        $data['tambah_stok_instrumen'] = true;
+        $data['nama_instrumen'] = $instrumen->nama_instrumen;
+        $data['instrumen'] = $this->Instrument->cari_data_instrument('');
+        $this->load->view('perbarui_instrument', $data);
+    }
+
+    function tambahSteril() {
+        $this->load->model('Instrument');
+        $id_instrumen = $_POST["nama_instrumen"];
+        $jumlah = $_POST["jumlah_instrumen"];
+        $id_cssd = $_SESSION['username'];
+        $instrumen = $this->Instrument->panggil_data_id($id_instrumen);
+
+        $jumlahBelumSteril = $instrumen->jumlah - $instrumen->steril;
+        //cek jumlah yang dimasukkan apakaha melebihi jumlah stok / tidak
+        if ($jumlah > $jumlahBelumSteril) {
+            $data['tambah_stok_instrumen'] = false;
+        } else {
+            $this->Instrument->tambah_stok_steril_instrumen($id_instrumen, $jumlah, $id_cssd);
+            $data['tambah_stok_instrumen'] = true;
+        }
+        $data['nama_instrumen'] = $instrumen->nama_instrumen;
+        $data['instrumen'] = $this->Instrument->cari_data_instrument('');
+        $this->load->view('perbarui_instrument', $data);
+    }
+
+    function namaInstrumen() {
+        $this->load->model('Instrument');
+
+        //cek apakah $_POST['cari'] memiliki value
+        $nama = '';
+        $data;
+        if (!isset($_POST['cari'])) {
+            $data = $this->Instrument->cari_data_instrument($nama);
+        } else {
+            $nama = $_POST['cari'];
+            $data = $this->Instrument->cari_data_instrument($nama);
+        }
+
+        //hitung jumlah data
+        if (count($data) > 0) {
+            foreach ($data as $r):
+
+                echo "
+                <tr>
+                    <td><?php echo $r->nama_instrumen; ?></td>
+                </tr>";
+
+
+            endforeach;
+        } else {
+
+            echo '<tr>';
+
+            echo '<td colspan="4"><center><h3>Data Tidak Tersedia</h3></center></td>';
+
+            echo '</tr>';
+        }
+    }
+
 }
+?>

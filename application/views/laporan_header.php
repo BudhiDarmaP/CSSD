@@ -102,27 +102,27 @@
                 background-attachment: scroll;
             }
         }
-        .buttonPinjam{
+        .buttonCetak{
             display: inlin-block;
             border-radius: 4px;
-            background-color: #f44336;
-            border: none;
+            background-color: orange;
+            border: red;
             color: #fff;
             text-align: center;
             font-size: 22px;
             padding: 3px;
-            width: 140px;
+            width: 100%;
             transition: all 0.5s;
             cursor: pointer;
             margin: 5px;
         }
-        .buttonPinjam span {
+        .buttonCetak span {
             cursor: pointer;
             display: inline-block;
             position: relative;
             transition: 0.5s;
         }
-        .buttonPinjam span:after {
+        .buttonCetak span:after {
             content: '\00bb';
             position: absolute;
             opacity: 0;
@@ -130,7 +130,7 @@
             right: 20px;
             transition: 0.5s;
         }
-        .buttonPinjam:hover span {
+        .buttonCetak:hover span {
             padding-right: 25px;
         }
         .inputTanggal input{
