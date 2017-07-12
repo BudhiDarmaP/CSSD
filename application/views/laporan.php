@@ -69,10 +69,9 @@
                 </a>
 
                 <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <a href="<?php echo base_url('/site/harian/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-paperclip"></i> HARIAN</a>
-                <a href="<?php echo base_url('/site/mingguan/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-clipboard"></i> MINGGUAN</a>
-                <a href="<?php echo base_url('/site/bulanan/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-book"></i> BULANAN</a>
-                <a href="<?php echo base_url('/site/3bulanan/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-dropbox"></i> 3 BULANAN</a>
+                <a href="<?php echo base_url('/LaporanControl/harian'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-clipboard"></i> HARIAN</a>
+                <a href="<?php echo base_url('/LaporanControl/bulanan'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-book"></i> BULANAN</a>
+                <a href="<?php echo base_url('/LaporanControl/tahunan'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-dropbox"></i> TAHUNAN</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -126,7 +125,7 @@
             var modal = document.getElementById('id01');
 
             // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
+            window.onclick = function (event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
@@ -137,7 +136,7 @@
             // When the user clicks anywhere outside of the modal, close it
 
             modal2.style.display = "block";
-            window.onclick = function(event) {
+            window.onclick = function (event) {
                 if (event.target == modal2) {
                     modal2.style.display = "none";
                 }

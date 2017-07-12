@@ -225,7 +225,7 @@
                 endforeach;
                 echo "<tr>
                             <td colspan='6' style='text-align: center'>
-                                <button class='btn btn-warning w3-xlarge w3-hover-text-black' style='width:20%'><i class='fa fa-briefcase'></i> KONFIRMASI</button>
+                                <button class='btn btn-warning w3-xlarge w3-hover-text-black' style='width:30%'><i class='fa fa-briefcase'></i> KONFIRMASI</button>
                             </td>
                         </tr></tbody>
                     </table>

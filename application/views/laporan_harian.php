@@ -21,7 +21,7 @@
         }
         if ($tampil != 0) {
             echo "<form method='post' action='";
-            echo base_url('LaporanControl/cetak');
+            echo base_url('LaporanControl/cetakHarian');
             echo "' onsubmit='return validasi_input(this)'>
             <th style='text-align: left; width: 3%'>
             <button style='text-align: center;' class='buttonCetak w3-hover-red' name='print' value='PRINT'>

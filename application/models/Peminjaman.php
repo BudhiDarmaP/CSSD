@@ -289,19 +289,6 @@ class Peminjaman extends CI_Model {
                 . "STR_TO_DATE('$tgl','%m/%d/%Y')";
         $hasil = $this->db->query($select);
         return $hasil->result();
-//        return $this->$select;
-    }
-
-    function sql_laporan_harian_peminjaman($tgl) {
-        $select = "SELECT a.id_transaksi, b.nama_instrumen, a.jumlah_pinjam, "
-                . "c.nama_user, a.tanggal_pinjam, a.tanggal_kembali, "
-                . "a.waktu_approve, a.id_cssd "
-                . "FROM peminjaman a JOIN instrumen b "
-                . "ON (a.id_instrumen=b.id_instrumen) "
-                . "JOIN user c ON (a.id_peminjam = c.id_user) "
-                . "WHERE a.tanggal_kembali="
-                . "STR_TO_DATE('.$tgl.','%m/%d/%Y')";
-        return $select;
     }
 
     function laporan_harian_peminjaman_sort_by_instrumen($tgl) {
