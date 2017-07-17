@@ -118,11 +118,6 @@
             // When the user clicks anywhere outside of the modal, close it
 
             modal2.style.display = "block";
-//            window.onclick = function(event) {
-//                if (event.target == modal2) {
-//                    modal2.style.display = "none";
-//                }
-//            }
         </script>
     </body>
 </html>

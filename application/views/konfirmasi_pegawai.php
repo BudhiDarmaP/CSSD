@@ -15,7 +15,7 @@
     <script>
         function validasi_input(form) {
             if (form.peminjam.value == "") {
-                alert("Anda belum memilih peminjam!");
+                swal("Anda belum memilih peminjam!", "", "warning");
                 form.peminjam.focus();
                 return (false);
             }
@@ -25,7 +25,7 @@
 
         function validasi_input2(form) {
             if (form.id_transaksi.value == "") {
-                swal("Anda belum memasukkan ID Transaksi!", "", "error");
+                swal("Anda belum memasukkan ID Transaksi!", "", "warning");
                 form.id_transaksi.focus();
                 return (false);
             }
@@ -99,42 +99,10 @@
 
             <!-- Navbar (sit on top) -->
             <div class="w3-top">
-                <div class="w3-bar w3-card w3-white" id="myNavbar">
-                    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                        <i class="fa fa-bars"></i>
-                    </a>
-
-                    <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                    <?php
-                    if (isset($_SESSION["status_user"])) {
-                        $status_user = $_SESSION["status_user"];
-                        if ($status_user == 0 || $status_user == 1) {
-                            echo "
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjam/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
-                        <a href=\"";
-                            echo base_url('/site/cek_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
-                        ";
-                        } else {
-                            echo "
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        <a href=\"";
-                            echo base_url('/site/ubah_password_konfirmasi/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
-                        ";
-                        }
-                    }
-                    ?>
-
-                    <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
-                </div>
+                <?php
+                $this->load->view("header_footer/header_peminjaman");
+                $status_user = $_SESSION["status_user"];
+                ?>
             </div>
 
             <!-- First Parallax Image with Logo Text -->
@@ -174,7 +142,6 @@
                             echo "
                                     <option value='' required='' disabled='disabled' selected>-- Pilih Peminjam --</option>
                                     ";
-//                                <td><select name='peminjam'>";
                             foreach ($id_peminjam as $r):
                                 echo "
                                     <option value='$r->id_user' style='color:black'>$r->nama_user</option>
@@ -199,28 +166,30 @@
                             redirect(base_url('/site/home/'));
                         }
                         ?>
-                    </tr>></table>
+                    </tr></table>
 
-                <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:70%;<?php if ($peminjam == NULL or count($peminjam) == 1) {
-                            echo "margin-bottom:20%";
-                        } else {
-                            echo "margin-bottom:10%";
-                        } ?>">
-                    <?php
-                    if ($peminjam == NULL) {
-                        echo "<td style='text-align: center'>"
-                        . "<h3 style='color: red'>TIDAK ADA DATA YANG BELUM DIKONFIRMASI</h3></td>";
-                    } else {
-                        echo "<thead>
+                <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:70%;<?php
+                       if ($peminjam == NULL or count($peminjam) == 1) {
+                           echo "margin-bottom:20%";
+                       } else {
+                           echo "margin-bottom:10%";
+                       }
+                       ?>">
+                           <?php
+                           if ($peminjam == NULL) {
+                               echo "<td style='text-align: center'>"
+                               . "<h3 style='color: red'>TIDAK ADA DATA YANG BELUM DIKONFIRMASI</h3></td>";
+                           } else {
+                               echo "<thead>
                                     <tr class='w3-theme'>
                                     <th style='text-align: left;'>ID TRANSAKSI</th>
                                     <th style='text-align: left;'>PEMINJAM</th>
                                     <th style='text-align: center;'></th>
                                     </tr>";
-                        foreach ($peminjam as $r):
-                            echo "<form action='";
-                            echo base_url('PeminjamanControl/konfirmasi_peminjaman');
-                            echo "' method='POST'><tbody><tr>
+                               foreach ($peminjam as $r):
+                                   echo "<form action='";
+                                   echo base_url('PeminjamanControl/konfirmasi_peminjaman');
+                                   echo "' method='POST'><tbody><tr>
                                     <td style='text-align: left;width:30%;'>$r->id_transaksi</td>
                                     <input type='hidden' name='id' value='$r->id_peminjam'>
                                     <input type='hidden' name='transaksi' value='$r->id_transaksi'>
@@ -230,32 +199,29 @@
                                     <i class='fa fa-check-circle'></i> KONFIRMASI</button>
                                     </td>
                                     </tr></tbody></form>";
-                        endforeach;
-                    }
-                    $this->session->unset_userdata('konfirmasi_pegawai');
+                               endforeach;
+                           }
+                           $this->session->unset_userdata('konfirmasi_pegawai');
 
-                    if (isset($cari)) {
-                        echo "
+                           if (isset($cari)) {
+                               echo "
                             <form action='";
-                        echo base_url('site/konfirmasi_pegawai');
-                        echo "'>
+                               echo base_url('site/konfirmasi_pegawai');
+                               echo "'>
                             <tr>
                             <td colspan='3' style='text-align: center'>
                                 <button class='btn btn-success w3-xlarge w3-hover-text-black' style='width:15%'><i class='fa fa-backward'></i> Kembali</button>
                             </td>
                         </tr>";
-                    }
-                    ?>
+                           }
+                           ?>
                 </table>
             </div>
         </div>
 
-        <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
-            <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
-            <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
-            <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
-            <br class="w3-large"><b>© 2017</b>
-        </footer>
+        <?php
+        $this->load->view("header_footer/footer");
+        ?>
         <script>
             function myFunction() {
                 var navbar = document.getElementById("myNavbar");

@@ -62,17 +62,9 @@ and open the template in the editor.
 
         <!-- Navbar (sit on top) -->
         <div class="w3-top">
-            <div class="w3-bar w3-card w3-white" id="myNavbar">
-                <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                    <i class="fa fa-bars"></i>
-                </a>
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <a href="<?php echo base_url('/site/tambah_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-plus"></i> TAMBAH</a>
-                <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-search"></i> CARI</a>
-                <a href="<?php echo base_url('/site/perbarui_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-edit"></i> PERBARUI</a>
-                <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-eraser"></i> HAPUS</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
-            </div>
+            <?php
+            $this->load->view("header_footer/header_instrumen");
+            ?>
         </div>
 
         <div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
@@ -197,12 +189,9 @@ and open the template in the editor.
 
         </div>
 
-        <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
-            <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
-            <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
-            <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
-            <br class="w3-large"><b>© 2017</b>
-        </footer>
+        <?php 
+        $this->load->view("header_footer/footer");
+        ?>
         <script>
             function myFunction() {
                 var navbar = document.getElementById("myNavbar");

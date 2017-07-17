@@ -285,21 +285,63 @@ class Peminjaman extends CI_Model {
                 . "FROM peminjaman a JOIN instrumen b "
                 . "ON (a.id_instrumen=b.id_instrumen) "
                 . "JOIN user c ON (a.id_peminjam = c.id_user) "
-                . "WHERE a.tanggal_kembali="
-                . "STR_TO_DATE('$tgl','%m/%d/%Y')";
+                . "WHERE DATE_FORMAT(a.waktu_approve,'%m/%d/%Y') = "
+                . "'$tgl' AND a.jumlah_pinjam>0";
         $hasil = $this->db->query($select);
         return $hasil->result();
     }
 
     function laporan_harian_peminjaman_sort_by_instrumen($tgl) {
-        $select = "SELECT a.id_transaksi, b.nama_instrumen, a.jumlah_pinjam, "
-                . "c.nama_user, a.tanggal_pinjam, a.tanggal_kembali, "
-                . "a.waktu_approve, a.id_cssd "
-                . "FROM peminjaman a JOIN instrumen b "
-                . "ON (a.id_instrumen=b.id_instrumen) "
-                . "JOIN user c ON (a.id_peminjam = c.id_user) "
-                . "WHERE a.tanggal_kembali="
-                . "STR_TO_DATE('$tgl','%m/%d/%Y')";
+        $select = "SELECT b.nama_instrumen, SUM(a.jumlah_pinjam) AS JUMLAH_PINJAM
+            FROM peminjaman a 
+            JOIN instrumen b ON a.id_instrumen=b.id_instrumen 
+            WHERE DATE_FORMAT(a.waktu_approve,'%m/%d/%Y') = '$tgl' AND a.jumlah_pinjam>0 
+            GROUP BY a.id_instrumen ORDER BY JUMLAH_PINJAM DESC";
+        $hasil = $this->db->query($select);
+        return $hasil->result();
+    }
+    function laporan_harian_peminjaman_sort_by_peminjam($tgl) {
+        $select = "SELECT b.nama_user, SUM(a.jumlah_pinjam) AS JUMLAH_PINJAM "
+                . "FROM peminjaman a JOIN user b "
+                . "ON a.id_peminjam=b.id_user "
+                . "WHERE DATE_FORMAT(a.waktu_approve,'%m/%d/%Y') = '$tgl' AND a.jumlah_pinjam>0 "
+                . "GROUP BY a.id_peminjam ORDER BY JUMLAH_PINJAM DESC";
+        $hasil = $this->db->query($select);
+        return $hasil->result();
+    }
+    function laporan_bulanan_peminjaman_sort_by_instrumen($bln) {
+        $select = "SELECT b.nama_instrumen, SUM(a.jumlah_pinjam) AS JUMLAH_PINJAM
+            FROM peminjaman a 
+            JOIN instrumen b ON a.id_instrumen=b.id_instrumen 
+            WHERE DATE_FORMAT(a.waktu_approve,'%m/%Y') = '$bln' AND a.jumlah_pinjam>0 
+            GROUP BY a.id_instrumen ORDER BY JUMLAH_PINJAM DESC";
+        $hasil = $this->db->query($select);
+        return $hasil->result();
+    }
+    function laporan_bulanan_peminjaman_sort_by_peminjam($bln) {
+        $select = "SELECT b.nama_user, SUM(a.jumlah_pinjam) AS JUMLAH_PINJAM "
+                . "FROM peminjaman a JOIN user b "
+                . "ON a.id_peminjam=b.id_user "
+                . "WHERE DATE_FORMAT(a.waktu_approve,'%m/%Y') = '$bln' AND a.jumlah_pinjam>0 "
+                . "GROUP BY a.id_peminjam ORDER BY JUMLAH_PINJAM DESC";
+        $hasil = $this->db->query($select);
+        return $hasil->result();
+    }
+    function laporan_tahunan_peminjaman_sort_by_instrumen($thn) {
+        $select = "SELECT b.nama_instrumen, SUM(a.jumlah_pinjam) AS JUMLAH_PINJAM
+            FROM peminjaman a 
+            JOIN instrumen b ON a.id_instrumen=b.id_instrumen 
+            WHERE DATE_FORMAT(a.waktu_approve,'%Y') = '$thn' AND a.jumlah_pinjam>0 
+            GROUP BY a.id_instrumen ORDER BY JUMLAH_PINJAM DESC";
+        $hasil = $this->db->query($select);
+        return $hasil->result();
+    }
+    function laporan_tahunan_peminjaman_sort_by_peminjam($thn) {
+        $select = "SELECT b.nama_user, SUM(a.jumlah_pinjam) AS JUMLAH_PINJAM "
+                . "FROM peminjaman a JOIN user b "
+                . "ON a.id_peminjam=b.id_user "
+                . "WHERE DATE_FORMAT(a.waktu_approve,'%Y') = '$thn' AND a.jumlah_pinjam>0 "
+                . "GROUP BY a.id_peminjam ORDER BY JUMLAH_PINJAM DESC";
         $hasil = $this->db->query($select);
         return $hasil->result();
     }

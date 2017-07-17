@@ -17,27 +17,7 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-//        $(function() {
-//            $("#datepicker").datepicker({dateFormat: 'dd/mm/yy'});
-//        });
-//
-//        function validasi_input(form) {
-//            if (form.peminjam.value == "") {
-//                swal("Anda belum memilih peminjam!", "", "error");
-//                form.peminjam.focus();
-//                return (false);
-//            }
-//        }
-//
-//        function validasi_input2(form) {
-//            if (form.id_transaksi.value == "") {
-//                swal("Anda belum memasukkan ID Transaksi!", "", "error");
-//                form.id_transaksi.focus();
-//                return (false);
-//            }
-//        }
-    </script>
+
     <script src="JavaScript.js"></script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -115,63 +95,37 @@
 
             <!-- Navbar (sit on top) -->
             <div class="w3-top">
-                <div class="w3-bar w3-card w3-white" id="myNavbar">
-                    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                        <i class="fa fa-bars"></i>
-                    </a>
-
-                    <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                    <?php
-                    if (isset($_SESSION["status_user"])) {
-                        $status_user = $_SESSION["status_user"];
-                        if ($status_user == 0 || $status_user == 1) {
-                            echo "
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjam/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
-                        <a href=\"";
-                            echo base_url('/site/cek_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
-                        ";
-                        } else {
-                            echo "
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        <a href=\"";
-                            echo base_url('/site/ubah_password_konfirmasi/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
-                        ";
-                        }
-                    }
-                    ?>
-
-                    <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
-                </div>
+                <?php
+                $this->load->view("header_footer/header_peminjaman");
+                $status_user = $_SESSION["status_user"];
+                ?>
             </div>
 
             <!-- First Parallax Image with Logo Text -->
             <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
             </div>
-            
+
             <table style="width:70%" align='center'>
                 <tr><th>
                 <div class="w3-content w3-container w3-center w3-margin-top" id="about">
                     <div class="w3-container w3-responsive w3-margin-bottom w3-center">
                         <?php
                         if ($pinjam_instrumen == NULL) {
-                                echo "<h4 style='text-align: center;margin-bottom:10%' class='w3-theme w3-padding w3-large'>"
-                                . "<b class='w3-padding-16 w3-xxlarge'>Halaman Untuk Melihat Peminjaman</b><br>Pilih Opsi Pencarian Di atas Untuk Melihat Daftar Peminjaman"
-                                . "<br><img src='";
-                                echo base_url('images/note.png');
-                                echo "' class='w3-center w3-margin-top w3-margin-bottom w3-animate-top'></h4>";
+                            echo "<h4 style='text-align: center;margin-bottom:15%' class='w3-theme w3-padding w3-large'>"
+                            . "<b class='w3-padding-16 w3-xxlarge'>Halaman Riwayat Peminjaman Anda</b><br>Peminjaman Kosong"
+                            . "<br><img src='";
+                            echo base_url('images/note.png');
+                            echo "' class='w3-center w3-margin-top w3-margin-bottom w3-animate-top'></h4>";
+                        } else {
+                            echo "<b style='color: green;' class='w3-xxlarge w3-text-green w3-animate-opacity w3-animate-left'>Daftar Amprah $peminjam->nama_user</b>";
+                            echo "
+                <table class = 'w3-table w3-striped w3-bordered w3-card' align = 'center'";
+                            if (count($pinjam_instrumen) == 1 || count($pinjam_instrumen) == 2 || count($pinjam_instrumen) == 3) {
+                                echo "style='margin-bottom:50%'>";
                             } else {
-                                echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity w3-animate-left'>Daftar Amprah $peminjam->nama_user</b>";
-                                echo "
-                <table class = 'w3-table w3-striped w3-bordered w3-card' align = 'center' style='margin-bottom:10%'>
+                                echo "style='margin-bottom:18%'>";
+                            }
+                            echo "
                 <thead><tr class = 'w3-theme'>
                 <th></th>
                 <th style = 'text-align: left;'>ID TRANSAKSI</th>
@@ -182,12 +136,12 @@
                 </tr>
                 <tbody>";
 
-                                $nomor = 1;
-                                foreach ($pinjam_instrumen as $r):
-                                    echo "<form action='";
-                                    echo base_url('site/lihat_peminjamanan_detail');
-                                    echo "' method='POST'>";
-                                    echo "
+                            $nomor = 1;
+                            foreach ($pinjam_instrumen as $r):
+                                echo "<form action='";
+                                echo base_url('site/lihat_peminjamanan_detail');
+                                echo "' method='POST'>";
+                                echo "
                 <tr>
                 <td>$nomor</td>
                 <td style='text-align: left'>$r->id_transaksi</td>
@@ -197,25 +151,22 @@
                 <td style='text-align: center'><input type='submit' value='LIHAT' class='btn btn-success w3-hover-text-black'> <i class='w3-text-green fa fa-check-circle'></i></input></td>
                 <input type='hidden' name='id' value='$r->id_peminjam'>
                 <input type='hidden' name='transaksi' value='$r->id_transaksi'>";
-                                    echo "</form>";
-                                    $nomor++;
-                                endforeach;
-                                $this->session->unset_userdata('pinjam_instrumen');
-                            }
+                                echo "</form>";
+                                $nomor++;
+                            endforeach;
+                            $this->session->unset_userdata('pinjam_instrumen');
+                        }
                         ?>
                         </tbody>
                         </table>
                     </div>
                 </th></tr></table>
-                
 
 
-            <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom w3-bottom">
-                <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
-                <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
-                <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
-                <br class="w3-large"><b>© 2017</b>
-            </footer>
+
+            <?php
+            $this->load->view("header_footer/footer");
+            ?>
             <script>
                 function myFunction() {
                     var navbar = document.getElementById("myNavbar");

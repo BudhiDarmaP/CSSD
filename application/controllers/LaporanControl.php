@@ -31,118 +31,234 @@ class LaporanControl extends CI_Controller {
 
     function harian() {
         //--header--
-        $this->load->view('laporan_header');
+        $this->load->view('header_footer/header_laporan');
         //load model
-        $tgl = date('m/d/y');
+        $tgl = date('m/d/Y');
         $this->load->model("Peminjaman");
         if ($_SESSION != NULL) {
             if ($_POST != NULL) {
                 $tgl = $_POST['tgl'];
             } else {
-                $tgl = date('m/d/y');
+                $tgl = date('m/d/Y');
             }
         }
-        //panggil data
         $laporan['laporan_harian'] = $this->Peminjaman->laporan_harian_peminjaman($tgl);
+        $laporan['ket'] = 'distribusi';
         $laporan['tanggal'] = $tgl;
+        //set session
         $data = array(
-            'cetak' => $laporan['laporan_harian'],
-            'tanggal' => $tgl
+            'tanggal' => $tgl,
+            'ket' => 'distribusi'
         );
-        if (true) {
-            $this->session->set_userdata($data);
-            $this->load->view('laporan_harian', $laporan);
-//        $this->load->view('laporan_pdf');
-            //--footer--
-            $this->load->view('laporan_footer');
-        }
+        $this->session->set_userdata($data);
+        $this->load->view('laporan/laporan_harian', $laporan);
+        //--footer--
+        $this->load->view('header_footer/footer_laporan');
     }
 
     function inputHarian() {
-        
+        //--header--
+        $this->load->view('header_footer/header_laporan');
+        //load model
+        $this->load->model('Peminjaman');
+        //panggil data
+        $ket = $_GET['ket'];
+        $tgl = $_SESSION['tanggal'];
+        if ($ket == 'instrumen') {
+            $laporan['laporan_harian'] = $this->Peminjaman->laporan_harian_peminjaman_sort_by_instrumen($tgl);
+        } else if ($ket == 'peminjam') {
+            $laporan['laporan_harian'] = $this->Peminjaman->laporan_harian_peminjaman_sort_by_peminjam($tgl);
+        } else if ($ket == 'inventaris') {
+            $this->load->model('Riwayat_Instrumen');
+            $laporan['laporan_harian'] = $this->Riwayat_Instrumen->laporan_harian($tgl);
+        } else {
+            $laporan['laporan_harian'] = $this->Peminjaman->laporan_harian_peminjaman($tgl);
+        }
+        $laporan['ket'] = $ket;
+        $laporan['tanggal'] = $tgl;
+        //set session
+        $data = array(
+            'tanggal' => $tgl,
+            'ket' => 'distribusi'
+        );
+        $this->session->set_userdata($data);
+        //--laporan harian--
+        $this->load->view('laporan/laporan_harian', $laporan);
+        //--footer--
+        $this->load->view('header_footer/footer_laporan');
     }
 
     function bulanan() {
-        //--header--
-        $this->load->view('laporan_header');
-
+        //---header---//
+        $this->load->view('header_footer/header_laporan');
+        //unset session
+        $this->session->unset_userdata('ket');
+        $this->session->unset_userdata('tanggal');
+        $this->session->unset_userdata('tahun');
         //load model
+        $bln = date('m/Y');
         $this->load->model("Peminjaman");
+        if ($_SESSION != NULL) {
+            if ($_POST != NULL) {
+                $bln = $_POST['bln'];
+            } else {
+                $bln = date('m/Y');
+            }
+        }
+        //panggil data
+        $laporan['laporan_bulanan'] = $this->Peminjaman->laporan_bulanan_peminjaman_sort_by_instrumen($bln);
+        $laporan['ket'] = 'instrumen';
+        $laporan['bulan'] = $bln;
         $data = array(
-            'bulan' => date('m/y'));
+            'bulan' => $bln,
+            'ket' => 'instrumen'
+        );
         $this->session->set_userdata($data);
-        $this->load->view('laporan_bulanan');
-
-        //--footer--
-        $this->load->view('laporan_footer');
+        $this->load->view('laporan/laporan_bulanan', $laporan);
+        //--footer--//
+        $this->load->view('header_footer/footer_laporan');
     }
 
     function inputBulanan() {
-        
+        //--header--
+        $this->load->view('header_footer/header_laporan');
+        //load model
+        $this->load->model('Peminjaman');
+        //panggil data
+        $ket = $_GET['ket'];
+        $bln = $_SESSION['bulan'];
+        if ($ket == 'peminjam') {
+            $laporan['laporan_bulanan'] = $this->Peminjaman->laporan_bulanan_peminjaman_sort_by_peminjam($bln);
+        } else if ($ket == 'inventaris') {
+            $this->load->model('Riwayat_Instrumen');
+            $laporan['laporan_bulanan'] = $this->Riwayat_Instrumen->laporan_bulanan($bln);
+        } else {
+            $laporan['laporan_bulanan'] = $this->Peminjaman->laporan_bulanan_peminjaman_sort_by_instrumen($bln);
+        }
+        $laporan['ket'] = $ket;
+        $laporan['bulan'] = $bln;
+        //set session
+        $data = array(
+            'bulan' => $bln,
+            'ket' => $ket
+        );
+        $this->session->set_userdata($data);
+        //--laporan harian--
+        $this->load->view('laporan/laporan_bulanan', $laporan);
+        //--footer--
+        $this->load->view('header_footer/footer_laporan');
     }
 
     function tahunan() {
-        //--header--
-        $this->load->view('laporan_header');
-
+        //---header---//
+        $this->load->view('header_footer/header_laporan');
+        //unset session
+        $this->session->unset_userdata('ket');
+        $this->session->unset_userdata('tanggal');
+        $this->session->unset_userdata('bulan');
         //load model
+        $thn = date('Y');
         $this->load->model("Peminjaman");
+        if ($_SESSION != NULL) {
+            if ($_POST != NULL) {
+                $thn = $_POST['thn'];
+            } else {
+                $thn = date('Y');
+            }
+        }
+        //panggil data
+        $laporan['laporan_tahunan'] = $this->Peminjaman->laporan_tahunan_peminjaman_sort_by_instrumen($thn);
+        $laporan['ket'] = 'instrumen';
+        $laporan['tahun'] = $thn;
         $data = array(
-            'tahun' => date('y'));
+            'tahun' => $thn,
+            'ket' => 'instrumen'
+        );
         $this->session->set_userdata($data);
-        $this->load->view('laporan_tahunan');
-
-        //--footer--
-        $this->load->view('laporan_footer');
+        $this->load->view('laporan/laporan_tahunan', $laporan);
+        //--footer--//
+        $this->load->view('header_footer/footer_laporan');
     }
 
     function inputTahunan() {
-        
+        //--header--
+        $this->load->view('header_footer/header_laporan');
+        //load model
+        $this->load->model('Peminjaman');
+        //panggil data
+        $ket = $_GET['ket'];
+        $thn = $_SESSION['tahun'];
+        if ($ket == 'peminjam') {
+            $laporan['laporan_tahunan'] = $this->Peminjaman->laporan_tahunan_peminjaman_sort_by_peminjam($thn);
+        } else if ($ket == 'inventaris') {
+            $this->load->model('Riwayat_Instrumen');
+            $laporan['laporan_tahunan'] = $this->Riwayat_Instrumen->laporan_tahunan($thn);
+        } else {
+            $laporan['laporan_tahunan'] = $this->Peminjaman->laporan_tahunan_peminjaman_sort_by_instrumen($thn);
+        }
+        $laporan['ket'] = $ket;
+        $laporan['tahun'] = $thn;
+        //set session
+        $data = array(
+            'tahun' => $thn,
+            'ket' => $ket
+        );
+        $this->session->set_userdata($data);
+        //--laporan harian--
+        $this->load->view('laporan/laporan_tahunan', $laporan);
+        //--footer--
+        $this->load->view('header_footer/footer_laporan');
     }
 
-    function header() {
-        //Menambahkan Gambar
-        $pdf->Image('images/karangasem_logo.png', 25, 10, 24, 28); //logo kabupaten karangasem
-        $pdf->Image('images/Logo.png', 157, 10, 27, 30); //logo RSUD Karangasem
-        //kop surat
-        $pdf->SetFont('times', '', 14);
-        $pdf->Cell(1);
-        $pdf->Cell(0, 5, 'PEMERINTAH KABUPATEN KARANGASEM', 0, 1, 'C');
-        $pdf->SetFont('times', 'B', 12);
-        $pdf->Cell(1);
-        $pdf->Cell(0, 5, 'RSUD KABUPATEN KARANGASEM', 0, 1, 'C');
-        $pdf->SetFont('times', 'I', 14);
-        $pdf->Cell(1);
-        $pdf->Cell(0, 5, 'Central Sterile Supply Department', 0, 1, 'C');
-        $pdf->SetFont('times', 'I', 8);
-        $pdf->Cell(1);
-        $pdf->Cell(0, 5, 'Jl. Ngurah Rai, Amlapura, Tlp.(0363)21470,21011', 0, 1, 'C');
-        $pdf->Cell(1);
-        $pdf->Cell(0, 5, 'Fax.(0363)23582, Email: rsud_karangasem@yahoo.co.id', 0, 1, 'C');
-        $pdf->SetFont('times', '', 8);
-        $pdf->Cell(1);
-        $pdf->Cell(0, 5, 'website: http://rsud.karangasemkab.go.id/', 0, 1, 'C');
-        $pdf->SetLineWidth(1);
-        $pdf->Line(25, 40, 183, 40);
-        $pdf->SetLineWidth(0);
-        $pdf->Line(25, 41, 183, 41);
-    }
-
-    function cetakHarian() {
+    function cetak() {
         //panggil include
         include 'fpdf17/fpdf.php';
         $pdf = new FPDF();
         //panggil model
         $this->load->model('Peminjaman');
-        //panggil hari ini
-        $tgl = $_SESSION['tanggal'];
+        $this->load->model('Inventaris');
+        $date;
+        $ket=$_SESSION['ket'];
+        if ($_SESSION['tanggal'] != NULL) {
+            $date=$_SESSION['tanggal'];
+            if ($ket=='distribusi') {
+                $result = $this->Peminjaman->laporan_harian_peminjaman($date);
+            }
+            else if ($ket=='instrumen') {
+                $result = $this->Peminjaman->laporan_harian_peminjaman_sort_by_instrumen($date);
+            }
+            else if ($ket=='peminjam') {
+                $result = $this->Peminjaman->laporan_harian_peminjaman_sort_by_instrumen($date);
+            }else{
+                $result = $this->Inventaris->laporan_harian($date);
+            }
+        }else if($_SESSION['bulan']){
+            $date=$_SESSION['bulan'];
+            if ($ket=='instrumen') {
+                $result = $this->Peminjaman->laporan_bulanan_peminjaman_sort_by_instrumen($date);
+            }
+            else if ($ket=='peminjam') {
+                $result = $this->Peminjaman->laporan_bulanan_peminjaman_sort_by_instrumen($date);
+            }else{
+                $result = $this->Inventaris->laporan_bulanan($date);
+            }
+        }  else {
+            $date=$_SESSION['tahun'];
+            if ($ket=='instrumen') {
+                $result = $this->Peminjaman->laporan_tahunan_peminjaman_sort_by_instrumen($date);
+            }
+            else if ($ket=='peminjam') {
+                $result = $this->Peminjaman->laporan_tahunan_peminjaman_sort_by_instrumen($date);
+            }else{
+                $result = $this->Inventaris->laporan_tahunan($date);
+            }
+        }
         //panggil data
-        $result = $this->Peminjaman->laporan_harian_peminjaman($tgl);
         if ($result != NULL) { // jika data ada di database
             //Create a new PDF file
             $user = $_SESSION['nama_user'];
-
-            $column_nomor = "";
+            if ($ket=='distribusi') {
+                $column_nomor = "";
             $column_id_transaksi = "";
             $column_nama_instrumen = "";
             $column_jumlah_pinjam = "";
@@ -264,25 +380,26 @@ class LaporanControl extends CI_Controller {
             $pdf->SetY($Y_Table_Position);
             $pdf->SetX(186);
             $pdf->MultiCell(15, 6, $column_id_cssd, 1, 'C');
-
+            }
+            
             //tempat, tanggal
-//            $yTTD = -40;
-//            $pdf->SetY($yTTD);
-//            $pdf->SetX(155);
-//            $pdf->Cell(20, 6, 'Amlapura, ', 0, 0, 'C');
-//            $pdf->SetX(165);
-//            $pdf->Cell(25, 6, (date('d-M-Y', time())), 0, 0, 'C');
-//            //nama_user
-//            $yTTD2 = $yTTD + 5;
-//            $pdf->SetY($yTTD2);
-//            $pdf->SetX(160);
-//            $pdf->Cell(25, 6, $_SESSION['nama_user'] . ',', 0, 0, 'C');
-//            //ttd
-//            $yTTD2 = $yTTD + 27;
-//            $pdf->SetY($yTTD2);
-//            $pdf->SetX(162);
-//            $pdf->Cell(25, 6, '_________________________', 0, 0, 'C');
-//        $pdf->SetAutoPageBreak(-40);
+            $yTTD = -40;
+            $pdf->SetY($yTTD);
+            $pdf->SetX(155);
+            $pdf->Cell(20, 6, 'Amlapura, ', 0, 0, 'C');
+            $pdf->SetX(165);
+            $pdf->Cell(25, 6, (date('d-M-Y', time())), 0, 0, 'C');
+            //nama_user
+            $yTTD2 = $yTTD + 5;
+            $pdf->SetY($yTTD2);
+            $pdf->SetX(160);
+            $pdf->Cell(25, 6, $_SESSION['nama_user'] . ',', 0, 0, 'C');
+            //ttd
+            $yTTD2 = $yTTD + 27;
+            $pdf->SetY($yTTD2);
+            $pdf->SetX(162);
+            $pdf->Cell(25, 6, '_________________________', 0, 0, 'C');
+            $pdf->SetAutoPageBreak(-40);
 
             $pdf->Output();
         } else { // jika data kosong

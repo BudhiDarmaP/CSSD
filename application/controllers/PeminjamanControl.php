@@ -60,9 +60,108 @@ class PeminjamanControl extends CI_Controller {
                 $data[$index] = $this->Instrument->panggil_data_id($key);
                 $index++;
             }
+            //menyimpan data instrumen yg dipesan dalam session
+            $data_session = array(
+                'cari_instrumen' => $data
+            );
+            $this->session->set_userdata($data_session);
+
+            //menyimpan data peminjam untuk ditampilkan pada pilih pinjam oleh pegawai cssd
             $id_peminjam = $this->Users->panggil_data_peminjam();
-            $data['cari_instrumen'] = $data;
             $data['id_peminjam'] = $id_peminjam;
+            $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+            $this->load->view('konfirmasi_peminjaman', $data);
+        }
+    }
+
+    function hapus_pinjam() {
+        $this->load->model('Instrument');
+        $this->load->model('Users');
+        $indexhapus = $_GET['nomor_index'];
+        $cari_instrumen = $_SESSION['cari_instrumen'];
+
+        if (count($cari_instrumen) == 0) {
+            $data = array(
+                'pinjam_instrumen' => false
+            );
+            $this->session->set_userdata($data);
+            redirect(base_url('site/tambah_peminjaman'));
+        } else {
+            $data[count($cari_instrumen) - 1] = null;
+            $index = 1;
+            foreach ($cari_instrumen as $key) {
+                if ($key->id_instrumen != $indexhapus) {
+                    $data[$index] = $this->Instrument->panggil_data_id($key->id_instrumen);
+                    $index++;
+                } else {
+                    $index;
+                }
+            }
+
+            //menyimpan data instrumen yg dipesan dalam session
+            $data_session = array(
+                'cari_instrumen' => $data
+            );
+            $this->session->set_userdata($data_session);
+
+            //menyimpan data peminjam untuk ditampilkan pada pilih pinjam oleh pegawai cssd
+            $id_peminjam = $this->Users->panggil_data_peminjam();
+            $data['id_peminjam'] = $id_peminjam;
+            $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+            $this->load->view('konfirmasi_peminjaman', $data);
+        }
+    }
+
+    function tambah_pinjam() {
+        $this->load->model('Instrument');
+        $this->load->model('Users');
+        $cari_instrumen = $_SESSION['cari_instrumen'];
+        $id = null;
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+        }
+
+        if ($id == null) {
+            $data = array(
+                'pinjam_instrumen' => false
+            );
+            $this->session->set_userdata($data);
+            $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
+            $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+            $this->load->view('konfirmasi_peminjaman', $data);
+        } else {
+            $cetak = true;
+            foreach ($cari_instrumen as $r):
+                foreach ($id as $row) {
+                    if ($r->id_instrumen == $row) {
+                        $cetak = false;
+                        break;
+                    }
+                }
+            endforeach;
+
+            if ($cetak) {
+                $data[count($cari_instrumen) + count($id)] = null;
+                $index = 1;
+                foreach ($cari_instrumen as $key) {
+                    $data[$index] = $this->Instrument->panggil_data_id($key->id_instrumen);
+                    $index++;
+                }
+                foreach ($id as $key) {
+                    $data[$index] = $this->Instrument->panggil_data_id($key);
+                    $index++;
+                }
+
+                //menyimpan data instrumen yg dipesan dalam session
+                $data_session = array(
+                    'cari_instrumen' => $data
+                );
+                $this->session->set_userdata($data_session);
+            }
+            //menyimpan data peminjam untuk ditampilkan pada pilih pinjam oleh pegawai cssd
+            $id_peminjam = $this->Users->panggil_data_peminjam();
+            $data['id_peminjam'] = $id_peminjam;
+            $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
             $this->load->view('konfirmasi_peminjaman', $data);
         }
     }
@@ -151,6 +250,7 @@ class PeminjamanControl extends CI_Controller {
             //panggil view
             $this->load->view('result_peminjaman', $tampil);
         }
+        $this->session->unset_userdata('cari_instrumen');
     }
 
     function konfirmasi_set() {
@@ -268,7 +368,7 @@ class PeminjamanControl extends CI_Controller {
         if (isset($_GET['id_transaksi'])) {
             $peminjam = $_GET['id_transaksi'];
         }
-        
+
         //masukkan id sebagai pencarian peminjaman
         $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
         $data['peminjam'] = $this->Peminjaman->panggil_peminjam_id($peminjam);
@@ -338,7 +438,6 @@ class PeminjamanControl extends CI_Controller {
                 'konfirmasi' => true
             );
             $this->session->set_userdata($hasil);
-//            redirect(base_url('site/lihat_peminjaman'));
             $tgl = $_POST['tgl_pinjam'];
             list($tgl, $bln, $thn) = explode('-', $tgl);
             $tgl = $tgl . '/' . $bln . '/' . $thn;

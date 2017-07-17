@@ -86,42 +86,10 @@
 
         <!-- Navbar (sit on top) -->
         <div class="w3-top">
-            <div class="w3-bar w3-card w3-white" id="myNavbar">
-                <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                    <i class="fa fa-bars"></i>
-                </a>
-
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <?php
-                if (isset($_SESSION["status_user"])) {
-                    $status_user = $_SESSION["status_user"];
-                    if ($status_user == 0 || $status_user == 1) {
-                        echo "
-                        <a href=\"";
-                        echo base_url('/site/tambah_peminjam/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
-                        <a href=\"";
-                        echo base_url('/site/tambah_peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
-                        <a href=\"";
-                        echo base_url('/site/cek_peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
-                        ";
-                    } else {
-                        echo "
-                        <a href=\"";
-                        echo base_url('/site/tambah_peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        <a href=\"";
-                        echo base_url('/site/ubah_password_konfirmasi/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
-                        ";
-                    }
-                }
-                ?>
-
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
-            </div>
+            <?php
+            $this->load->view("header_footer/header_peminjaman");
+            $status_user = $_SESSION["status_user"];
+            ?>
         </div>
 
         <!-- First Parallax Image with Logo Text -->
@@ -143,7 +111,7 @@
                                 if ($status_user == 2) {
                                     echo "<a href = '";
                                     echo base_url('/site/riwayat_pinjam');
-                                    echo "' class = 'btn btn-success w3-green w3-card-2 w3-hover-text-black w3-large' name = 'cari' value = 'CARI' style = 'width:60%;height:40px;'><i class = 'fa fa-search'></i> Riwayat Peminjaman</a>";
+                                    echo "' class = 'btn btn-success w3-green w3-card-2 w3-hover-text-black w3-large' name = 'cari' value = 'CARI' style = 'width:60%;'><i class = 'fa fa-search'></i> Riwayat Peminjaman</a>";
                                 }
                                 ?>
                             </th>
@@ -194,7 +162,20 @@
                         </tr>
                         <tr>
                             <th style="text-align:center">
-                                <span class="w3-small"><b>Peminjaman Instrumen di CSSD : Centang baris instrumen lalu klik tombol <u class="w3-hover-text-black">"Konfirmasi"</u></b></span>
+                                <b class="w3-small w3-hover-text-black">Total Instrumen 
+                                    <?php
+                                    if (isset($ada_instrumen) || isset($cari_instrumen)) {
+                                        $total = 0;
+                                        if (isset($cari_instrumen)) {
+                                            $total = count($cari_instrumen);
+                                        } else {
+                                            $total = count($ada_instrumen);
+                                        }
+                                        echo ": <b class='w3-large'>$total</b></b>";
+                                    }
+                                    ?>
+                                    <span class="w3-small"><b>|| Peminjaman Instrumen di CSSD : Centang baris instrumen lalu klik tombol <u class="w3-hover-text-black">"Konfirmasi"</u></b></span>
+
                             </th>
                         </tr>
                     </table>
@@ -205,10 +186,10 @@
                     if ($ubah) {
                         echo "<script>swal(\"Pinjam Instrumen Berhasil\", \"\", \"success\");</script>";
                     } else {
-                        echo "<script>swal(\"Centang Checkbox Untuk Meminjam Instrumen\", \"\", \"error\");</script>";
+                        echo "<script>swal(\"Centang Checkbox Untuk Meminjam Instrumen\", \"\", \"warning\");</script>";
                     }
-                    $this->session->unset_userdata('pinjam_instrumen');
                 }
+                $this->session->unset_userdata('pinjam_instrumen');
 
                 if (isset($ada_instrumen) || isset($cari_instrumen)) {
                     $total = 0;
@@ -234,8 +215,6 @@
 
                 <form action="<?php echo base_url('/PeminjamanControl/pinjam'); ?>" class="scroll">
                     <table class="w3-table w3-striped w3-bordered w3-animate-opacity w3-card" align="center" style="width:60%;margin-bottom:10%">
-                        <thead>
-
                         <tbody>
                             <?php
                             $tampil = 0;
@@ -288,24 +267,28 @@
                                 echo "<tr>
                                 <td colspan='4' style='text-align: center'>
                                     <button class='btn btn-warning w3-xlarge w3-hover-text-black' style='width:40%'><i class='fa fa-briefcase'></i> KONFIRMASI</button>
-                                </td>
+                                    </form>";
+                                if (isset($cari_instrumen)) {
+                                    echo "
+                            <form action='";
+                                    echo base_url('site/tambah_peminjaman/');
+                                    echo "'>
+                                <button class='btn btn-succes w3-xlarge w3-hover-text-black' style='width:40%'><i class='fa fa-backward'></i> Kembali</button>
+                                </form>";
+                                }
+                                echo "</td>
                             </tr>";
                             }
                             ?>
-
                         </tbody>
                     </table>
-
-                </form>
             </div>
         </div>
 
-        <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
-            <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
-            <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
-            <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
-            <br class="w3-large"><b>© 2017</b>
-        </footer>
+        <?php
+        $this->load->view("header_footer/footer");
+        ?>
+
         <script>
             function myFunction() {
                 var navbar = document.getElementById("myNavbar");
@@ -323,8 +306,7 @@
                     x.className = x.className.replace(" w3-show", "");
                 }
             }
-        </script>
-        <script>
+
             // Get the modal
             var modal = document.getElementById('id01');
 
@@ -337,10 +319,8 @@
 
             var modal2 = document.getElementById('id02');
 
-            // When the user clicks anywhere outside of the modal, close it
-
+            // When the user clicks anywhere outside of the modal, not close it
             modal2.style.display = "block";
-
         </script>
     </body>
 </html>

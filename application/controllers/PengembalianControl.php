@@ -98,14 +98,76 @@ class PengembalianControl extends CI_Controller {
             );
         } else {
             $data = array(
-            'konfirmasi' => FALSE,
-        );
+                'konfirmasi' => FALSE,
+            );
         }
         //set session true
 
         $this->session->set_userdata($data);
         //panggil view
         $this->load->view('pengembalian', $data);
+    }
+
+    function kendala() {
+        //panggil model
+        $this->load->model('Peminjaman');
+        $this->load->model('Riwayat_Instrumen');
+        $tgl_kembali = $tgl = date('m/d/Y');
+
+        //panggil semua atribut
+        $id_transaksi = $_GET['id_transaksi'];
+        $id = $_GET['id_instrumen'];
+        $jumlah = $_GET['jumlah'];
+
+        //update pengembalian
+        $this->Peminjaman->konfirmasi_pengembalian($id_transaksi, $id, $tgl_kembali/* , $ket[$index] */);
+
+        //mengetahui barang hilang dan rusak
+        $rusak = 0;
+        $hilang = 0;
+
+        for ($i = 1; $i <= $jumlah; $i++) {
+            $barang = 'kondisi' . $i;
+            $kondisi = $_GET[$barang];
+            if ($kondisi == 'Rusak') {
+                $rusak++;
+            } elseif ($kondisi == 'Hilang') {
+                $hilang++;
+            }
+
+            if ($kondisi != 'Baik') {
+                $this->Riwayat_Instrumen->insert_riwayat($id, $id_transaksi, $kondisi);
+            }
+        }
+
+        $total_kurangi_stok = 0 - ($rusak + $hilang);
+
+        //mengurangi stok jumlah di table instrumen
+        $this->Riwayat_Instrumen->kurangi_stok_instrumen($id, $total_kurangi_stok);
+
+        //membuat inventaris mengurangi barang
+        $id_cssd = $_SESSION['username'];
+        $this->load->model('Instrument');
+        if ($total_kurangi_stok < 0) {
+            $this->Instrument->inventaris_tambah_stok_barang($id, $id_cssd, $total_kurangi_stok);
+        }
+
+        //kembali ke halaman konfirmasi pengembalian
+        $data['pengembalian'] = $this->Peminjaman->panggil_transaksi($id_transaksi);
+        $data['id_transaksi'] = $id_transaksi;
+        //jika kembalian NULL
+        if ($data['pengembalian'] == NULL) {
+            $data = array(
+                'konfirmasi' => true,
+            );
+            $data['id_transaksi'] = $id_transaksi;
+            $this->session->set_userdata($data);
+            //panggil view
+            $this->load->view('pengembalian', $data);
+        } else {
+            //panggil view
+            $this->load->view('konfirmasi_pengembalian', $data);
+        }
     }
 
 }

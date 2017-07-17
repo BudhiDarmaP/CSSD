@@ -16,6 +16,10 @@
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
     <link href="<?php echo base_url('images/Logo.png') ?>" rel="icon" type="image/png"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!--    <head>
             <meta http-equiv="refresh" content="5">
         </head>-->
@@ -41,7 +45,7 @@
             curr_hour = checkTime(curr_hour);
             curr_minute = checkTime(curr_minute);
             curr_second = checkTime(curr_second);
-            document.getElementById('clock').innerHTML = curr_day + ", " + curr_bulan + " " + today.getDate() + ", " + today.getFullYear() + " (" + curr_hour + ":" + curr_minute + ":" + curr_second + ")";
+            document.getElementById('clock').innerHTML = "<i class='fa fa-clock-o w3-large w3-text-green' style='margin-top:4px;margin-left:5px;margin-right:5px'></i>" + curr_day + ", " + curr_bulan + " " + today.getDate() + ", " + today.getFullYear() + " (" + curr_hour + ":" + curr_minute + ":" + curr_second + ")";
         }
 
         function checkTime(i) {
@@ -51,6 +55,13 @@
             return i;
         }
         setInterval(showTime, 500);
+        
+        $(function() {
+            $("#datepicker").datepicker({dateFormat: 'dd/mm/yy', maxDate: 0});
+
+        });
+        
+
         //-->
     </script>
     <style>
@@ -100,15 +111,57 @@
 
         <!-- Navbar (sit on top) -->
         <div class="w3-top">
-            <div class="w3-bar w3-card w3-white" id="myNavbar">
-                <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                    <i class="fa fa-bars"></i>
-                </a>
+            <?php
+            $this->load->view("header_footer/header_inventaris");
+            ?>
+        </div>
 
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-button w3-display-topmiddle w3-animate-top"><i class="fa fa-home"></i> HOME</a>
-                <i class='fa fa-clock-o w3-right w3-xxlarge' style="margin-top:4px;margin-left:5px;margin-right:5px"></i>
-                <b id='clock' class="w3-bar-item w3-button w3-right w3-animate-right"></b>
-
+        <div id="id01" class="modal w3-responsive">
+            <div class="modal-content animate w3-black" style="margin-top:8%;width:40%">
+                <div class="w3-padding-16">
+                    <table align="center" style="width:80%">
+                        <tr>
+                            <td colspan="2" style="text-align:center" class="w3-xlarge">
+                                Pencarian Aktivitas Inventaris
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                Berdasarkan Nama Pegawai CSSD :
+                            </td>
+                        </tr>
+                        <tr><td style="color:gray">
+                                <form method="" action='<?php echo base_url('/site/cari_aktivitas_inventaris'); ?>'>
+                                    <?php
+                                    echo "
+                            <select class='w3-input w3-border w3-padding' name='pegawai' style='width:95%;' placeholder='Masukkan' required=''>";
+                                    echo "
+                                    <option value='' required='' disabled='disabled' selected>Pencarian Pegawai</option>
+                                    ";
+                                    foreach ($pegawai as $r):
+                                        echo "
+                                    <option value='$r->id_user' style='color:black'>$r->nama_user</option>
+                                    ";
+                                    endforeach;
+                                    echo "</select></td>";
+                                    ?>
+                                    <td><button class="btn btn-success w3-hover-text-black" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button></td>
+                                </form>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                Berdasarkan Tanggal :
+                            </td>
+                        </tr>
+                        <tr>
+                        <form method="" action='<?php echo base_url('/site/cari_aktivitas_inventaris'); ?>'>
+                            <td style="color:black">
+                                <input class='inputTanggal' style="height: 40px;width:95%;" type="text" class="form-control" id='datepicker' required='' name="tanggal" placeholder="Pencarian Tanggal">
+                            </td>
+                            <td><button class="btn btn-warning w3-hover-text-black" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button></td>
+                        </form>
+                        </tr></table> 
+                </div>
             </div>
         </div>
 
@@ -125,25 +178,51 @@
                             <tr>
                                 <th colspan="6" class="w3-green w3-animate-opacity">
                         <h3 class="w3-left w3-xlarge"><i class='fa fa-briefcase w3-xxlarge'></i> <b>Aktivitas Peminjaman</b></h3>
-
+                        <?php
+                        if (isset($cari)) {
+                            echo "<tr><td colspan='6' class='w3-white'><h4 class='w3-left w3-large'> Pencarian : $cari </h4></td></tr>";
+                        }
+                        ?>
                         </th>
 
                         </tr>
                         <tr class="w3-margin-top">
                             <?php
-                            $aktivitasPinjam = count($peminjaman);
-                            if ($aktivitasPinjam == 0) {
-                                echo "<tr>"
-                                . "<td colspan='3' style='margin-bottom:50%'>Belum Ada Aktivitas Peminjaman Hari ini</td>"
-                                . "";
-                            } else {
-                                foreach ($peminjaman as $r):
+                            if (isset($cari_peminjaman)) {
+                                $aktivitasPinjam = count($cari_peminjaman);
+                                $aktivitasInstrumen = count($cari_instrumen);
+                                
+                                if ($aktivitasInstrumen==0 && $aktivitasPinjam==0){
+                                    echo "<script>swal(\"Aktivitas Inventaris Kosong\", \"Pencarian : $cari\", \"error\");</script>";
+                                }
+                                if ($aktivitasPinjam == 0) {
                                     echo "<tr>"
-                                    . "<td style='text-align:'>$r->hari, </td>"
-                                    . "<td>$r->tanggal</td>"
-                                    . "<td style='color:red'><u style='color:blue'>$r->nama_user</u>, melakukan approve terhadap peminjaman <br><u style='color:blue'>$r->peminjam</u>. Transaksi : <b style='color:black'>$r->id_transaksi</b></td>"
-                                    . "</tr>";
-                                endforeach;
+                                    . "<td colspan='3' style='margin-bottom:50%'>Tidak Ada Aktivitas Peminjaman ($cari)</td>"
+                                    . "";
+                                } else {
+                                    foreach ($cari_peminjaman as $r):
+                                        echo "<tr>"
+                                        . "<td style='text-align:'>$r->hari, </td>"
+                                        . "<td>$r->tanggal</td>"
+                                        . "<td style='color:red'><u style='color:blue'>$r->nama_user</u>, melakukan approve terhadap peminjaman <br><u style='color:blue'>$r->peminjam</u>. Transaksi : <b style='color:black'>$r->id_transaksi</b></td>"
+                                        . "</tr>";
+                                    endforeach;
+                                }
+                            } else {
+                                $aktivitasPinjam = count($peminjaman);
+                                if ($aktivitasPinjam == 0) {
+                                    echo "<tr>"
+                                    . "<td colspan='3' style='margin-bottom:50%'>Belum Ada Aktivitas Peminjaman Hari ini</td>"
+                                    . "";
+                                } else {
+                                    foreach ($peminjaman as $r):
+                                        echo "<tr>"
+                                        . "<td style='text-align:'>$r->hari, </td>"
+                                        . "<td>$r->tanggal</td>"
+                                        . "<td style='color:red'><u style='color:blue'>$r->nama_user</u>, melakukan approve terhadap peminjaman <br><u style='color:blue'>$r->peminjam</u>. Transaksi : <b style='color:black'>$r->id_transaksi</b></td>"
+                                        . "</tr>";
+                                    endforeach;
+                                }
                             }
                             ?>
 
@@ -159,27 +238,49 @@
                         <tbody class="w3-margin-top">
                             <tr>
                                 <th colspan="6" class="w3-theme w3-animate-opacity">
-                        <h3 class="w3-left w3-xlarge"><i class='fa fa-scissors w3-xxlarge'></i> <b>Aktivitas Inventaris Instrumen</b></h3>
-
-
+                        <h3 class="w3-left w3-xlarge">
+                            <i class='fa fa-scissors w3-xxlarge'></i> <b>Aktivitas Inventaris Instrumen</b>
+                        </h3>
+                        <?php
+                        if (isset($cari)) {
+                            echo "<tr><td colspan='6' class='w3-white'><h4 class='w3-left w3-large'> Pencarian : $cari </h4></td></tr>";
+                        }
+                        ?>
                         </th>
 
                         </tr>
-                        <tr class="w3-margin-top ">
+                        <tr class="w3-margin-top">
                             <?php
-                            $aktivitasInstrumen = count($instrumen);
-                            if ($aktivitasInstrumen == 0) {
-                                echo "<tr>"
-                                . "<td colspan='3' style='text-align:'>Belum Ada Aktivitas Inventaris Instrumen Hari ini</td>"
-                                . "";
-                            } else {
-                                foreach ($instrumen as $r):
+                            if (isset($cari_instrumen)) {
+                                $aktivitasInstrumen = count($cari_instrumen);
+                                if ($aktivitasInstrumen == 0) {
                                     echo "<tr>"
-                                    . "<td style='text-align:'>$r->hari, </td>"
-                                    . "<td>$r->tanggal</td>"
-                                    . "<td style='color:red'><u style='color:blue'>$r->nama_user</u>, $r->keterangan Instrumen <u style='color:blue'>$r->nama_instrumen</u></td>"
-                                    . "</tr>";
-                                endforeach;
+                                    . "<td colspan='3' style='text-align:'>Tidak Ada Aktivitas Inventaris Instrumen ($cari)</td>"
+                                    . "";
+                                } else {
+                                    foreach ($cari_instrumen as $r):
+                                        echo "<tr>"
+                                        . "<td style='text-align:'>$r->hari, </td>"
+                                        . "<td>$r->tanggal</td>"
+                                        . "<td style='color:red'><u style='color:blue'>$r->nama_user</u>, $r->keterangan Instrumen <u style='color:blue'>$r->nama_instrumen</u></td>"
+                                        . "</tr>";
+                                    endforeach;
+                                }
+                            } else {
+                                $aktivitasInstrumen = count($instrumen);
+                                if ($aktivitasInstrumen == 0) {
+                                    echo "<tr>"
+                                    . "<td colspan='3' style='text-align:'>Belum Ada Aktivitas Inventaris Instrumen Hari ini</td>"
+                                    . "";
+                                } else {
+                                    foreach ($instrumen as $r):
+                                        echo "<tr>"
+                                        . "<td style='text-align:'>$r->hari, </td>"
+                                        . "<td>$r->tanggal</td>"
+                                        . "<td style='color:red'><u style='color:blue'>$r->nama_user</u>, $r->keterangan Instrumen <u style='color:blue'>$r->nama_instrumen</u></td>"
+                                        . "</tr>";
+                                    endforeach;
+                                }
                             }
                             ?>
 
@@ -192,34 +293,34 @@
 
         </div>
         <script>
-            function myFunction() {
-                var navbar = document.getElementById("myNavbar");
-                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                    navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-                } else {
-                    navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-                }
+        function myFunction() {
+            var navbar = document.getElementById("myNavbar");
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+            } else {
+                navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
             }
-            function toggleFunction() {
-                var x = document.getElementById("navDemo");
-                if (x.className.indexOf("w3-show") == -1) {
-                    x.className += " w3-show";
-                } else {
-                    x.className = x.className.replace(" w3-show", "");
-                }
+        }
+        function toggleFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
             }
-            // Get the modal
-            var modal = document.getElementById('id01');
+        }
+        // Get the modal
+        var modal = document.getElementById('id01');
 
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
+        }
 
-            var modal2 = document.getElementById('id02');
-            modal2.style.display = "block";
+        var modal2 = document.getElementById('id02');
+        modal2.style.display = "block";
         </script>
     </body>
 </html>

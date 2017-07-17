@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('bootstrap-3.3.6/css/scroll.css'); ?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
@@ -16,16 +17,6 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(function() {
-            $("#datepicker").datepicker({minDate: 0});
-            $("#datepicker").datepicker({dateformat: 'dd-MM-yy HH:mi'});
-        });
-        $(function() {
-            $("#datepicker2").datepicker({minDate: 0});
-            $("#datepicker2").datepicker({dateformat: 'dd-MM-yy HH:mi'});
-        });
-    </script>
     <script src="JavaScript.js"></script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -95,6 +86,10 @@
             border-radius:4px; -moz-border-radius:4px; 
             height:38px; margin-left:3px;
         }
+        
+        .scroll {
+            height:700px;
+        }
     </style>
     <body>
 
@@ -109,98 +104,61 @@
         <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
         </div>
 
-        <?php
-        if (isset($_SESSION["konfirmasi"])) {
-            $ubah = $_SESSION["konfirmasi"];
-            if (!$ubah) {
-                echo "<script>swal(\"Konfirmasi Pengembalian Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
-            }
-            if ($ubah != NULL) {
-                echo "
-            <div class='w3-content w3-container w3-center' id='about'>
-                <img src='";
-                echo base_url('images/LogoCSSD.png');
-                echo "' class='w3-center w3-margin-top w3-margin-bottom w3-animate-top'>
-            </div>";
-            }
-        }
-        ?>
-
         <div class="w3-responsive w3-card-4 w3-padding-16" >
 
             <?php
-            if (isset($_SESSION["konfirmasi"])) {
-                $cek = $_SESSION["konfirmasi"];
-                $id_transaksi = $_SESSION["transaksi"];
-                if ($cek != NULL) {
-                    echo "
-                        <div class='w3-container w3-responsive w3-margin-bottom w3-center'>
-                        <h4 style='color: red;margin-bottom:20%'><b>ID TRANSAKSI PEMINJAMAN TIDAK DITEMUKAN ATAU SUDAH DIKEMBALIKAN</b><br>ID Transaksi : $id_transaksi</h4>
-                        </div>";
-                }
-                $this->session->unset_userdata('konfirmasi');
-                $this->session->unset_userdata('transaksi');
-            } else {
-                $nama_user;
-                foreach ($pengembalian as $r):
-                    $nama_user = $r->nama_user;
-                endforeach;
-                echo "
+            $jumlah = $_GET['jumlah'];
+            $id_instrumen = $_GET['id_instrumen'];
+            $nama_instrumen = $_GET['nama_instrumen'];
+            $id_transaksi = $_GET['id_transaksi'];
+            echo "
                         <div class='w3-container w3-responsive w3-margin-bottom w3-center w3-card w3-green'>
-                            <b class='w3-padding w3-animate-left w3-xlarge'>Konfirmasi Pengembalian <u class='w3-hover-text-black'>$nama_user</u></b>
-                            <br><span class='w3-large'>ID Transaksi : $id_transaksi</span>
+                            <b class='w3-padding w3-animate-left w3-xlarge'>Kendala Pengembalian Instrumen<u class='w3-hover-text-black'></u></b>
+                            <br><span class='w3-large'>Instrumen : <b class='w3-large'>$nama_instrumen</b></span>
                         </div>
-                        <form method='POST' action='";
-                echo base_url('PengembalianControl/konfirm');
-                echo "'>";
-                echo "
-                        <table class='w3-table w3-striped w3-bordered' align='center' style='width:70%;color:red'>
+                        <form method='' action='";
+            echo base_url('PengembalianControl/kendala');
+            echo "' class='scroll'>";
+            echo "
+                        <table class='w3-table w3-striped w3-bordered' align='center' style='width:50%;color:red'>
                         <tr><th>
-                        <b>Centang <u>CEK</u> jika instrumen baik, Pilih \"<u><i class='fa fa-close'></i> Kendala</u>\" jika instrumen rusak/hilang.</b>
+                        <b>Pilih salah satu kondisi instrumen yang tersedia</b>
                         </th></tr>
                         </table>
-                            <table class='w3-table w3-striped w3-bordered w3-card w3-animate-opacity' align='center' style='width:70%;margin-bottom:15%'>
+                            <table class='w3-table w3-striped w3-bordered w3-card w3-animate-opacity' align='center' style='width:50%;margin-bottom:15%'>
                             <thead>
                             <tr class='w3-theme'>
-                            <th style='text-align: center;'>TANGGAL PINJAM</th>
-                            <th style='text-align: center;'>TANGGAL KEMBALI</th>
-                            <th style='text-align: left;'>NAMA INSTRUMEN</th>
-                            <th style='text-align: center;'>JUMLAH PINJAM</th>
-                            <th style='text-align: center;'>CEK</th>
-                            <th style='text-align: center;'></th>
+                            <th style='text-align: center;width:5%'>No.</th>
+                            <th style='text-align: left;width:50%'></th>
+                            <th style='text-align: center;width:45%'>KONDISI</th>
                             </tr>";
-                foreach ($pengembalian as $r):
-                    echo "<tbody>
-                             <tr>
-                            <td style='text-align: center'>$r->tanggal_pinjam</td>
-                            <td style='text-align: center'>$r->tanggal_kembali</td>
-                            <td style='text-align: left'><b>$r->nama_instrumen</b></td>
-                            <td style='text-align: center'>$r->jumlah_pinjam</td>
-                            <td style='text-align: center'><input type='checkbox' value='$r->id_instrumen' name='id_instrumen[]'></td>
-                            <input type='hidden' value='$r->id_transaksi' name='transaksi'>
+            for ($i = 1; $i <= $jumlah; $i++) {
+                echo "<tbody><tr>
+                            <td>
+                                $i.
                             </td>
-                            <td style='text-align: center'><a href='";
-                    echo base_url('site/konfirmasi_pengembalian_trouble');
-                    echo "?id_transaksi=$r->id_transaksi&id_instrumen=$r->id_instrumen&nama_instrumen=$r->nama_instrumen&jumlah=$r->jumlah_pinjam'>
-                        <b class='w3-text-red w3-hover-text-black'><i class='fa fa-close'></i> <u>Kendala</u></b></a></td>
-                            </tr>";
-                endforeach;
-                echo "<tr>
+                            <td>Instrumen $nama_instrumen ke-$i</td>
+                            <td style='text-align:center'>
+                                <input type='radio' name='kondisi$i' value='Baik' required='' class='w3-margin-left'> <b class='w3-margin-right'>Baik</b>
+                                <input type='radio' name='kondisi$i' value='Rusak' required='' class='w3-margin-left'> <b class='w3-margin-right'>Rusak</b>
+                                <input type='radio' name='kondisi$i' value='Hilang' required='' class='w3-margin-left'> <b class='w3-margin-right'>Hilang</b>
+                            </td>
+                        </tr>";
+            }
+            echo "<tr>
                             <td colspan='6' style='text-align: center'>
-                                <button class='btn btn-warning w3-xlarge w3-hover-text-black' style='width:20%'><i class='fa fa-briefcase'></i> KONFIRMASI</button>
+                                <button class='btn btn-default w3-xlarge w3-hover-text-yellow w3-black' style='width:20%'><i class='fa fa-check'></i> OK</button>
+                                <input type='hidden' value='$id_transaksi' name='id_transaksi'>
+                                <input type='hidden' value='$id_instrumen' name='id_instrumen'>
+                                <input type='hidden' value='$jumlah' name='jumlah'>
                             </td>
                         </tr></tbody>
                     </table>
                     </form>";
-            }
-            $this->session->unset_userdata('konfirmasi');
             ?>
         </div>
     </div>
 
-    <?php
-    $this->load->view("header_footer/footer");
-    ?>
     <script>
         function myFunction() {
             var navbar = document.getElementById("myNavbar");

@@ -60,51 +60,34 @@
 
         <!-- Navbar (sit on top) -->
         <div class="w3-top">
-            <div class="w3-bar w3-card w3-white" id="myNavbar">
-                <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                    <i class="fa fa-bars"></i>
-                </a>
-
-                <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                <?php
-                if (isset($_SESSION["status_user"])) {
-                    $status_user = $_SESSION["status_user"];
-                    if ($status_user == 0) {
-                        echo "
-                            <a href=\"";
-                        echo base_url('/site/tambah_user/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-users\"></i> USER</a>
-                        ";
-                    } elseif ($status_user == 1) {
-                        echo "
-                            <a href=\"";
-                        echo base_url('/site/halamanInstrumen/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-scissors\"></i> INSTRUMEN</a>
-                            <a href=\"";
-                        echo base_url('/site/peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                            <a href=\"";
-                        echo base_url('/site/pengembalian/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-recycle\"></i> PENGEMBALIAN</a>
-                            <a href=\"";
-                        echo base_url('/site/laporan/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-paperclip\"></i> LAPORAN</a>
-                        ";
-                    } elseif ($status_user == 2) {
-                        echo "
-                            <a href=\"";
-                        echo base_url('/site/tambah_peminjaman/');
-                        echo "\" class=\"w3-bar-item w3-button w3-hide-small w3-animate-opacity\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        ";
-                    } else {
-                        redirect(base_url('/LoginControl/destroy_session/'));
-                    }
-                }
-                ?>
-                <a href="<?php echo base_url('/site/ubah_password_konfirmasi/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-user"></i> UBAH PASSWORD</a>
-                <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
-            </div>
+            <?php
+            $this->load->view("header_footer/header_main");
+            ?>
         </div>
+        <?php
+        if (isset($sudahLogin)) {
+            echo "<div id=\"id02\" class=\"modal w3-responsive w3-white\">
+                <div class=\"modal-content w3-animate-opacity w3-black\" style=\"margin-top:15%;width:40%\">
+                    <div class=\"w3-padding-16\">
+                    <table align='center' style='width:80%'>
+                        <tr>
+                            <td style='text-align:center' class='w3-xlarge'>
+                                Anda Sudah Login
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center' class='w3-xlarge'>
+                                <a class=\"buttonAtur\" href=\""
+            ?><?php echo base_url('site/halamanUtama/') ?><?php
+            echo "\" style=\"vertical-align:middle;\"><span>HOME</span></a>
+                            </td>
+                        </tr>";
+            echo "</table>
+                    </div>
+                </div>
+            </div>";
+        }
+        ?>
 
         <!-- First Parallax Image with Logo Text -->
         <div class="bgimg-1 w3-display-container w3-opacity-min w3-green" id="home">
@@ -149,12 +132,9 @@
             </div>
         </div>
 
-        <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
-            <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
-            <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
-            <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
-            <br class="w3-large"><b>© 2017</b>
-        </footer>
+        <?php 
+        $this->load->view("header_footer/footer");
+        ?>
         <script>
             function myFunction() {
                 var navbar = document.getElementById("myNavbar");

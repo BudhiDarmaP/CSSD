@@ -373,26 +373,25 @@ class FPDF {
         $this->SetLineWidth(0);
         $this->Line(25, 41, 183, 41);
         $this->Ln();
-//        $this->SetMargins(15, 10, 15);
     }
 
     function Footer() {
-        $yTTD = -40;
-        $this->SetY($yTTD);
-        $this->SetX(155);
-        $this->Cell(20, 6, 'Amlapura, ', 0, 0, 'C');
-        $this->SetX(165);
-        $this->Cell(25, 6, (date('d-M-Y', time())), 0, 0, 'C');
-        //nama_user
-        $yTTD2 = $yTTD + 5;
-        $this->SetY($yTTD2);
-        $this->SetX(160);
-        $this->Cell(25, 6, $_SESSION['nama_user'] . ',', 0, 0, 'C');
-        //ttd
-        $yTTD2 = $yTTD + 27;
-        $this->SetY($yTTD2);
-        $this->SetX(162);
-        $this->Cell(25, 6, '_________________________', 0, 0, 'C');
+//        $yTTD = -40;
+//        $this->SetY($yTTD);
+//        $this->SetX(155);
+//        $this->Cell(20, 6, 'Amlapura, ', 0, 0, 'C');
+//        $this->SetX(165);
+//        $this->Cell(25, 6, (date('d-M-Y', time())), 0, 0, 'C');
+//        //nama_user
+//        $yTTD2 = $yTTD + 5;
+//        $this->SetY($yTTD2);
+//        $this->SetX(160);
+//        $this->Cell(25, 6, $_SESSION['nama_user'] . ',', 0, 0, 'C');
+//        //ttd
+//        $yTTD2 = $yTTD + 27;
+//        $this->SetY($yTTD2);
+//        $this->SetX(162);
+//        $this->Cell(25, 6, '_________________________', 0, 0, 'C');
     }
 
     function PageNo() {

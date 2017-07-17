@@ -24,10 +24,11 @@
             $("#bulan").datepicker({dateFormat: 'MM-yy',
                 changeMonth: true,
                 changeYear: true,
+                yearRange: '2010:',
                 onClose: function (dateText, inst) {
                     var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
                     var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
+                    $(this).val($.datepicker.formatDate('mm/yy', new Date(year, month, 1)));
                 }
             });
 
@@ -78,7 +79,6 @@
 
         /* First image (Logo. Full height) */
         .bgimg-1 {
-            background-image: url('images/Rute TransJogja.png');
             min-height: 100%;
         }
 
@@ -89,7 +89,6 @@
 
         /* Third image (Contact) */
         .bgimg-3 {
-            background-image: url("");
             min-height: 100%;
         }
 

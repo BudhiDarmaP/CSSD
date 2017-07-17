@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('bootstrap-3.3.6/css/scroll.css'); ?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
@@ -24,7 +25,7 @@
 
         function validasi_input(form) {
             if (form.peminjam.value == "") {
-                swal("Anda belum memilih peminjam!", "", "error");
+                swal("Anda belum memilih peminjam!", "", "warning");
                 form.peminjam.focus();
                 return (false);
             }
@@ -32,7 +33,7 @@
 
         function validasi_input2(form) {
             if (form.id_transaksi.value == "") {
-                swal("Anda belum memasukkan ID Transaksi!", "", "error");
+                swal("Anda belum memasukkan ID Transaksi!", "", "warning");
                 form.id_transaksi.focus();
                 return (false);
             }
@@ -113,42 +114,10 @@
 
             <!-- Navbar (sit on top) -->
             <div class="w3-top">
-                <div class="w3-bar w3-card w3-white" id="myNavbar">
-                    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-                        <i class="fa fa-bars"></i>
-                    </a>
-
-                    <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                    <?php
-                    if (isset($_SESSION["status_user"])) {
-                        $status_user = $_SESSION["status_user"];
-                        if ($status_user == 0 || $status_user == 1) {
-                            echo "
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjam/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> TAMBAH PEMINJAM</a>
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-plus\"></i> TAMBAH PEMINJAMAN</a>
-                        <a href=\"";
-                            echo base_url('/site/cek_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-check\"></i> CEK PEMINJAMAN</a>
-                        ";
-                        } else {
-                            echo "
-                        <a href=\"";
-                            echo base_url('/site/tambah_peminjaman/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-pencil\"></i> PEMINJAMAN</a>
-                        <a href=\"";
-                            echo base_url('/site/ubah_password_konfirmasi/');
-                            echo "\" class=\"w3-bar-item w3-button w3-hide-small\"><i class=\"fa fa-user\"></i> UBAH PASSWORD</a>
-                        ";
-                        }
-                    }
-                    ?>
-
-                    <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
-                </div>
+                <?php
+                $this->load->view("header_footer/header_peminjaman");
+                $status_user = $_SESSION["status_user"];
+                ?>
             </div>
 
             <!-- First Parallax Image with Logo Text -->
@@ -239,7 +208,16 @@
 
         </tr>
         <tr><th>
-        <div class="w3-responsive w3-card-4 w3-padding-16 w3-center">
+
+        <div class="w3-responsive w3-card-4 w3-padding-16 w3-center
+        <?php
+        if ($pinjam_instrumen == NULL) {
+            echo "";
+        } else {
+            echo " scroll";
+        }
+        ?>
+             ">
             <div class="w3-container w3-responsive w3-margin-bottom w3-center w3-animate-left">
                 <?php
                 if ($pinjam_instrumen == NULL) {
@@ -260,7 +238,7 @@
                 } else {
                     if (isset($tanggal)) {
                         $tgl = date('d/m/Y');
-                        if ($tgl == $tanggal){
+                        if ($tgl == $tanggal) {
                             echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Daftar Amprah Hari Ini</b></div>";
                         } else {
                             echo "<b style='color: green' class='w3-xxlarge w3-text-green w3-animate-opacity'>Daftar Amprah Tanggal $tanggal</b></div>";
@@ -328,12 +306,9 @@
     $this->session->unset_userdata('konfirmasi');
     ?>
 
-    <footer class="w3-padding-16 w3-green w3-center w3-margin-top w3-margin-bottom">
-        <a href="https://www.usd.ac.id/" target="_blank" class="w3-opacity-min w3-hover-opacity-off"><img src="<?php echo base_url('images/USD.png') ?>"></a>
-        <br><b class="w3-text-black">Universitas Sanata Dharma, DI Yogyakarta</b>
-        <br>Powered by : <a title="" target="_blank" class="w3-hover-text-black">Imam Dwicahya & I Putu Budi Dharma P.</a>
-        <br class="w3-large"><b>© 2017</b>
-    </footer>
+    <?php
+    $this->load->view("header_footer/footer");
+    ?>
     <script>
         function myFunction() {
             var navbar = document.getElementById("myNavbar");

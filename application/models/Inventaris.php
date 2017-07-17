@@ -28,4 +28,14 @@ class Inventaris extends CI_Model {
         $result = $this->db->query($query);
         return $result->result();
     }
+    //---------------LAPORAN-------------------//
+    public function laporan_harian($tgl){
+        $query = "select DATE_FORMAT(a.tanggal, '%H:%i:%s') AS 'waktu', "
+                . "c.nama_user, a.keterangan, b.nama_instrumen "
+                . "from inventaris a join instrumen b on (a.id_instrumen = b.id_instrumen) "
+                . "join user c on (a.id_user = c.id_user) "
+                . "where DATE_FORMAT(tanggal, '%m/%d/%Y') = '$tgl'";
+        $result = $this->db->query($query);
+        return $result->result();
+    }
 }
