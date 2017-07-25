@@ -4,9 +4,9 @@
     <title>Peminjaman</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/w3.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/lato.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
@@ -80,9 +80,12 @@
                             ";
                     }
                 }
+                $konfirmasi_approve = $_SESSION['konfirmasi_approve'];
                 ?>
                 <a href="<?php echo base_url('/site/tambah_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-plus"></i> TAMBAH PEMINJAMAN</a>
-                <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-check"></i> CEK PEMINJAMAN</a>
+                <a href="<?php echo base_url('/site/cek_peminjaman/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-check <?php if ($konfirmasi_approve != null) {
+                    echo "w3-animate-fading2 w3-text-red";
+                } ?>"></i> CEK PEMINJAMAN</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -106,10 +109,18 @@
 
         </div>
         <div class="bgimg-3 w3-display-container w3-opacity-min">
-
+            <div class="w3-container w3-display-bottommiddle w3-margin-bottom w3-margin-top">
+                <p class="w3-center">     
+                    <br>Halaman ini digunakan untuk melakukan aktivitas seputar peminjaman amprah.<br>
+                    Akun peminjam intenal maupun eksternal RSUD Karangasem tidak berhak untuk mengakses halaman ini.<br>
+                    <br>Halaman ini bertujuan untuk memudahkan pegawai CSSD dalam dokumentasi data distribusi peminjaman amprah.
+                    <br>Fitur yang terdapat dihalaman ini antara lain : menambahkan data peminjam ekternal, melakukan proses peminjaman per item atau pun setting set, melihat data peminjaman yang pernah dilakukan, serta konfirmasi persetujuan atas suatu peminjamanan/pengamprahan.
+                    <br>
+                </p>
+            </div>
         </div>
 
-        <?php 
+        <?php
         $this->load->view("header_footer/footer");
         ?>
         <script>

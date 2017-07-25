@@ -4,9 +4,9 @@
     <title>Laporan</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/w3.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/lato.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
@@ -95,7 +95,14 @@
 
         </div>
         <div class="bgimg-3 w3-display-container w3-opacity-min">
-
+            <div class="w3-container w3-display-bottommiddle w3-margin-bottom w3-margin-top">
+                <p class="w3-center">     
+                    <br>Halaman ini digunakan melihat laporan dari semua aktivitas peminjaman yang telah dilakukan.<br>
+                    Terdapat beberapa format laporan dengan konten informasi yang berbeda.<br>
+                    <br>Pilih kurun waktu laporan yang ingin dilihat yaitu dalam harian, bulanan, serta tahunan.
+                    <br>
+                </p>
+            </div>
         </div>
 
         <?php
@@ -122,7 +129,7 @@
             var modal = document.getElementById('id01');
 
             // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
+            window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
@@ -133,7 +140,7 @@
             // When the user clicks anywhere outside of the modal, close it
 
             modal2.style.display = "block";
-            window.onclick = function (event) {
+            window.onclick = function(event) {
                 if (event.target == modal2) {
                     modal2.style.display = "none";
                 }

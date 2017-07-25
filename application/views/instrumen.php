@@ -1,12 +1,12 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Peminjaman</title>
+    <title>Halaman Instrumen</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/w3.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/lato.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
@@ -72,6 +72,7 @@
                 <a href="<?php echo base_url('/site/instrumen/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-search"></i> CARI</a>
                 <a href="<?php echo base_url('/site/perbarui_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-edit"></i> PERBARUI</a>
                 <a href="<?php echo base_url('/site/hapus_instrument/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-eraser"></i> HAPUS</a>
+                <a href="<?php echo base_url('/site/tambah_setting_set/'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-list-ol"></i> SETTING SET</a>
                 <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
             </div>
         </div>
@@ -95,10 +96,18 @@
 
         </div>
         <div class="bgimg-3 w3-display-container w3-opacity-min">
-
+            <div class="w3-container w3-display-bottommiddle w3-margin-bottom">
+                <p class="w3-center">     
+                    <br>Halaman ini berisikan informasi tentang semua daftar instrumen yang terdapat di CSSD RSUD Karangasem.<br>
+                    Data yang terdapat pada halaman ini adalah data yang valid.<br>
+                    <br>Halaman ini bertujuan untuk memudahkan pengguna dalam melakukan pencarian ataupun melihat daftar instrumen yang tersedia.
+                    <br>Fitur yang terdapat dihalaman ini juga berguna untuk menambahkan data instrumen yang ada di CSSD kedalam sistem, melakukan penghapusan, pembaruan data instrumen serta penambahan setting set baru.
+                    <br>
+                </p>
+            </div>
         </div>
 
-        <?php 
+        <?php
         $this->load->view("header_footer/footer");
         ?>
         <script>

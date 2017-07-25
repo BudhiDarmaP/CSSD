@@ -4,9 +4,9 @@
     <title>Perbarui Instrument</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/w3.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/lato.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
@@ -61,7 +61,6 @@
 
             return (true);
         }
-
     </script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -145,9 +144,6 @@
                             <b>Form ini digunakan untuk menambahkan stok instrumen tertentu yang sudah ada CSSD</b>
                             <br>1. Masukkan nama instrumen yang tersedia di CSSD
                             <br>2. Masukkan jumlah tambahan stok pada instrumen tersebut
-                            <br><a class="w3-text-black w3-hover-text-white">Apabila terjadi kehilangan : 
-                                Klik tanda panah kebawah pada <b class="w3-hover-text-black">Jumlah Strok Tambahan</b>. 
-                                Klik hingga angka sesuai dengan jumlah instrumen yang hilang.</a>
                             <br>3. Klik "Perbarui"
                         </h5>
                         </th>

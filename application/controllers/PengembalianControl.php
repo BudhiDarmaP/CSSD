@@ -16,6 +16,7 @@ class PengembalianControl extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->check_log_in();
+        $this->check_notifikasi_pengembalian();
     }
 
     function check_log_in() {
@@ -32,6 +33,17 @@ class PengembalianControl extends CI_Controller {
             $this->CI->output->_display();
 
             die();
+        }
+    }
+    
+    function check_notifikasi_pengembalian() {
+        $status = $_SESSION['status_user'];
+        if($status == 0 || $status == 1){
+            $this->load->model('Peminjaman');
+            $data = array(
+                'pengembalian' => $this->Peminjaman->notifikasi_pengembalian()
+            );
+            $this->session->set_userdata($data);
         }
     }
 
@@ -93,8 +105,10 @@ class PengembalianControl extends CI_Controller {
                 $data['pengembalian'] = $this->Peminjaman->konfirmasi_pengembalian($id_transaksi, $instrumen, $tgl_kembali/* , $ket[$index] */);
                 $index++;
             }
+            
             $data = array(
                 'konfirmasi' => TRUE,
+                'pengembalian' => $this->Peminjaman->notifikasi_pengembalian()
             );
         } else {
             $data = array(
@@ -159,6 +173,7 @@ class PengembalianControl extends CI_Controller {
         if ($data['pengembalian'] == NULL) {
             $data = array(
                 'konfirmasi' => true,
+                'pengembalian' => $this->Peminjaman->notifikasi_pengembalian()
             );
             $data['id_transaksi'] = $id_transaksi;
             $this->session->set_userdata($data);

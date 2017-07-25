@@ -13,6 +13,18 @@ class PeminjamanControl extends CI_Controller {
         $this->load->database(); // Load our cart model for our entire class
         $this->load->helper(array('url', 'form')); // Load our cart model for our entire class
         $this->check_log_in();
+        $this->check_notifikasi_pengembalian();
+    }
+
+    function check_notifikasi_pengembalian() {
+        $status = $_SESSION['status_user'];
+        if ($status == 0 || $status == 1) {
+            $this->load->model('Peminjaman');
+            $data = array(
+                'pengembalian' => $this->Peminjaman->notifikasi_pengembalian()
+            );
+            $this->session->set_userdata($data);
+        }
     }
 
     function check_log_in() {
@@ -43,6 +55,7 @@ class PeminjamanControl extends CI_Controller {
     }
 
     function pinjam() {
+
         $this->load->model('Instrument');
         $this->load->model('Users');
         $id = $_GET['id'];
@@ -167,6 +180,7 @@ class PeminjamanControl extends CI_Controller {
     }
 
     function pinjam_setting() {
+
         //panggil model
         $this->load->model('Setting_Set');
         $this->load->model('Users');
@@ -186,6 +200,13 @@ class PeminjamanControl extends CI_Controller {
     }
 
     function konfirmasi() {
+        //cek sesion konfirmasi sudah pinjam
+        if (isset($_SESSION["sudah_pinjam"])) {
+            $login = $_SESSION["sudah_pinjam"];
+            if ($login) {
+                redirect(base_url('site/lihat_peminjaman'));
+            }
+        }
         //panggil model
         $this->load->model('Peminjaman');
         //cek user
@@ -219,10 +240,12 @@ class PeminjamanControl extends CI_Controller {
 
             foreach ($id as $key) {
                 //simpan peminjaman
-                if ($status == 1) {
-                    $data[$input1 + 1] = $this->Peminjaman->pinjam_pegawai($id_transaksi, $user, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status, $pegawai_cssd);
-                } else {
-                    $data[$input1 + 1] = $this->Peminjaman->pinjam_user($id_transaksi, $user, $key, $jumlah[$input1], $tgl_pinjam, $status);
+                if ($jumlah[$input1] > 0) {
+                    if ($status == 1) {
+                        $data[$input1 + 1] = $this->Peminjaman->pinjam_pegawai($id_transaksi, $user, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status, $pegawai_cssd);
+                    } else {
+                        $data[$input1 + 1] = $this->Peminjaman->pinjam_user($id_transaksi, $user, $key, $jumlah[$input1], $tgl_pinjam, $status);
+                    }
                 }
                 $input1++;
             }
@@ -244,6 +267,10 @@ class PeminjamanControl extends CI_Controller {
             } else {
                 $this->load->view('result_peminjaman', $data);
             }
+            $data_session = array(
+                'sudah_pinjam' => true
+            );
+            $this->session->set_userdata($data_session);
         } else {
             //simpan hasil ke dalam array
             $tampil['pinjam_instrumen'] = $this->Peminjaman->panggil_pinjam($id_transaksi);
@@ -254,6 +281,13 @@ class PeminjamanControl extends CI_Controller {
     }
 
     function konfirmasi_set() {
+        //cek sesion konfirmasi sudah pinjam
+        if (isset($_SESSION["sudah_pinjam"])) {
+            $login = $_SESSION["sudah_pinjam"];
+            if ($login) {
+                redirect(base_url('site/lihat_peminjaman'));
+            }
+        }
         //panggil model
         $this->load->model('Peminjaman');
         //cek user
@@ -288,10 +322,12 @@ class PeminjamanControl extends CI_Controller {
 
             foreach ($id as $key) {
                 //simpan peminjaman
-                if ($status == 1) {
-                    $data[$input1 + 1] = $this->Peminjaman->pinjam_set_pegawai($id_transaksi, $user, $kode, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status, $pegawai_cssd);
-                } else {
-                    $data[$input1 + 1] = $this->Peminjaman->pinjam_set_user($id_transaksi, $user, $kode, $key, $jumlah[$input1], $tgl_pinjam, $status);
+                if ($jumlah[$input1] > 0) {
+                    if ($status == 1) {
+                        $data[$input1 + 1] = $this->Peminjaman->pinjam_set_pegawai($id_transaksi, $user, $kode, $key, $jumlah[$input1], $steril[$input1], $tgl_pinjam, $tgl_kembali, $status, $pegawai_cssd);
+                    } else {
+                        $data[$input1 + 1] = $this->Peminjaman->pinjam_set_user($id_transaksi, $user, $kode, $key, $jumlah[$input1], $tgl_pinjam, $status);
+                    }
                 }
                 $input1++;
             }
@@ -313,6 +349,10 @@ class PeminjamanControl extends CI_Controller {
             } else {
                 $this->load->view('result_peminjaman', $data);
             }
+            $data_session = array(
+                'sudah_pinjam' => true
+            );
+            $this->session->set_userdata($data_session);
         } else {
             //simpan hasil ke dalam array
             $tampil['pinjam_instrumen'] = $this->Peminjaman->panggil_pinjam($id_transaksi);
@@ -409,7 +449,11 @@ class PeminjamanControl extends CI_Controller {
         foreach ($data['pinjam_instrumen'] as $r):
             $tanggal = $r->tanggal_pinjam;
         endforeach;
-        $data['tanggal_pinjam'] = $tanggal;
+        if ($tanggal == NULL) {
+            redirect(base_url('site/konfirmasi_pegawai'));
+        } else {
+            $data['tanggal_pinjam'] = $tanggal;
+        }
         //panggil view
         $this->load->view('konfirmasi_halaman', $data);
     }
@@ -446,6 +490,12 @@ class PeminjamanControl extends CI_Controller {
             $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
             $data['pinjam_intrumen'] = true;
             $data['tanggal'] = $tgl;
+            //setting session notifikasi konfirmasi persetujuan
+            $data_session = array(
+                'konfirmasi_approve' => $this->Peminjaman->panggil_peminjam()
+            );
+            $this->session->set_userdata($data_session);
+            //ke halaman yang dituju
             $this->load->view('lihat_peminjaman', $data);
         } else {
             $hasil = array(

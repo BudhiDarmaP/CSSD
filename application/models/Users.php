@@ -11,20 +11,25 @@ class Users extends CI_Model {
         $q = $this->db->query("SELECT * FROM `user`");
         return $q->result();
     }
-    
+
     function panggil_data_user_by_id($username) {
         $q = $this->db->query("SELECT * FROM `user` where id_user = '$username'");
         return $q->row();
     }
-    
+
     function edit_data_user($username, $namauser, $notelp) {
-        $q = $this->db->query("UPDATE user set nama_user = '$namauser', no_telepon = '$notelp' where id_user = '$username'");
-        //cek
-        $ubah = $this->db->query("select * from user where nama_user = '$namauser' and no_telepon = '$notelp' and id_user = '$username'");
-        if($ubah->num_rows() == 1){
-            return true;
+        $cek = $this->db->query("SELECT * FROM `user` WHERE nama_user='$namauser'");
+        if ($cek->num_rows() == 0) {
+            $q = $this->db->query("UPDATE user set nama_user = '$namauser', no_telepon = '$notelp' where id_user = '$username'");
+            //cek
+            $ubah = $this->db->query("select * from user where nama_user = '$namauser' and no_telepon = '$notelp' and id_user = '$username'");
+            if ($ubah->num_rows() == 1) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            return FALSE;
         }
     }
 
@@ -62,15 +67,15 @@ class Users extends CI_Model {
         $q = $this->db->query("SELECT COUNT(*) FROM user WHERE STATUS_USER = 3");
         return $q;
     }
-    
-    function id_otomatis($status_user){
+
+    function id_otomatis($status_user) {
         $jumlah = $this->panggil_jumlah_pegawai($status_user);
         $jumlah = $jumlah + 1;
         $id = '';
-        if($status_user == 0){
+        if ($status_user == 0) {
             if ($jumlah < 10) {
                 $id = 'AD00' . $jumlah;
-            } elseif ($jumlah >= 10 && $jumlah < 100){
+            } elseif ($jumlah >= 10 && $jumlah < 100) {
                 $id = 'AD0' . $jumlah;
             } else {
                 $id = 'AD' . $jumlah;
@@ -78,7 +83,7 @@ class Users extends CI_Model {
         } elseif ($status_user == 1) {
             if ($jumlah < 10) {
                 $id = 'CSSD00' . $jumlah;
-            } elseif ($jumlah >= 10 && $jumlah < 100){
+            } elseif ($jumlah >= 10 && $jumlah < 100) {
                 $id = 'CSSD0' . $jumlah;
             } else {
                 $id = 'CSSD' . $jumlah;
@@ -86,7 +91,7 @@ class Users extends CI_Model {
         } elseif ($status_user == 2) {
             if ($jumlah < 10) {
                 $id = 'I00' . $jumlah;
-            } elseif ($jumlah >= 10 && $jumlah < 100){
+            } elseif ($jumlah >= 10 && $jumlah < 100) {
                 $id = 'I0' . $jumlah;
             } else {
                 $id = 'I' . $jumlah;
@@ -94,7 +99,7 @@ class Users extends CI_Model {
         } else {
             if ($jumlah < 10) {
                 $id = 'E00' . $jumlah;
-            } elseif ($jumlah >= 10 && $jumlah < 100){
+            } elseif ($jumlah >= 10 && $jumlah < 100) {
                 $id = 'E0' . $jumlah;
             } else {
                 $id = 'E' . $jumlah;
@@ -104,69 +109,87 @@ class Users extends CI_Model {
     }
 
     function tambah_data_pegawai($nama_user, $password, $no_tlp, $status_user) {
-        //generate id
-        $id = $this->id_otomatis($status_user);
-        
-        //input user
-        $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
-                . "VALUES ('$id','$nama_user','$password','$no_tlp',$status_user)";
-        $this->db->query($q);
-
-        $q = "SELECT * FROM user WHERE id_user = '$id'";
+        $q = "SELECT * FROM `user` WHERE nama_user='$nama_user'";
         $cek = $this->db->query($q);
-        //jika berhasil
-        if ($cek->num_rows() == 1) {
-            return TRUE;
-            //jika tidak berhasil
+        if ($cek->num_rows() == 0) {
+            //generate id
+            $id = $this->id_otomatis($status_user);
+
+            //input user
+            $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
+                    . "VALUES ('$id','$nama_user','$password','$no_tlp',$status_user)";
+            $this->db->query($q);
+
+            $q = "SELECT * FROM user WHERE id_user = '$id'";
+            $cek = $this->db->query($q);
+            //jika berhasil
+            if ($cek->num_rows() == 1) {
+                return TRUE;
+                //jika tidak berhasil
+            } else {
+                return FALSE;
+            }
         } else {
             return FALSE;
         }
     }
 
     function tambah_data_internal($nama_instansi, $password, $no_tlp) {
-        //generate id
-        $jumlah = $this->panggil_jumlah_internal();
-        if ($jumlah < 10) {
-            $id = 'I0' + $jumlah;
-        } else {
-            $id = 'I' + $jumlah;
-        }
-        //input user
-        $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
-                . "VALUES ('$id','$nama_instansi','$password','$no_tlp',2)";
-        $this->db->query($q);
-
-        $q = "SELECT * FROM user WHERE id_user = '$id'";
+        $q = "SELECT * FROM `user` WHERE nama_user='$nama_instansi'";
         $cek = $this->db->query($q);
-        //jika berhasil
-        if ($cek->num_rows() == 1) {
-            return TRUE;
-            //jika tidak berhasil
+        if ($cek->num_rows() == 0) {
+            //generate id
+            $jumlah = $this->panggil_jumlah_internal();
+            if ($jumlah < 10) {
+                $id = 'I0' + $jumlah;
+            } else {
+                $id = 'I' + $jumlah;
+            }
+            //input user
+            $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
+                    . "VALUES ('$id','$nama_instansi','$password','$no_tlp',2)";
+            $this->db->query($q);
+
+            $q = "SELECT * FROM user WHERE id_user = '$id'";
+            $cek = $this->db->query($q);
+            //jika berhasil
+            if ($cek->num_rows() == 1) {
+                return TRUE;
+                //jika tidak berhasil
+            } else {
+                return FALSE;
+            }
         } else {
             return FALSE;
         }
     }
 
     function tambah_data_eksternal($nama_instansi, $password, $no_tlp) {
-        //generate id
-        $jumlah = $this->panggil_jumlah_eksternal();
-        if ($jumlah < 10) {
-            $id = 'E0' + $jumlah;
-        } else {
-            $id = 'E' + $jumlah;
-        }
-
-        //input user
-        $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
-                . "VALUES ('$id','$nama_instansi','$password','$no_tlp',3)";
-        $this->db->query($q);
-
-        $q = "SELECT * FROM user WHERE `id_user` = '$id'";
+        $q = "SELECT * FROM `user` WHERE nama_user='$nama_instansi'";
         $cek = $this->db->query($q);
-        //jika berhasil
-        if ($cek->num_rows() == 1) {
-            return TRUE;
-            //jika tidak berhasil
+        if ($cek->num_rows() == 0) {
+            //generate id
+            $jumlah = $this->panggil_jumlah_eksternal();
+            if ($jumlah < 10) {
+                $id = 'E0' + $jumlah;
+            } else {
+                $id = 'E' + $jumlah;
+            }
+
+            //input user
+            $q = "INSERT INTO `user`(`id_user`, `nama_user`, `password`, `no_telepon`, `status_user`) "
+                    . "VALUES ('$id','$nama_instansi','$password','$no_tlp',3)";
+            $this->db->query($q);
+
+            $q = "SELECT * FROM user WHERE `id_user` = '$id'";
+            $cek = $this->db->query($q);
+            //jika berhasil
+            if ($cek->num_rows() == 1) {
+                return TRUE;
+                //jika tidak berhasil
+            } else {
+                return FALSE;
+            }
         } else {
             return FALSE;
         }

@@ -1,12 +1,12 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Pencarian ID Transaksi</title>
+    <title>Pengembalian</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/w3.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/lato.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
@@ -74,21 +74,33 @@
         ?>
         <div class="bgimg-2 w3-display-container w3-animate-top">
             <div  class="w3-display-topmiddle w3-col l6 m8">
-                <form action="<?php echo base_url('/PengembalianControl/pengembalian') ?>">
-                    <?php
-                    if (isset($_SESSION["status_user"])) {
-                        $status = $_SESSION["status_user"];
-                        if ($status == 0 || $status == 1) {
-                            echo "<div class=\"w3-container w3-theme w3-opacity-min\">
-                                
+
+                <?php
+                if (isset($_SESSION["status_user"])) {
+                    $status = $_SESSION["status_user"];
+                    if ($status == 0 || $status == 1) {
+                        $pengembalian = $_SESSION['pengembalian'];
+                        $total = count($pengembalian);
+
+                        echo "<div class=\"w3-container w3-theme w3-opacity-min\">
+                            <form action='";
+                            echo base_url('/site/notifikasi_pengembalian/');
+                            echo "'>
                                 <table class=\"w3-animate-opacity\" style='text-align:center;width:100%;margin-bottom:5%;margin-top:1%;'>
-                                <tr><th style='text-align:center;'><img src=";
-                            echo base_url('images/LogoCSSD.png');
-                            echo " class='w3-center w3-opacity-min'></th></tr>
-                                    <tr><th style='text-align:center;' class='w3-xxlarge w3-text-black w3-animate-fading'>Pengembalian Amprah</th></tr>
+                                <tr><th style='text-align:center;' class=''><img src=";
+                        echo base_url('images/LogoCSSD.png');
+                        echo " class='w3-center w3-opacity-min'></th></tr>
+                                    <tr><th style='text-align:center;' class='w3-xxlarge w3-text-black w3-animate-fadding'>Pengembalian Amprah ";
+                        if ($total > 0) {
+                            echo ">> <button style='width:10%' class='btn btn-default w3-xlarge w3-hover-text-black w3-opacity-off' type=\"submit\" name=\"ubah\" value=\"yes\">$total</button>";
+                        }
+                        echo "</th></tr></form>
                                     <tr><th style='text-align:center;' class='w3-animate-zoom'>Halaman ini digunakan untuk melakukan <br>pengecekan terhadap instrumen yang dikembalikan oleh peminjam.<br>Silakan masukkan ID Transaksi pada field dibawah ini</th></tr>
                                 </table>
                             </div>
+                            <form action='";
+                        echo base_url('/PengembalianControl/pengembalian');
+                        echo "'>
                             <div class=\"w3-container w3-white w3-padding-16 w3-card\">
                                     <div class=\"w3-row-padding w3-padding\" style=\"margin:0 -16px;\">
                                     <div>
@@ -102,15 +114,16 @@
                                     <button class='btn btn-success w3-xlarge w3-hover-text-black' type=\"submit\" name=\"ubah\" value=\"yes\"><i class=\"fa fa-search w3-margin-right\"></i> Cari</button>
                                     </th></tr>
                                     </table>
+                                    </form>
                                     </div>
                                     </div>";
-                            $this->session->unset_userdata('konfirmasi');
-                        } else {
-                            redirect(base_url('/site/halamanUtama/'));
-                        }
+                        $this->session->unset_userdata('konfirmasi');
+                    } else {
+                        redirect(base_url('/site/halamanUtama/'));
                     }
-                    ?>
-                </form>
+                }
+                ?>
+
             </div>
         </div>
 

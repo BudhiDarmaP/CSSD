@@ -11,6 +11,8 @@ class Site extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->check_log_in();
+        $this->check_notifikasi_pengembalian();
+        $this->check_notifikasi_konfirmasi_persetujuan();
     }
 
     function check_log_in() {
@@ -27,6 +29,28 @@ class Site extends CI_Controller {
             $this->CI->output->_display();
 
             die();
+        }
+    }
+
+    function check_notifikasi_pengembalian() {
+        $status = $_SESSION['status_user'];
+        if ($status == 0 || $status == 1) {
+            $this->load->model('Peminjaman');
+            $data = array(
+                'pengembalian' => $this->Peminjaman->notifikasi_pengembalian()
+            );
+            $this->session->set_userdata($data);
+        }
+    }
+
+    function check_notifikasi_konfirmasi_persetujuan() {
+        $status = $_SESSION['status_user'];
+        if ($status == 0 || $status == 1) {
+            $this->load->model('Peminjaman');
+            $data = array(
+                'konfirmasi_approve' => $this->Peminjaman->panggil_peminjam()
+            );
+            $this->session->set_userdata($data);
         }
     }
 
@@ -180,6 +204,8 @@ class Site extends CI_Controller {
         $this->load->model('Setting_Set');
         $data['ada_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
         $data['set'] = $this->Setting_Set->panggil_set();
+        //hilangkan session sudah pinjam. agar bisa minjam
+        $this->session->unset_userdata('sudah_pinjam');
         $this->load->view('tambah_peminjaman', $data);
     }
 
@@ -202,19 +228,11 @@ class Site extends CI_Controller {
         $this->load->model('Peminjaman');
         $this->load->model('Users');
         $data['id_peminjam'] = $this->Users->panggil_data_peminjam();
-        if (isset($_POST['kembali'])) {
-            $tgl = $_POST['tgl_pinjam'];
-            list($tgl, $bln, $thn) = explode('-', $tgl);
-            $tgl = $tgl . '/' . $bln . '/' . $thn;
-            $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
-            $data['tanggal'] = $tgl;
-            $this->load->view('lihat_peminjaman', $data);
-        } else {
-            $tgl = date('d/m/Y');
-            $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
-            $data['tanggal'] = $tgl;
-            $this->load->view('lihat_peminjaman', $data);
-        }
+
+        $tgl = date('d/m/Y');
+        $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman($tgl);
+        $data['tanggal'] = $tgl;
+        $this->load->view('lihat_peminjaman', $data);
     }
 
     function lihat_peminjamanan_detail() {
@@ -246,6 +264,7 @@ class Site extends CI_Controller {
         $status = $_GET['statusApprove'];
         //masukkan tanggal sebagai pencarian peminjaman
         $data['pinjam_instrumen'] = $this->Peminjaman->lihat_peminjaman_status($status);
+        $data['pinjam_instrumen_belum_kembali'] = $this->Peminjaman->lihat_peminjaman_belum_kembali();
         //manggil data peminjam
         $data['statusApprove'] = $status;
         $this->load->model('Users');
@@ -293,6 +312,13 @@ class Site extends CI_Controller {
         $this->load->view('hapus_instrument', $data);
     }
 
+    function tambah_setting_set() {
+        //$this->check_log_in_admin_cssd();
+        $this->load->model('Instrument');
+        $data['ada_instrumen'] = $this->Instrument->panggil_data_instrument();
+        $this->load->view('tambah_setting_set', $data);
+    }
+
     function tambah_pemijaman() {
         ////$this->check_log_in_to_peminjaman();
         $this->load->view('tambah_pemijam');
@@ -313,6 +339,11 @@ class Site extends CI_Controller {
         //$this->check_log_in_admin_cssd();
         $this->session->unset_userdata('konfirmasi');
         $this->load->view('konfirmasi_pengembalian_trouble');
+    }
+
+    function notifikasi_pengembalian() {
+        //$this->check_log_in_admin_cssd();
+        $this->load->view('notifikasi_pengembalian');
     }
 
 }

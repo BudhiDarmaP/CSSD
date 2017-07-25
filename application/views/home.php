@@ -4,9 +4,9 @@
     <title>Halaman Utama</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/w3.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/lato.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
@@ -94,10 +94,11 @@
         </div>
 
         <!-- Container (About Section) -->
-        <div class="w3-content w3-container w3-center" id="about">
-            <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top">
+        <div class="w3-content w3-container w3-center" id="about"> 
+            <img src="<?php echo base_url('images/LogoCSSD.png') ?>" class="w3-center w3-margin-top w3-margin-bottom w3-animate-top"> 
             <?php
             $status_user = $_SESSION['status_user'];
+            $nama_user = $_SESSION['nama_user'];
             $status_user_text;
             if ($status_user == 0) {
                 $status_user_text = 'Super Administrator';
@@ -106,7 +107,7 @@
             } else {
                 $status_user_text = 'Peminjam';
             }
-            echo "<br><span class='w3-large w3-animate-opacity'>Status User : <b class='w3-text-red '>$status_user_text<b> </span>";
+            echo "<br><span class='w3-large w3-animate-opacity'>$status_user_text : <b class='w3-text-red '>$nama_user<b> </span>";
 
             if ($status_user == 0 || $status_user == 1) {
                 echo "
@@ -127,12 +128,12 @@
 
         <!-- Second Parallax Image with Portfolio Text -->
         <div class="bgimg-2 w3-display-container w3-opacity-min">
-            <div class="w3-display-topmiddle w3-center w3-black w3-opacity w3-animate-fading w3-padding-small">
+            <div class="w3-display-topmiddle w3-center w3-black w3-animate-fadding w3-padding-small">
                 <span class="w3-xxlarge w3-text-white w3-wide w3-animate-opacity">Central Sterile Supply Department</span>
             </div>
         </div>
 
-        <?php 
+        <?php
         $this->load->view("header_footer/footer");
         ?>
         <script>

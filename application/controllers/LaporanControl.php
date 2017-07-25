@@ -66,6 +66,8 @@ class LaporanControl extends CI_Controller {
         $tgl = $_SESSION['tanggal'];
         if ($ket == 'instrumen') {
             $laporan['laporan_harian'] = $this->Peminjaman->laporan_harian_peminjaman_sort_by_instrumen($tgl);
+        } else if ($ket == 'setting') {
+            $laporan['laporan_harian'] = $this->Peminjaman->laporan_harian_peminjaman_sort_by_setting($tgl);
         } else if ($ket == 'peminjam') {
             $laporan['laporan_harian'] = $this->Peminjaman->laporan_harian_peminjaman_sort_by_peminjam($tgl);
         } else if ($ket == 'inventaris') {
@@ -129,6 +131,8 @@ class LaporanControl extends CI_Controller {
         $bln = $_SESSION['bulan'];
         if ($ket == 'peminjam') {
             $laporan['laporan_bulanan'] = $this->Peminjaman->laporan_bulanan_peminjaman_sort_by_peminjam($bln);
+        } else if ($ket == 'setting') {
+            $laporan['laporan_bulanan'] = $this->Peminjaman->laporan_bulanan_peminjaman_sort_by_setting($bln);
         } else if ($ket == 'inventaris') {
             $this->load->model('Riwayat_Instrumen');
             $laporan['laporan_bulanan'] = $this->Riwayat_Instrumen->laporan_bulanan($bln);
@@ -190,6 +194,8 @@ class LaporanControl extends CI_Controller {
         $thn = $_SESSION['tahun'];
         if ($ket == 'peminjam') {
             $laporan['laporan_tahunan'] = $this->Peminjaman->laporan_tahunan_peminjaman_sort_by_peminjam($thn);
+        } else if ($ket == 'setting') {
+            $laporan['laporan_tahunan'] = $this->Peminjaman->laporan_tahunan_peminjaman_sort_by_setting($thn);
         } else if ($ket == 'inventaris') {
             $this->load->model('Riwayat_Instrumen');
             $laporan['laporan_tahunan'] = $this->Riwayat_Instrumen->laporan_tahunan($thn);
@@ -218,38 +224,34 @@ class LaporanControl extends CI_Controller {
         $this->load->model('Peminjaman');
         $this->load->model('Inventaris');
         $date;
-        $ket=$_SESSION['ket'];
+        $ket = $_SESSION['ket'];
         if ($_SESSION['tanggal'] != NULL) {
-            $date=$_SESSION['tanggal'];
-            if ($ket=='distribusi') {
+            $date = $_SESSION['tanggal'];
+            if ($ket == 'distribusi') {
                 $result = $this->Peminjaman->laporan_harian_peminjaman($date);
-            }
-            else if ($ket=='instrumen') {
+            } else if ($ket == 'instrumen') {
                 $result = $this->Peminjaman->laporan_harian_peminjaman_sort_by_instrumen($date);
-            }
-            else if ($ket=='peminjam') {
+            } else if ($ket == 'peminjam') {
                 $result = $this->Peminjaman->laporan_harian_peminjaman_sort_by_instrumen($date);
-            }else{
+            } else {
                 $result = $this->Inventaris->laporan_harian($date);
             }
-        }else if($_SESSION['bulan']){
-            $date=$_SESSION['bulan'];
-            if ($ket=='instrumen') {
+        } else if ($_SESSION['bulan']) {
+            $date = $_SESSION['bulan'];
+            if ($ket == 'instrumen') {
                 $result = $this->Peminjaman->laporan_bulanan_peminjaman_sort_by_instrumen($date);
-            }
-            else if ($ket=='peminjam') {
+            } else if ($ket == 'peminjam') {
                 $result = $this->Peminjaman->laporan_bulanan_peminjaman_sort_by_instrumen($date);
-            }else{
+            } else {
                 $result = $this->Inventaris->laporan_bulanan($date);
             }
-        }  else {
-            $date=$_SESSION['tahun'];
-            if ($ket=='instrumen') {
+        } else {
+            $date = $_SESSION['tahun'];
+            if ($ket == 'instrumen') {
                 $result = $this->Peminjaman->laporan_tahunan_peminjaman_sort_by_instrumen($date);
-            }
-            else if ($ket=='peminjam') {
+            } else if ($ket == 'peminjam') {
                 $result = $this->Peminjaman->laporan_tahunan_peminjaman_sort_by_instrumen($date);
-            }else{
+            } else {
                 $result = $this->Inventaris->laporan_tahunan($date);
             }
         }
@@ -257,131 +259,131 @@ class LaporanControl extends CI_Controller {
         if ($result != NULL) { // jika data ada di database
             //Create a new PDF file
             $user = $_SESSION['nama_user'];
-            if ($ket=='distribusi') {
+            if ($ket == 'distribusi') {
                 $column_nomor = "";
-            $column_id_transaksi = "";
-            $column_nama_instrumen = "";
-            $column_jumlah_pinjam = "";
-            $column_nama_user = "";
-            $column_tanggal_pinjam = "";
-            $column_tanggal_kembali = "";
-            $column_waktu_approve = "";
-            $column_id_cssd = "";
-            $yPdf = 40;
-            $index = 1;
-            //For each row, add the field to the corresponding column
-            foreach ($result as $row) {
-                $nomor = $index;
-                $id_transaksi = $row->id_transaksi;
-                $nama_instrumen = $row->nama_instrumen;
-                $jumlah_pinjam = $row->jumlah_pinjam;
-                $nama_user = $row->nama_user;
-                $tanggal_pinjam = $row->tanggal_pinjam;
-                $tanggal_kembali = $row->tanggal_kembali;
-                $waktu_approve = $row->waktu_approve;
-                $id_cssd = $row->id_cssd;
-                $yPdf+=6;
-                $column_nomor = $column_nomor . $nomor . "\n";
-                $column_id_transaksi = $column_id_transaksi . $id_transaksi . "\n";
-                $column_nama_instrumen = $column_nama_instrumen . $nama_instrumen . "\n";
-                $column_jumlah_pinjam = $column_jumlah_pinjam . $jumlah_pinjam . "\n";
-                $column_nama_user = $column_nama_user . $nama_user . "\n";
-                $column_tanggal_pinjam = $column_tanggal_pinjam . $tanggal_pinjam . "\n";
-                $column_tanggal_kembali = $column_tanggal_kembali . $tanggal_kembali . "\n";
-                $column_waktu_approve = $column_waktu_approve . $waktu_approve . "\n";
-                $column_id_cssd = $column_id_cssd . $id_cssd . "\n";
-                $index++;
-                //Create a new PDF file
-                $pdf = new FPDF('P', 'mm', 'A4'); //P For Portrait dengan ukuran A4
-                $pdf->AddPage();
-                $pdf->SetAutoPageBreak(false);
-            }
-            //table break page
-            $height_of_cell = 60; // mm
-            $page_height = 286.93; // mm (portrait letter)
-            $bottom_margin = 0; // mm
-            for ($i = 0; $i <= 30; $i++) :
-                $space_left = $page_height - ($pdf->GetY() + $bottom_margin); // space left on page
-                if ($i / 9 == floor($i / 9) && $height_of_cell > $space_left + 40) {
-                    $pdf->AddPage(); // page break
+                $column_id_transaksi = "";
+                $column_nama_instrumen = "";
+                $column_jumlah_pinjam = "";
+                $column_nama_user = "";
+                $column_tanggal_pinjam = "";
+                $column_tanggal_kembali = "";
+                $column_waktu_approve = "";
+                $column_id_cssd = "";
+                $yPdf = 40;
+                $index = 1;
+                //For each row, add the field to the corresponding column
+                foreach ($result as $row) {
+                    $nomor = $index;
+                    $id_transaksi = $row->id_transaksi;
+                    $nama_instrumen = $row->nama_instrumen;
+                    $jumlah_pinjam = $row->jumlah_pinjam;
+                    $nama_user = $row->nama_user;
+                    $tanggal_pinjam = $row->tanggal_pinjam;
+                    $tanggal_kembali = $row->tanggal_kembali;
+                    $waktu_approve = $row->waktu_approve;
+                    $id_cssd = $row->id_cssd;
+                    $yPdf+=6;
+                    $column_nomor = $column_nomor . $nomor . "\n";
+                    $column_id_transaksi = $column_id_transaksi . $id_transaksi . "\n";
+                    $column_nama_instrumen = $column_nama_instrumen . $nama_instrumen . "\n";
+                    $column_jumlah_pinjam = $column_jumlah_pinjam . $jumlah_pinjam . "\n";
+                    $column_nama_user = $column_nama_user . $nama_user . "\n";
+                    $column_tanggal_pinjam = $column_tanggal_pinjam . $tanggal_pinjam . "\n";
+                    $column_tanggal_kembali = $column_tanggal_kembali . $tanggal_kembali . "\n";
+                    $column_waktu_approve = $column_waktu_approve . $waktu_approve . "\n";
+                    $column_id_cssd = $column_id_cssd . $id_cssd . "\n";
+                    $index++;
+                    //Create a new PDF file
+                    $pdf = new FPDF('P', 'mm', 'A4'); //P For Portrait dengan ukuran A4
+                    $pdf->AddPage();
+                    $pdf->SetAutoPageBreak(false);
                 }
-            endfor;
-            //laporan
-            $pdf->SetFont('times', '', 14);
-            $pdf->Cell(1);
-            $pdf->Cell(90, 25, 'Laporan Amprah: ' . $_SESSION['tanggal'], 0, 1, 'C');
-            $pdf->SetFillColor(255, 255, 255);
-            //Bold Font for Field Name
-            $pdf->SetFont('times', 'B', 10);
-            $pdf->SetY(60);
-            $pdf->SetX(15);
-            $pdf->Cell(7, 7, 'No.', 1, 0, 'C', 1);
-            $pdf->SetX(22);
-            $pdf->Cell(30, 7, 'ID Transaksi', 1, 0, 'C', 1);
-            $pdf->SetX(52);
-            $pdf->Cell(30, 7, 'Nama Instrumen', 1, 0, 'C', 1);
-            $pdf->SetFont('times', 'B', 6);
-            $pdf->SetX(82);
-            $pdf->MultiCell(10, 3.5, 'Jumlah Pinjam', 1, 'C', 1);
-            $pdf->SetFont('times', 'B', 10);
-            $pdf->SetY(60);
-            $pdf->SetX(92);
-            $pdf->Cell(30, 7, 'Nama Peminjam', 1, 0, 'C', 1);
-            $pdf->SetFont('times', 'B', 8);
-            $pdf->SetX(122);
-            $pdf->MultiCell(17, 3.5, 'Tanggal Pinjam', 1, 'C', 1);
-            $pdf->SetY(60);
-            $pdf->SetX(139);
-            $pdf->MultiCell(17, 3.5, 'Tanggal Kembali', 1, 'C', 1);
-            $pdf->SetY(60);
-            $pdf->SetX(156);
-            $pdf->Cell(30, 7, 'Tanggal Approve', 1, 0, 'C', 1);
-            $pdf->SetX(186);
-            $pdf->Cell(15, 7, 'Petugas', 1, 0, 'C', 1);
-            $pdf->Ln();
+                //table break page
+                $height_of_cell = 60; // mm
+                $page_height = 286.93; // mm (portrait letter)
+                $bottom_margin = 0; // mm
+                for ($i = 0; $i <= 30; $i++) :
+                    $space_left = $page_height - ($pdf->GetY() + $bottom_margin); // space left on page
+                    if ($i / 9 == floor($i / 9) && $height_of_cell > $space_left + 40) {
+                        $pdf->AddPage(); // page break
+                    }
+                endfor;
+                //laporan
+                $pdf->SetFont('times', '', 14);
+                $pdf->Cell(1);
+                $pdf->Cell(90, 25, 'Laporan Amprah: ' . $_SESSION['tanggal'], 0, 1, 'C');
+                $pdf->SetFillColor(255, 255, 255);
+                //Bold Font for Field Name
+                $pdf->SetFont('times', 'B', 10);
+                $pdf->SetY(60);
+                $pdf->SetX(15);
+                $pdf->Cell(7, 7, 'No.', 1, 0, 'C', 1);
+                $pdf->SetX(22);
+                $pdf->Cell(30, 7, 'ID Transaksi', 1, 0, 'C', 1);
+                $pdf->SetX(52);
+                $pdf->Cell(30, 7, 'Nama Instrumen', 1, 0, 'C', 1);
+                $pdf->SetFont('times', 'B', 6);
+                $pdf->SetX(82);
+                $pdf->MultiCell(10, 3.5, 'Jumlah Pinjam', 1, 'C', 1);
+                $pdf->SetFont('times', 'B', 10);
+                $pdf->SetY(60);
+                $pdf->SetX(92);
+                $pdf->Cell(30, 7, 'Nama Peminjam', 1, 0, 'C', 1);
+                $pdf->SetFont('times', 'B', 8);
+                $pdf->SetX(122);
+                $pdf->MultiCell(17, 3.5, 'Tanggal Pinjam', 1, 'C', 1);
+                $pdf->SetY(60);
+                $pdf->SetX(139);
+                $pdf->MultiCell(17, 3.5, 'Tanggal Kembali', 1, 'C', 1);
+                $pdf->SetY(60);
+                $pdf->SetX(156);
+                $pdf->Cell(30, 7, 'Tanggal Approve', 1, 0, 'C', 1);
+                $pdf->SetX(186);
+                $pdf->Cell(15, 7, 'Petugas', 1, 0, 'C', 1);
+                $pdf->Ln();
 
-            //Table position, under Fields Name
-            $Y_Table_Position = 67;
+                //Table position, under Fields Name
+                $Y_Table_Position = 67;
 
-            //Now show the columns
-            $pdf->SetFont('Times', '', 8);
-            $pdf->SetY($Y_Table_Position);
-            $pdf->SetX(15);
-            $pdf->MultiCell(7, 6, $column_nomor, 1, 'C');
+                //Now show the columns
+                $pdf->SetFont('Times', '', 8);
+                $pdf->SetY($Y_Table_Position);
+                $pdf->SetX(15);
+                $pdf->MultiCell(7, 6, $column_nomor, 1, 'C');
 
-            $pdf->SetY($Y_Table_Position);
-            $pdf->SetX(22);
-            $pdf->MultiCell(30, 6, $column_id_transaksi, 1, 'C');
+                $pdf->SetY($Y_Table_Position);
+                $pdf->SetX(22);
+                $pdf->MultiCell(30, 6, $column_id_transaksi, 1, 'C');
 
-            $pdf->SetY($Y_Table_Position);
-            $pdf->SetX(52);
-            $pdf->MultiCell(30, 6, $column_nama_instrumen, 1, 'C');
+                $pdf->SetY($Y_Table_Position);
+                $pdf->SetX(52);
+                $pdf->MultiCell(30, 6, $column_nama_instrumen, 1, 'C');
 
-            $pdf->SetY($Y_Table_Position);
-            $pdf->SetX(82);
-            $pdf->MultiCell(10, 6, $column_jumlah_pinjam, 1, 'C');
+                $pdf->SetY($Y_Table_Position);
+                $pdf->SetX(82);
+                $pdf->MultiCell(10, 6, $column_jumlah_pinjam, 1, 'C');
 
-            $pdf->SetY($Y_Table_Position);
-            $pdf->SetX(92);
-            $pdf->MultiCell(30, 6, $column_nama_user, 1, 'C');
+                $pdf->SetY($Y_Table_Position);
+                $pdf->SetX(92);
+                $pdf->MultiCell(30, 6, $column_nama_user, 1, 'C');
 
-            $pdf->SetY($Y_Table_Position);
-            $pdf->SetX(122);
-            $pdf->MultiCell(17, 6, $column_tanggal_pinjam, 1, 'C');
+                $pdf->SetY($Y_Table_Position);
+                $pdf->SetX(122);
+                $pdf->MultiCell(17, 6, $column_tanggal_pinjam, 1, 'C');
 
-            $pdf->SetY($Y_Table_Position);
-            $pdf->SetX(139);
-            $pdf->MultiCell(17, 6, $column_tanggal_kembali, 1, 'C');
+                $pdf->SetY($Y_Table_Position);
+                $pdf->SetX(139);
+                $pdf->MultiCell(17, 6, $column_tanggal_kembali, 1, 'C');
 
-            $pdf->SetY($Y_Table_Position);
-            $pdf->SetX(156);
-            $pdf->MultiCell(30, 6, $column_waktu_approve, 1, 'C');
+                $pdf->SetY($Y_Table_Position);
+                $pdf->SetX(156);
+                $pdf->MultiCell(30, 6, $column_waktu_approve, 1, 'C');
 
-            $pdf->SetY($Y_Table_Position);
-            $pdf->SetX(186);
-            $pdf->MultiCell(15, 6, $column_id_cssd, 1, 'C');
+                $pdf->SetY($Y_Table_Position);
+                $pdf->SetX(186);
+                $pdf->MultiCell(15, 6, $column_id_cssd, 1, 'C');
             }
-            
+
             //tempat, tanggal
             $yTTD = -40;
             $pdf->SetY($yTTD);

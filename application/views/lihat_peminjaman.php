@@ -1,25 +1,25 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Peminjaman</title>
+    <title>Lihat Peminjaman</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/scroll.css'); ?>" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert-dev.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
     <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/jquery-ui.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('/resources/demos/style.css')?>">
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/jquery-1.12.4.js')?>"></script>
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/jquery-ui.js')?>"></script>
     <script>
-        $(function() {
+        $(function () {
             $("#datepicker").datepicker({dateFormat: 'dd/mm/yy'});
         });
 
@@ -117,6 +117,9 @@
                 <?php
                 $this->load->view("header_footer/header_peminjaman");
                 $status_user = $_SESSION["status_user"];
+                if ($status_user == 2 || $status_user == 3) {
+                    redirect(base_url('site/riwayat_pinjam'));
+                }
                 ?>
             </div>
 
@@ -133,81 +136,81 @@
 
                 <tr>
                     <th>
-                <div class="w3-container w3-responsive w3-margin-bottom">
+                        <div class="w3-container w3-responsive w3-margin-bottom">
 
-                    <div class="col-xs-12">
-                        <table style="width:100%">
-                            <tr>
-                                <!--<th colspan="2"></th>-->
-                                <th colspan="5" style="text-align:left;" class="w3-small">
-                                    <b style="color:red;">Pencarian peminjaman berdasarkan <u class="w3-hover-text-black">Tanggal / Nama Peminjam / ID Transaksi</u></b>
-                                </th>
-                            </tr>
-                            <tr>
-                            <form action="<?php echo base_url('/PeminjamanControl/lihat_pinjaman'); ?>">
-                                <th style="width: 30%">
-                                    <input class='inputTanggal form-control' style="height: 40px;width:95%;margin-top:15px" type="text" id='datepicker' class="form-control" name="tgl" placeholder="Pilih Tanggal Pinjam" required="">
-                                </th>
-                                <th style="width: 5%;margin-left:1px">
-                                    <button class="btn btn-success w3-hover-text-black" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
-                                </th>
-                            </form>
-                            <th style="width: 30%">
+                            <div class="col-xs-12">
+                                <table style="width:100%">
+                                    <tr>
+                                        <!--<th colspan="2"></th>-->
+                                        <th colspan="5" style="text-align:left;" class="w3-small">
+                                            <b style="color:red;">Pencarian peminjaman berdasarkan <u class="w3-hover-text-black">Tanggal / Nama Peminjam / ID Transaksi</u></b>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                    <form action="<?php echo base_url('/PeminjamanControl/lihat_pinjaman'); ?>">
+                                        <th style="width: 30%">
+                                            <input class='inputTanggal form-control' style="height: 40px;width:95%;margin-top:15px" type="text" id='datepicker' class="form-control" name="tgl" placeholder="Pilih Tanggal Pinjam" required="">
+                                        </th>
+                                        <th style="width: 5%;margin-left:1px">
+                                            <button class="btn btn-success w3-hover-text-black" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
+                                        </th>
+                                    </form>
+                                    <th style="width: 30%">
 
-                            </th>
-                            <form action="<?php echo base_url('/PeminjamanControl/lihat_pinjaman'); ?>" onsubmit="return validasi_input(this)">
-                                <th style="width: 30%">
-                                    <select class='w3-input w3-border form-control' name='peminjam' style='height: 40px;width: 93%;margin-top:10px' placeholder='Masukkan'>
-                                        <option value='' required='' disabled='disabled' selected>-- Pilih Peminjam --</option>
-                                        <?php
-                                        foreach ($id_peminjam as $r):
-                                            echo "
+                                    </th>
+                                    <form action="<?php echo base_url('/PeminjamanControl/lihat_pinjaman'); ?>" onsubmit="return validasi_input(this)">
+                                        <th style="width: 30%">
+                                            <select class='w3-input w3-border form-control' name='peminjam' style='height: 40px;width: 93%;margin-top:10px' placeholder='Masukkan'>
+                                                <option value='' required='' disabled='disabled' selected>-- Pilih Peminjam --</option>
+                                                <?php
+                                                foreach ($id_peminjam as $r):
+                                                    echo "
                                     <option value='$r->id_user' style='color:black'>$r->nama_user</option>
                                     ";
-                                        endforeach;
-                                        ?>
-                                    </select>
-                                </th>
-                                <th style="width: 5%">
-                                    <button class="btn btn-success w3-hover-text-black" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
-                                </th>
-                            </form>
-                            </tr>
+                                                endforeach;
+                                                ?>
+                                            </select>
+                                        </th>
+                                        <th style="width: 5%">
+                                            <button class="btn btn-success w3-hover-text-black" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
+                                        </th>
+                                    </form>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3"></th>
+                                    <form action="<?php echo base_url('/PeminjamanControl/lihat_pinjaman'); ?>" onsubmit="return validasi_input2(this)">
+                                        <th style="width: 30%">
+                                            <input class='inputTanggal form-control' style="height: 40px;width:93%;margin-top:15px" type="text" class="form-control" name="id_transaksi" placeholder="Masukkan ID Transaksi">
+                                        </th>
+                                        <th style="width: 5%;margin-left:1px">
+                                            <button class="btn btn-success w3-hover-text-black" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
+                                        </th>
+                                    </form>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <table style="width:100%;">
                             <tr>
-                                <th colspan="3"></th>
-                            <form action="<?php echo base_url('/PeminjamanControl/lihat_pinjaman'); ?>" onsubmit="return validasi_input2(this)">
-                                <th style="width: 30%">
-                                    <input class='inputTanggal form-control' style="height: 40px;width:93%;margin-top:15px" type="text" class="form-control" name="id_transaksi" placeholder="Masukkan ID Transaksi">
+                            <form action="<?php echo base_url('/site/lihat_pinjaman_status'); ?>" onsubmit="return validasi_input2(this)">
+                                <th style="margin-left:1px">
+                                    <button class="btn btn-succes w3-green w3-large w3-hover-text-black" name="statusApprove" value="0">Belum Approve</button>
                                 </th>
-                                <th style="width: 5%;margin-left:1px">
-                                    <button class="btn btn-success w3-hover-text-black" name="cari" value="CARI"><i class="fa fa-search"></i>&nbsp;</button>
+                                <th style="margin-left:1px">
+                                    <button class="btn btn-warning w3-theme w3-large w3-hover-text-black" name="statusApprove" value="1">Sudah Approve</button>
                                 </th>
+                                <th colspan="3" style="width:80%"></th>
                             </form>
-                            </tr>
-                        </table>
+                </tr>
+            </table>
+        </th>
+    <th></th>
+    <th></th>
 
-                    </div>
-
-                </div>
-                <table style="width:100%;">
-                    <tr>
-                    <form action="<?php echo base_url('/site/lihat_pinjaman_status'); ?>" onsubmit="return validasi_input2(this)">
-                        <th style="margin-left:1px">
-                            <button class="btn btn-succes w3-green w3-large w3-hover-text-black" name="statusApprove" value="0">Belum Approve</button>
-                        </th>
-                        <th style="margin-left:1px">
-                            <button class="btn btn-warning w3-theme w3-large w3-hover-text-black" name="statusApprove" value="1">Sudah Approve</button>
-                        </th>
-                        <th colspan="3" style="width:80%"></th>
-                    </form>
-                    </tr>
-                </table>
-            </th>
-            <th></th>
-            <th></th>
-
-        </tr>
-        <tr><th>
+</tr>
+<tr><th>
 
         <div class="w3-responsive w3-card-4 w3-padding-16 w3-center
         <?php
@@ -261,7 +264,8 @@
                 <th style = 'text-align: center;'></th>
                 </tr>
                 <tbody>";
-
+                    $this->load->model('Peminjaman');
+                    $pinjam_instrumen_belum_kembali = $this->Peminjaman->lihat_peminjaman_belum_kembali();
                     $nomor = 1;
                     foreach ($pinjam_instrumen as $r):
                         echo "<form action='";
@@ -273,8 +277,21 @@
                 <td style='text-align: left'>$r->id_transaksi</td>
                 <td style='text-align: left;width:25%'><b>$r->nama_user</b></td>
                 <td style='text-align: center'>$r->tanggal_pinjam</td>
-                <td style='text-align: center'>$r->tanggal_kembali</td>
-                <td style='text-align: center'><input type='submit' value='LIHAT' class='btn btn-success w3-hover-text-black'> <i class='w3-text-green fa fa-check-circle'></i></input></td>
+                <td style='text-align: center'>$r->tanggal_kembali</td>";
+                        $cetak_button = false;
+                        foreach ($pinjam_instrumen_belum_kembali as $row) {
+                            if ($r == $row) {
+                                $cetak_button = true;
+                            }
+                        }
+
+                        if ($cetak_button) {
+                            echo "<td style='text-align: center'><input type='submit' value='LIHAT' class='btn btn-danger w3-hover-text-black'> <i class='w3-text-red fa fa-check-circle'></i></input></td>";
+                        } else {
+                            echo "<td style='text-align: center'><input type='submit' value='LIHAT' class='btn btn-success w3-hover-text-black'> <i class='w3-text-green fa fa-check-circle'></i></input></td>";
+                        }
+
+                        echo "
                 <input type='hidden' name='id' value='$r->id_peminjam'>
                 <input type='hidden' name='transaksi' value='$r->id_transaksi'>";
                         echo "</form>";
@@ -287,66 +304,66 @@
                 </tbody>
                 </table>
             </div>
-        </th></tr></table>
-    <?php
-    if (isset($_SESSION["konfirmasi"])) {
-        $ubah = $_SESSION["konfirmasi"];
-        if ($ubah) {
-            echo "<script>swal(\"Konfirmasi Peminjaman Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
-        } else {
-            echo "<script>swal(\"Konfirmasi Peminjaman Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
-        }
-        $this->session->unset_userdata('konfirmasi');
+    </th></tr></table>
+<?php
+if (isset($_SESSION["konfirmasi"])) {
+    $ubah = $_SESSION["konfirmasi"];
+    if ($ubah) {
+        echo "<script>swal(\"Konfirmasi Peminjaman Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
+    } else {
+        echo "<script>swal(\"Konfirmasi Peminjaman Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
     }
-    if (isset($pinjam_intrumen)) {
-        echo "<script>swal(\"Peminjaman Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
-    }
-    $this->session->unset_userdata('nama_instrumen');
-    $this->session->unset_userdata('cari_instrumen');
     $this->session->unset_userdata('konfirmasi');
-    ?>
+}
+if (isset($pinjam_intrumen)) {
+    echo "<script>swal(\"Peminjaman Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
+}
+$this->session->unset_userdata('nama_instrumen');
+$this->session->unset_userdata('cari_instrumen');
+$this->session->unset_userdata('konfirmasi');
+?>
 
-    <?php
-    $this->load->view("header_footer/footer");
-    ?>
-    <script>
-        function myFunction() {
-            var navbar = document.getElementById("myNavbar");
-            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
-            } else {
-                navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
-            }
+<?php
+$this->load->view("header_footer/footer");
+?>
+<script>
+    function myFunction() {
+        var navbar = document.getElementById("myNavbar");
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+            navbar.className = "w3-bar" + " w3-card-2" + " w3-animate-top" + " w3-white";
+        } else {
+            navbar.className = navbar.className.replace(" w3-card-2 w3-animate-top w3-white", "");
         }
-        function toggleFunction() {
-            var x = document.getElementById("navDemo");
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-            }
+    }
+    function toggleFunction() {
+        var x = document.getElementById("navDemo");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
         }
-        // Get the modal
-        var modal = document.getElementById('id01');
+    }
+    // Get the modal
+    var modal = document.getElementById('id01');
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
+    }
 
-        var modal2 = document.getElementById('id02');
+    var modal2 = document.getElementById('id02');
 
-        // When the user clicks anywhere outside of the modal, close it
+    // When the user clicks anywhere outside of the modal, close it
 
-        modal2.style.display = "block";
-        window.onclick = function(event) {
-            if (event.target == modal2) {
-                modal2.style.display = "none";
-            }
+    modal2.style.display = "block";
+    window.onclick = function (event) {
+        if (event.target == modal2) {
+            modal2.style.display = "none";
         }
-    </script>
+    }
+</script>
 
 </body>
 </html>

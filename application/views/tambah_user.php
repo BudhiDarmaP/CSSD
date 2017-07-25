@@ -4,9 +4,9 @@
     <title>Tambah User</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/w3.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/lato.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
@@ -99,7 +99,7 @@
             if ($ubah) {
                 echo "<script>swal(\"Data Berhasil Diubah\", \"Ubah Data : $nama ($id)\", \"success\");</script>";
             } else {
-                echo "<script>swal(\"Data Gagal Diubah\", \"Ubah Data : $nama ($id)\", \"error\");</script>";
+                echo "<script>swal(\"Data Gagal Diubah\", \"Ubah Data : $nama ($id) tidak boleh sama dengan nama user lain\", \"error\");</script>";
             }
             $this->session->unset_userdata('edit_user');
             $this->session->unset_userdata('nama_user_edit');

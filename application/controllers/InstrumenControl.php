@@ -34,7 +34,7 @@ class InstrumenControl extends CI_Controller {
             die();
         }
     }
-
+    
     function tambah() {
         $this->load->model('Instrument');
 
@@ -155,6 +155,38 @@ class InstrumenControl extends CI_Controller {
         $this->load->view('perbarui_instrument', $data);
     }
 
+    function tambah_setting_set() {
+        $this->load->model('Instrument');
+        $this->load->model('Setting_Set');
+        $setting_set = $_POST["setting_set"];
+        $untuk = $_POST["untuk"];
+        $id = $_POST["id"];
+        //memberi nama setting set pada database
+        $nama_setting_set;
+        if ($untuk == "") {
+            $nama_setting_set = $setting_set;
+        } else {
+            $nama_setting_set = $setting_set . ': ' . $untuk;
+        }
+        //memberi id setting set
+        $id_set = $this->Setting_Set->id_setting_set_otomatis();
+
+        $data['setting_set'] = null;
+        if (count($id) == 0) {
+            $data['setting_set'] = false;
+        } else {
+            foreach ($id as $r) {
+                $this->Setting_Set->tambah_setting_set($id_set, $nama_setting_set, $r);
+            }
+            //mengirim nilai true, penambahan berhasil
+            $data['setting_set'] = true;
+        }
+
+        //mengirim list instrumen untuk ditampilkan
+        $data['ada_instrumen'] = $this->Instrument->panggil_data_instrument();
+        $this->load->view('tambah_setting_set', $data);
+    }
+
     function namaInstrumen() {
         $this->load->model('Instrument');
 
@@ -190,4 +222,5 @@ class InstrumenControl extends CI_Controller {
     }
 
 }
+
 ?>

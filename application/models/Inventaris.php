@@ -28,14 +28,30 @@ class Inventaris extends CI_Model {
         $result = $this->db->query($query);
         return $result->result();
     }
-    //---------------LAPORAN-------------------//
-    public function laporan_harian($tgl){
-        $query = "select DATE_FORMAT(a.tanggal, '%H:%i:%s') AS 'waktu', "
+    
+    public function cari_semua_data_inventaris_instrumen($cari) {
+        $query = "select dayname(a.tanggal) AS 'hari', DATE_FORMAT(a.tanggal, '%d-%M-%Y %H:%i:%s') AS 'tanggal', "
                 . "c.nama_user, a.keterangan, b.nama_instrumen "
                 . "from inventaris a join instrumen b on (a.id_instrumen = b.id_instrumen) "
                 . "join user c on (a.id_user = c.id_user) "
-                . "where DATE_FORMAT(tanggal, '%m/%d/%Y') = '$tgl'";
+                . "where DATE_FORMAT(a.tanggal, '%d/%m/%Y') = '$cari' "
+                . "OR a.id_user = '$cari' " 
+                . "order by tanggal desc";
         $result = $this->db->query($query);
         return $result->result();
     }
+    
+    public function cari_semua_data_inventaris_peminjaman($cari) {
+        $query = "select dayname(a.waktu_approve) AS 'hari', DATE_FORMAT(a.waktu_approve, '%d-%M-%Y %H:%i:%s') AS 'tanggal', "
+                . "b.nama_user, a.id_transaksi, c.nama_user AS 'peminjam'"
+                . "from peminjaman a join user b on (a.id_cssd = b.id_user) "
+                . "join user c on (a.id_peminjam = c.id_user) "
+                . "where DATE_FORMAT(a.waktu_approve, '%d/%m/%Y') = '$cari' "
+                . "OR a.id_cssd = '$cari' " 
+                . "group by a.id_transaksi order by tanggal desc ";
+        $result = $this->db->query($query);
+        return $result->result();
+    }
+    
+    
 }

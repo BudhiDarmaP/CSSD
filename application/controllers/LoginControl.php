@@ -25,7 +25,7 @@ class LoginControl extends CI_Controller {
             die();
         }
     }
-
+    
     function cobaLogin() {
         $is_logged_in_check = $this->session->userdata('is_logged_in');
         if (isset($is_logged_in_check)) {
@@ -39,6 +39,19 @@ class LoginControl extends CI_Controller {
             $password = $_POST["password"];
             $query = $this->Users->login($username, $password);
 
+            $this->load->model('Peminjaman');
+            $notifikasi_pengembalian = NULL;
+            //cek notifikasi pengembalian
+            if ($query != null && ($query->status_user == 0 || $query->status_user == 1)) {
+                $notifikasi_pengembalian = $this->Peminjaman->notifikasi_pengembalian();
+                
+            }
+            $notifikasi_konfimasi_peminjaman = NULL;
+            //cek notifikasi pengembalian
+            if ($query != null && ($query->status_user == 0 || $query->status_user == 1)) {
+                $notifikasi_konfimasi_peminjaman = $this->Peminjaman->panggil_peminjam();
+                
+            }
             if ($query != null) {
                 $data = array(
                     'username' => $username,
@@ -46,7 +59,9 @@ class LoginControl extends CI_Controller {
                     'is_logged_in' => true,
                     'nama_user' => $query->nama_user,
                     'no_telepon' => $query->no_telepon,
-                    'status_user' => $query->status_user
+                    'status_user' => $query->status_user,
+                    'pengembalian' => $notifikasi_pengembalian,
+                    'konfirmasi_approve' => $notifikasi_konfimasi_peminjaman
                 );
 
                 $this->session->set_userdata($data);
@@ -79,7 +94,7 @@ class LoginControl extends CI_Controller {
     }
 
     function destroy_session() {
-        $array_items = array('username', 'is_logged_in', 'password', 'nama_user', 'no_telepon', 'status_user', 'not_user', 'not_login');
+        $array_items = array('username', 'is_logged_in', 'password', 'nama_user', 'no_telepon', 'status_user', 'not_user', 'not_login', 'pengembalian');
 
         $this->session->unset_userdata($array_items);
         $this->load->view('welcome_message');

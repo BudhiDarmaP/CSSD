@@ -29,7 +29,7 @@ class UserControl extends CI_Controller {
             die();
         }
     }
-
+    
     function ubahPassword() {
         $username = $_GET["username"];
         $newpassword = $_GET["newpassword"];

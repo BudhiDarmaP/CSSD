@@ -1,12 +1,12 @@
 
 <!DOCTYPE html>
 <html>
-    <title>Ubah Password</title>
+    <title>Cek Peminjaman</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/w3.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/lato.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
@@ -69,7 +69,12 @@
                     <div class='container w3-center'>
                         <a class='btn btn-success w3-large' href='";
                 echo base_url('/site/konfirmasi_pegawai/');
-                echo "' style='vertical-align:middle;'><span>KONFIRMASI</span></a>
+                $konfirmasi_approve = $_SESSION['konfirmasi_approve'];
+                echo "' style='vertical-align:middle;'><span ";
+                if ($konfirmasi_approve != null) {
+                    echo "class='w3-animate-fading2 w3-text-black'";
+                }
+                echo ">KONFIRMASI</span></a>
                         <a class='btn btn-primary w3-large' href='";
                 echo base_url('/site/lihat_peminjaman/');
                 echo "' style='vertical-align:middle;'><span>LIHAT PEMINJAMAN</span></a>

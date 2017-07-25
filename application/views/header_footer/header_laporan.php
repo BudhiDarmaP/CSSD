@@ -4,7 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="<?php echo base_url('bootstrap-3.3.6/css/scroll.css'); ?>" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
@@ -12,27 +13,27 @@
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
     <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/jquery-ui.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('/resources/demos/style.css')?>">
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/jquery-1.12.4.js')?>"></script>
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/jquery-ui.js')?>"></script>
     <script>
-        $(function () {
+        $(function() {
             $("#tanggal").datepicker({dateformat: 'dd-MM-yy'});
         });
-        $(function () {
+        $(function() {
             $("#bulan").datepicker({dateFormat: 'MM-yy',
                 changeMonth: true,
                 changeYear: true,
                 yearRange: '2010:',
-                onClose: function (dateText, inst) {
+                onClose: function(dateText, inst) {
                     var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
                     var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
                     $(this).val($.datepicker.formatDate('mm/yy', new Date(year, month, 1)));
                 }
             });
 
-            $("#bulan").focus(function () {
+            $("#bulan").focus(function() {
                 $(".ui-datepicker-calendar").hide();
                 $("#ui-datepicker-div").position({
                     my: "center top",
@@ -41,17 +42,17 @@
                 });
             });
         });
-        $(function () {
+        $(function() {
             $("#tahun").datepicker({dateFormat: 'yy',
                 changeYear: true,
                 yearRange: '2010:',
-                onClose: function (dateText) {
+                onClose: function(dateText) {
                     var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    $(this).val($.datepicker.formatDate('yy', new Date(year,0,1)));
+                    $(this).val($.datepicker.formatDate('yy', new Date(year, 0, 1)));
                 }
             });
 
-            $("#tahun").focus(function () {
+            $("#tahun").focus(function() {
                 $(".ui-datepicker-calendar").hide();
                 $("#ui-datepicker-div").position({
                     my: "center top",
@@ -60,6 +61,7 @@
                 });
             });
         });
+
     </script>
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
@@ -148,10 +150,10 @@
                     </a>
 
                     <a href="<?php echo base_url('/site/halamanUtama/'); ?>" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-                    <a href="<?php echo base_url('/LaporanControl/harian'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-clipboard"></i> HARIAN</a>
-                    <a href="<?php echo base_url('/LaporanControl/bulanan'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-book"></i> BULANAN</a>
-                    <a href="<?php echo base_url('/LaporanControl/tahunan'); ?>" class="w3-bar-item w3-button w3-hide-small w3-animate-opacity"><i class="fa fa-dropbox"></i> TAHUNAN</a>
-                    <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-out"></i> KELUAR</a>
+                    <a href="<?php echo base_url('/LaporanControl/harian'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-clipboard"></i> HARIAN</a>
+                    <a href="<?php echo base_url('/LaporanControl/bulanan'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-book"></i> BULANAN</a>
+                    <a href="<?php echo base_url('/LaporanControl/tahunan'); ?>" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-dropbox"></i> TAHUNAN</a>
+                    <a href="<?php echo base_url('/LoginControl/destroy_session'); ?>" class="w3-bar-item w3-button w3-hide-small w3-right"><i class="fa fa-sign-out"></i> KELUAR</a>
                 </div>
             </div>
 

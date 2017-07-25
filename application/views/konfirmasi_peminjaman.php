@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-    <title>Peminjaman</title>
+    <title>Konfirmasi Peminjaman</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/bootstrap.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/All.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/scroll.css'); ?>" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/font-awesome.min.css'); ?>">
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Login.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/Tabel.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('bootstrap-3.3.6/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css" />
@@ -14,10 +14,10 @@
     <script src="<?php echo base_url('bootstrap-3.3.6/sweetalert.min.js'); ?>"></script>
     <script src="<?php echo base_url('bootstrap-3.3.6/js/JavaScript.js') ?>"></script>
     <link href="<?php echo base_url('images/Logo.png'); ?>" rel="icon" type="image/png"/>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url('bootstrap-3.3.6/css/jquery-ui.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('/resources/demos/style.css')?>">
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/jquery-1.12.4.js')?>"></script>
+    <script src="<?php echo base_url('bootstrap-3.3.6/js/jquery-ui.js')?>"></script>
 
     <script>
         $(function() {
@@ -127,7 +127,14 @@ echo "$status_user";
             }
         </style>
         <body>
-
+            <?php
+            if (isset($_SESSION["sudah_pinjam"])) {
+                $login = $_SESSION["sudah_pinjam"];
+                if ($login) {
+                    redirect(base_url('site/lihat_peminjaman'));
+                }
+            }
+            ?>
             <!-- Navbar (sit on top) -->
             <div class="w3-top">
                 <?php
@@ -155,7 +162,7 @@ echo "$status_user";
                     <table  align="center" style="width:60%;margin-bottom:3%">
                         <tr style='text-align: center'>
                             <?php
-                            if ($status_user == 1) {
+                            if ($status_user == 1 || $status_user == 0) {
                                 echo "<th style='text-align: center'>PEMINJAM</th>
                             <td style='text-align: right;color:red'>
                             <select class='w3-input w3-border w3-padding' name='peminjam' style='width: 80%;text-align:center' placeholder='Masukkan'>";
@@ -178,7 +185,7 @@ echo "$status_user";
                             <td></td>
                             <th style='text-align: right'>TANGGAL KEMBALI</th>
                             <td style='text-align: right' class='inputTanggal'><input type='text' id='datepicker2' name='tgl_kembali' placeholder='Klik untuk isi' required=''></td>";
-                            }else {
+                            } else {
                                 echo "<input type='hidden' name='peminjam' value=''>
                                     
                             <th style='text-align:center;'>TANGGAL PINJAM</th>
@@ -191,7 +198,7 @@ echo "$status_user";
                             ?>
                         </tr>
                     </table>
-                    
+
                     <table class="w3-table w3-striped w3-bordered w3-card w3-animate-opacity" align="center" style="width:60%;<?php
                     if ($status_user != 1) {
                         echo "margin-bottom:20%;";
