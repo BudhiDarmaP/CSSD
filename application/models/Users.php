@@ -17,8 +17,9 @@ class Users extends CI_Model {
         return $q->row();
     }
 
-    function edit_data_user($username, $namauser, $notelp) {
+    function edit_data_user($username, $namauser, $notelp, $notelp_cek) {
         $cek = $this->db->query("SELECT * FROM `user` WHERE nama_user='$namauser'");
+        
         if ($cek->num_rows() == 0) {
             $q = $this->db->query("UPDATE user set nama_user = '$namauser', no_telepon = '$notelp' where id_user = '$username'");
             //cek
@@ -29,7 +30,18 @@ class Users extends CI_Model {
                 return false;
             }
         } else {
-            return FALSE;
+            if ($notelp != $notelp_cek) {
+                $q = $this->db->query("UPDATE user set no_telepon = '$notelp' where id_user = '$username'");
+                //cek
+                $ubah = $this->db->query("select * from user where nama_user = '$namauser' and no_telepon = '$notelp' and id_user = '$username'");
+                if ($ubah->num_rows() == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return FALSE;
+            }
         }
     }
 

@@ -118,6 +118,7 @@
                             <div>
                                 <label><i class="fa fa-phone-square"></i> Nomor Telepon</label>
                                 <input class="w3-input w3-border" type="text" value="<?php echo $no_telp_user_edit ?>" name="no_telp" required="" onkeypress="return isNumber(event)" placeholder="Masukkan kontak user yang bisa dihubungi" maxlength="13">
+                                <input type="hidden" value="<?php echo $no_telp_user_edit ?>" name="no_telp_cek">
                             </div>
                         </div>
                         <div class="w3-row-padding w3-padding w3-margin-bottom" style="margin:0 -16px;">

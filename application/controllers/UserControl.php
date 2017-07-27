@@ -70,8 +70,7 @@ class UserControl extends CI_Controller {
         $notelp = $_GET["no_telp"];
         $statususer = $_GET["status_user"];
 
-        $password_bantu = strtolower(substr($namauser, 0, 4));
-        $password = $password_bantu . $password_bantu;
+        $password = '1234';
 
         if ($statususer == 3) {
             $password = '';
@@ -103,9 +102,10 @@ class UserControl extends CI_Controller {
         $this->load->model('Users');
         $namauser = $_GET["nama_user"];
         $notelp = $_GET["no_telp"];
+        $notelp_cek = $_GET["no_telp_cek"];
         $username = $_GET["id_user"];
 
-        $ubah = $this->Users->edit_data_user($username, $namauser, $notelp);
+        $ubah = $this->Users->edit_data_user($username, $namauser, $notelp, $notelp_cek);
 
         $data;
         if ($ubah) {
