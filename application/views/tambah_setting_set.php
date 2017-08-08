@@ -138,7 +138,7 @@ and open the template in the editor.
 
             if ($setting_set) {
                 echo "<script>swal(\"Tambah Setting Set Berhasil\", \"Tekan OK untuk melanjutkan\", \"success\");</script>";
-            } else {
+            } else if ($setting_set==false) {
                 echo "<script>swal(\"Tambah Setting Set Gagal\", \"Tekan OK untuk melanjutkan\", \"error\");</script>";
             }
         }
@@ -181,6 +181,8 @@ and open the template in the editor.
                                                             echo "<tr class='w3-theme'>
                                                     <th style='width:5%'></th>
                                                     <th style='text-align: left;'>NAMA INSTRUMEN</th>
+                                                    <th style='text-align: center;'>JUMLAH</th>
+                                                    <th style='text-align: center;'>INPUT</th>
                                                     <th style='text-align: center;'>PILIH</th>
                                                     </tr>";
 
@@ -191,6 +193,9 @@ and open the template in the editor.
                                                     <tr>
                                                     <td>$nomor.</td>
                                                     <td style='text-align: left'><b>$r->nama_instrumen</b></td>
+                                                    <td style='text-align: center'>$r->jumlah</td>
+                                                    <td style='text-align: center'>
+                                                    <input type='number' name='input[]' min='0' max='$r->jumlah' placeholder='0'></td>
                                                     <td style='text-align: center'>
                                                     <input type='checkbox' name='id[]' value='$r->id_instrumen'>
                                                     </td></tr>";

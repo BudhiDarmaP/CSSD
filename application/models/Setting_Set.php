@@ -27,7 +27,7 @@ class Setting_Set extends CI_Model {
 
     function panggil_set_id($id, $jumlah) {
         $result = $this->db->query("SELECT a.id_set, a.id_instrumen, a.nama_set, "
-                . "b.nama_instrumen, b.steril, (a.jumlah*$jumlah) jumlah "
+                . "b.nama_instrumen, b.steril, (a.jumlah*$jumlah) jumlah, b.jumlah AS data "
                 . "FROM SETTING_SET a "
                 . "JOIN INSTRUMEN b ON (a.id_instrumen = b.id_instrumen) "
                 . "WHERE id_set='$id'");
@@ -46,8 +46,18 @@ class Setting_Set extends CI_Model {
         return $result->row();
     }
 
-    function tambah_setting_set($id_set, $nama_setting_set, $r) {
-        $result = $this->db->query("INSERT INTO `setting_set` VALUES ('$id_set', '$nama_setting_set', '$r', 1)");
+    function tambah_setting_set($id_set, $nama_setting_set, $id, $jumlah) {
+        $this->db->query("INSERT INTO `setting_set` VALUES ('$id_set', '$nama_setting_set', '$id', $jumlah)");
+        return true;
+    }
+
+    function hapus_setting_set($id) {
+        $result = $this->db->query("DELETE FROM `setting_set` WHERE id_set='$id'");
+        return true;
+    }
+    
+    function ubah_nama_setting_set($nama, $id) {
+        $result = $this->db->query("UPDATE `setting_set` SET nama_set='$nama' WHERE id_set='$id'");
         return true;
     }
 
@@ -55,10 +65,10 @@ class Setting_Set extends CI_Model {
         $result = $this->db->query("select * from setting_set GROUP BY id_set");
         $id_set_otomatis = '';
 
-        $jumlah_max_id = $result->num_rows() + 1;
-        if ($jumlah_max_id < 10) {
+        $jumlah_max_id = $result->num_rows() + 2;
+        if ($jumlah_max_id <= 10) {
             $id_set_otomatis = '00' . $jumlah_max_id;
-        } else if ($jumlah_max_id > 9 || $jumlah_max_id < 100) {
+        } else if ($jumlah_max_id > 9 || $jumlah_max_id <= 100) {
             $id_set_otomatis = '0' . $jumlah_max_id;
         } else {
             $id_set_otomatis = $jumlah_max_id;

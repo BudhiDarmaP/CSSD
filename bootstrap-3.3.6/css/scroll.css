@@ -1,0 +1,25 @@
+.scroll{
+    width: 100%;
+    /*background: orange;*/
+    /*padding: 10px;*/
+    overflow: scroll;
+    height: 500px;
+
+    /*script tambahan khusus untuk IE */
+    scrollbar-face-color: #CE7E00; 
+    scrollbar-shadow-color: #FFFFFF; 
+    scrollbar-highlight-color: #6F4709; 
+    scrollbar-3dlight-color: #11111; 
+    scrollbar-darkshadow-color: #6F4709; 
+    scrollbar-track-color: #FFE8C1; 
+    scrollbar-arrow-color: #6F4709;
+}/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 6, 2017, 12:26:16 PM
+    Author     : HP15
+*/
+

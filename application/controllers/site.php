@@ -295,9 +295,26 @@ class Site extends CI_Controller {
 
     function perbarui_instrument() {
         //$this->check_log_in_admin_cssd();
+
+        $this->session->unset_userdata('tambahStok');
+        $this->session->unset_userdata('tambahSteril');
         $this->load->model('Instrument');
         $data['instrumen'] = $this->Instrument->cari_data_instrument('');
         $this->load->view('perbarui_instrument', $data);
+    }
+
+    function perbarui_banyak() {
+        //$this->check_log_in_admin_cssd();
+        $this->load->model('Instrument');
+        $data['ada_instrumen'] = $this->Instrument->cari_data_instrument('');
+        $data['perbaruiStok'] = $_GET["perbaruiStok"];
+//        $data_session = array(
+//            'tambahStok' => null,
+//            'tambahSteril' => null
+//        );
+//
+//        $this->session->set_userdata($data_session);
+        $this->load->view('perbarui_banyak', $data);
     }
 
     function tambah_instrument() {
@@ -306,14 +323,32 @@ class Site extends CI_Controller {
     }
 
     function hapus_instrument() {
-        //$this->check_log_in_admin_cssd();
         $this->load->model('Instrument');
         $data['ada_instrumen'] = $this->Instrument->panggil_data_instrument();
         $this->load->view('hapus_instrument', $data);
     }
 
+    function setting_set() {
+        $this->load->view('setting_set');
+    }
+
+    function ubah_setting_set() {
+        //panggil model
+        $this->load->model('Setting_Set');
+        $this->load->model('Instrument');
+        //unset session
+        $this->session->unset_userdata('ada_instrumen');
+        $this->session->unset_userdata('nama_set');
+        $this->session->unset_userdata('id_set');
+        //panggil daftar set
+        $data['set'] = $this->Setting_Set->panggil_set();
+        //panggil daftar instrumen
+        $data['tambah_instrumen'] = $this->Instrument->panggil_semua_data_instrument();
+        //load halaman
+        $this->load->view('ubah_setting_set', $data);
+    }
+
     function tambah_setting_set() {
-        //$this->check_log_in_admin_cssd();
         $this->load->model('Instrument');
         $data['ada_instrumen'] = $this->Instrument->panggil_data_instrument();
         $this->load->view('tambah_setting_set', $data);

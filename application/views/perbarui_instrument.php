@@ -146,6 +146,7 @@
                             <br>2. Masukkan jumlah tambahan stok pada instrumen tersebut
                             <br>3. Klik "Perbarui"
                         </h5>
+                        <a class='btn btn-warning w3-hover-text-black w3-card' href='<?php echo base_url('site/perbarui_banyak?perbaruiStok=0/') ?>' style='vertical-align:middle;'><i class='fa fa-plus-circle'></i> <b>Perbarui Banyak</b></a>
                         </th>
                         </tr>
                         <tr class="w3-margin-top">
@@ -201,6 +202,7 @@
                             <br>2. Masukkan jumlah instrumen yang sudah steril
                             <br>3. Klik "Perbarui"
                         </h5>
+                        <a class='btn btn-success w3-hover-text-black w3-card' href='<?php echo base_url('site/perbarui_banyak?perbaruiStok=1/') ?>' style='vertical-align:middle;'><i class='fa fa-plus-circle'></i> <b>Perbarui Banyak</b></a>
                         </th>
                         </tr>
                         <tr class="w3-margin-top ">
